@@ -35,19 +35,11 @@ internal class diagram_8x_flowTest {
                         confirmation(prepaidUser) {
                             key_timestamps("创建时间")
                             key_data("金额")
-
-                            // 履约确认生成一个凭证
-                            val evidence = evidence("支付凭证") {
-                                key_timestamps("支付时间")
-                                key_data("金额")
-                            }
-                            // 该履约项扮演此凭证(凭证角色化)
-                            party(evidence)
                         }
                     }
                 }
             }
-        }
+        }.createDiagram("./8x-flow.png")
     }
 
     @Test

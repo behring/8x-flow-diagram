@@ -1,14 +1,14 @@
 package dsl
 
 import models.Evidences
-import models.Role
 
-class request(role: Role) : Evidences<request>(role.name) {
+class proposal(name: String) : Evidences<proposal>(name) {
 
-    override fun invoke(function: request.() -> Unit): request {
+    override fun invoke(function: proposal.() -> Unit): proposal {
         return apply { function() }
     }
 
     override fun key_timestamps(vararg timestamps: String) {
+
     }
 }

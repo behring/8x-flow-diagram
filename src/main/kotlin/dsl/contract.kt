@@ -1,10 +1,8 @@
 package dsl
 
 import models.Evidences
-import models.Role
 
-class contract(name: String) : Evidences(name, Type.CONTRACT), Flow<contract> {
-    fun role_party(name: String): Role = Role(name, Role.Type.PARTY)
+class contract(name: String) : Evidences<contract>(name) {
 
     fun fulfillment(name: String, fulfillment: fulfillment.() -> Unit) = fulfillment(name).fulfillment()
 

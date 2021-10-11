@@ -3,7 +3,7 @@ package dsl
 import models.Evidences
 import models.Role
 
-class confirmation(role: Role) : Evidences(role.name, Type.CONFIRMATION), Flow<confirmation> {
+class confirmation(role: Role) : Evidences<confirmation>(role.name) {
 
     override fun invoke(function: confirmation.() -> Unit): confirmation {
         return apply { function() }

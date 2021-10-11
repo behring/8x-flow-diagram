@@ -3,12 +3,13 @@ package dsl
 import models.Evidences
 import models.Role
 
-class request(role: Role) : Evidences<request>(role.name) {
+class rfp(name: String) : Evidences<rfp>(name) {
 
-    override fun invoke(function: request.() -> Unit): request {
+    override fun invoke(function: rfp.() -> Unit): rfp {
         return apply { function() }
     }
 
     override fun key_timestamps(vararg timestamps: String) {
+
     }
 }
