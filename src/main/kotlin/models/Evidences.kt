@@ -2,7 +2,7 @@ package models
 
 import dsl.Flow
 
-abstract class Evidences<T>(val name: String) : Flow<T> {
+abstract class Evidences<T>(val name: String, val note: String? = null) : Flow<T> {
     abstract val type: String
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
@@ -16,7 +16,8 @@ abstract class Evidences<T>(val name: String) : Flow<T> {
     }
 
     override fun toString(): String {
-        return """        
+        return """
+            ${note ?: ""}
             class "<$type>\n$name" as $name  {
                 ${if (timestamps != null) timestamps.contentToString() else ""}
                 ${if (timestamps != null && data != null) ".." else ""}

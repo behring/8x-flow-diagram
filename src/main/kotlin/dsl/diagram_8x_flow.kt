@@ -28,10 +28,13 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
             appendLine("@startuml")
             appendLine("skinparam defaultFontColor White")
             appendLine("skinparam arrowFontColor Black")
+//            appendLine("skinparam classFontColor White")
+//            appendLine("skinparam classAttributeFontColor White")
             appendLine("skinparam classBackgroundColor HotPink")
             appendLine("skinparam roundCorner 10")
             appendLine("hide circle")
             contexts.forEach { context ->
+                appendLine(context.toString())
                 context.contracts.forEach { contract ->
                     appendLine(contract.toString())
                     contract.fulfillments.forEach {fulfillment ->

@@ -15,4 +15,22 @@ class context(val name: String) : Flow<context> {
         contracts.add(this)
         contract()
     }
+
+    override fun toString(): String {
+        return """        
+            package <color:black>$name</color> {
+                ${generateClassesInContext()}
+            }
+        """.trimIndent()
+    }
+
+    private fun generateClassesInContext() = buildString {
+        contracts.forEach { contract ->
+            appendLine("class ${contract.name}")
+            contract.fulfillments.forEach { fulfillment ->
+                appendLine("class ${fulfillment.request.name}")
+                appendLine("class ${fulfillment.confirmation.name}")
+            }
+        }
+    }
 }
