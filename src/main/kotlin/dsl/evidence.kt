@@ -10,4 +10,7 @@ class evidence(name: String) : Evidences<evidence>(name) {
 
     override fun key_timestamps(vararg timestamps: String) {
     }
+
+    override val type: String
+        get() = evidence::class.java.simpleName
 }

@@ -3,12 +3,22 @@ package models
 import dsl.Flow
 
 abstract class Evidences<T>(val name: String) : Flow<T> {
+    lateinit var timestamps: Array<out String>
+    abstract val type: String
+    private var data: Array<out String>? = null
 
     abstract fun key_timestamps(vararg timestamps: String)
 
-    inline fun <reified T> getType(): String {
-        return T::class.java.simpleName
+    fun key_data(vararg data: String) {
+        this.data = data
     }
 
-    fun key_data(vararg data: String) {}
+    override fun toString(): String {
+        return """
+            object "<$type>\n$name" as $name  {
+                ${timestamps.contentToString()}
+                ${if (data != null) "..\n ${data.contentToString()}" else ""}
+            }
+        """.trimIndent()
+    }
 }

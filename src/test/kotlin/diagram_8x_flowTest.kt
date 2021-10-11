@@ -2,6 +2,7 @@ import dsl.diagram_8x_flow
 import net.sourceforge.plantuml.SourceStringReader
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.File
 import java.io.FileOutputStream
 import kotlin.test.assertNotNull
 
@@ -37,6 +38,18 @@ internal class diagram_8x_flowTest {
                             key_data("金额")
                         }
                     }
+                }
+            }
+        }.createDiagram("./8x-flow.png")
+    }
+
+    @Test
+    fun create_contact_diagram() {
+        diagram_8x_flow {
+            context("预充值协议上下文") {
+                contract("预充值协议") {
+                    key_timestamps("签订时间")
+                    key_data("哈哈哈")
                 }
             }
         }.createDiagram("./8x-flow.png")

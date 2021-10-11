@@ -11,4 +11,7 @@ class request(role: Role) : Evidences<request>(role.name) {
 
     override fun key_timestamps(vararg timestamps: String) {
     }
+
+    override val type: String
+        get() = request::class.java.simpleName
 }

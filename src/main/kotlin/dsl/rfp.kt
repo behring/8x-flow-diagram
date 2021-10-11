@@ -12,4 +12,7 @@ class rfp(name: String) : Evidences<rfp>(name) {
     override fun key_timestamps(vararg timestamps: String) {
 
     }
+
+    override val type: String
+        get() = rfp::class.java.simpleName
 }

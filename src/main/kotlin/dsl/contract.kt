@@ -11,7 +11,9 @@ class contract(name: String) : Evidences<contract>(name) {
     }
 
     override fun key_timestamps(vararg timestamps: String) {
-
+        this.timestamps = timestamps
     }
 
+    override val type: String
+        get() = contract::class.java.simpleName
 }

@@ -20,4 +20,6 @@ class confirmation(role: Role) : Evidences<confirmation>(role.name) {
     override fun key_timestamps(vararg timestamps: String) {
     }
 
+    override val type: String
+        get() = confirmation::class.java.simpleName
 }
