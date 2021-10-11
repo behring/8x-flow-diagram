@@ -27,6 +27,9 @@ class context(val name: String) : Flow<context> {
     private fun generateClassesInContext() = buildString {
         contracts.forEach { contract ->
             appendLine("class ${contract.name}")
+            contract.roles.forEach { role ->
+                appendLine("class ${role.name}")
+            }
             contract.fulfillments.forEach { fulfillment ->
                 appendLine("class ${fulfillment.request.name}")
                 appendLine("class ${fulfillment.confirmation.name}")

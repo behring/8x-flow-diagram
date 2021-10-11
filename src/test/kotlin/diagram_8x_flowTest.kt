@@ -78,6 +78,6 @@ internal class diagram_8x_flowTest {
                     }
                 }
             }
-        }.createDiagram("./8x-flow.png")
+        }.createDiagram("./8x-flow2.png")
     }
 }

@@ -1,7 +1,6 @@
 package dsl
 
 import models.Role
-import java.util.*
 
 class fulfillment(val name: String) : Flow<fulfillment> {
     lateinit var request: request
@@ -12,19 +11,14 @@ class fulfillment(val name: String) : Flow<fulfillment> {
     }
 
     fun request(role: Role, request: request.() -> Unit) {
-        val className = "${name}请求"
-        this.request = request(className, role, generateNote(className, role)).apply { request() }
+        this.request = request("${name}请求", role, generateGenerics(role)).apply { request() }
     }
 
     fun confirmation(role: Role, confirmation: confirmation.() -> Unit) {
-        val className = "${name}确认"
-        this.confirmation = confirmation(className, role, generateNote(className, role)).apply { confirmation() }
+        this.confirmation = confirmation("${name}确认", role, generateGenerics(role)).apply { confirmation() }
     }
 
-    private fun generateNote(className: String, role: Role): String = """
-            note left of $className #orange
-            <<${role.type.name.lowercase()}>>
-             ${role.name}
-            end note
+    private fun generateGenerics(role: Role): String = """
+            <${role.type.name.lowercase()}\n${role.name}>
         """.trimIndent()
 }
