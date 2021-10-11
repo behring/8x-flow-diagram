@@ -1,9 +1,9 @@
 package dsl
 
-import models.Evidences
+import models.Evidence
 import models.Role
 
-class contract(name: String) : Evidences<contract>(name) {
+class contract(name: String) : Evidence<contract>(name) {
     var fulfillments: MutableList<fulfillment> = mutableListOf()
     var roles: MutableList<Role> = mutableListOf()
 

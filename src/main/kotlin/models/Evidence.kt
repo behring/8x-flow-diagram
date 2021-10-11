@@ -2,7 +2,7 @@ package models
 
 import dsl.Flow
 
-abstract class Evidences<T>(val name: String, private val generics: String? = null, val note: String? = null) : Flow<T> {
+abstract class Evidence<T>(val name: String, private val generics: String? = null, val note: String? = null) : Flow<T> {
     abstract val type: String
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null

@@ -1,21 +1,26 @@
 package dsl
 
-import models.Evidences
-import models.Role
-import java.util.*
+import models.Evidence
 
-class confirmation(name: String, note: String? = null) : Evidences<confirmation>(name, note) {
+class confirmation(name: String, note: String? = null) : Evidence<confirmation>(name, note) {
+    var evidence: evidence? = null
 
-    fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
-        return evidence(name).apply { evidence() }
-    }
-
-    fun party(evidence: evidence?) {
-
+    fun produce(evidence: evidence) {
+        this.evidence = evidence
     }
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
 
     override val type: String
         get() = confirmation::class.java.simpleName
+
+    override fun toString(): String {
+        return buildString {
+            appendLine(super.toString())
+            evidence?.let {
+                appendLine(it.toString())
+                appendLine("""${name} -- ${it.name}""")
+            }
+        }
+    }
 }

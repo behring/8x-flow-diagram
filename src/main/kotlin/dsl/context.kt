@@ -4,17 +4,24 @@ import models.Participant
 
 class context(val name: String) : Flow<context> {
     var contracts: MutableList<contract> = mutableListOf()
+    var evidences: MutableList<evidence> = mutableListOf()
     var participants: MutableList<Participant> = mutableListOf()
 
-    override fun invoke(function: context.() -> Unit): context {
-        return apply { function() }
+    fun evidence(name: String, evidence: evidence.() -> Unit) = evidence(name).apply {
+        evidences.add(this)
+        evidence()
     }
 
-    fun participant_party(name: String): Participant = Participant(name, Participant.Type.PARTY).apply { participants.add(this) }
+    fun participant_party(name: String): Participant =
+        Participant(name, Participant.Type.PARTY).apply { participants.add(this) }
 
     fun contract(name: String, contract: contract.() -> Unit) = with(contract(name)) {
         contracts.add(this)
         contract()
+    }
+
+    override fun invoke(function: context.() -> Unit): context {
+        return apply { function() }
     }
 
     override fun toString(): String {
@@ -37,6 +44,9 @@ class context(val name: String) : Flow<context> {
             contract.fulfillments.forEach { fulfillment ->
                 appendLine("class ${fulfillment.request.name}")
                 appendLine("class ${fulfillment.confirmation.name}")
+                fulfillment.confirmation.evidence?.let {
+                    appendLine("class ${it.name}")
+                }
             }
         }
     }

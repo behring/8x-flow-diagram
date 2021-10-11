@@ -1,9 +1,8 @@
 package dsl
 
-import models.Evidences
-import models.Role
+import models.Evidence
 
-class rfp(name: String) : Evidences<rfp>(name) {
+class rfp(name: String) : Evidence<rfp>(name) {
 
     override fun invoke(function: rfp.() -> Unit): rfp {
         return apply { function() }

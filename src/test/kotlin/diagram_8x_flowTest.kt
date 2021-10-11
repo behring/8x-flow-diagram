@@ -86,6 +86,11 @@ internal class diagram_8x_flowTest {
                         confirmation {
                             key_timestamps("创建时间")
                             key_data("金额")
+
+                            produce(evidence("支付凭证") {
+                                key_timestamps("支付时间")
+                                key_data("金额")
+                            })
                         }
                     }
                 }

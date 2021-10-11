@@ -1,10 +1,8 @@
 package dsl
 
-import models.Evidences
-import models.Role
-import java.util.*
+import models.Evidence
 
-class request(name: String, note: String? = null) : Evidences<request>(name, note) {
+class request(name: String, note: String? = null) : Evidence<request>(name, note) {
 
     override fun invoke(function: request.() -> Unit): request = apply { function() }
 
