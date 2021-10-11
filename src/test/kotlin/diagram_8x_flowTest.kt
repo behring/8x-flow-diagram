@@ -49,15 +49,30 @@ internal class diagram_8x_flowTest {
         diagram_8x_flow {
             context("预充值协议上下文") {
                 contract("预充值协议") {
+                    val prepaidUser = role_party("预充值用户")
+                    val rentingPlatform = role_party("思沃租房")
+
                     key_timestamps("签订时间")
                     fulfillment("预充值") {
-                        request(Role("思沃租房",Role.Type.PARTY)) {
+                        request(rentingPlatform) {
                             key_timestamps("创建时间", "过期时间")
                             key_data("金额")
                         }
 
-                        confirmation(Role("预充值用户",Role.Type.PARTY)) {
+                        confirmation(prepaidUser) {
+                            key_timestamps("创建时间")
+                            key_data("金额")
+                        }
+                    }
+
+                    fulfillment("余额退款") {
+                        request(prepaidUser) {
                             key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation(rentingPlatform) {
+                            key_timestamps("创建时间")
                             key_data("金额")
                         }
                     }

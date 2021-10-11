@@ -23,7 +23,7 @@ class fulfillment(val name: String) : Flow<fulfillment> {
 
     private fun generateNote(className: String, role: Role): String = """
             note left of $className #orange
-            <${role.type.name.lowercase(Locale.getDefault())}>
+            <<${role.type.name.lowercase()}>>
              ${role.name}
             end note
         """.trimIndent()

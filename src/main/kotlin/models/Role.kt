@@ -11,4 +11,10 @@ data class Role(val name: String, val type: Type) {
     infix fun party(participant: Participant): Role {
         return this
     }
+
+    override fun toString(): String {
+        return """
+            class $name <<${type.name.lowercase()}>> #orange
+        """.trimIndent()
+    }
 }

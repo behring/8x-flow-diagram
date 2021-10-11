@@ -21,8 +21,6 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
         context()
     }
 
-    fun role_party(name: String): Role = Role(name, Role.Type.PARTY)
-
     fun createDiagram(filePath: String) {
         generateDiagram(buildString {
             appendLine("@startuml")
@@ -37,6 +35,11 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
                 appendLine(context.toString())
                 context.contracts.forEach { contract ->
                     appendLine(contract.toString())
+                    contract.roles.forEach { role ->
+                        appendLine(role.toString())
+                        appendLine("""${contract.name} "1"--"1" ${role.name}""")
+                    }
+
                     contract.fulfillments.forEach {fulfillment ->
                         appendLine("""${contract.name} "1"--"n" ${fulfillment.request.name}""")
                         appendLine(fulfillment.request.toString())
