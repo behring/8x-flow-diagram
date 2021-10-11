@@ -54,19 +54,4 @@ internal class diagram_8x_flowTest {
             }
         }.createDiagram("./8x-flow.png")
     }
-
-    @Test
-    fun create_diagram() {
-        val tempFolder = TemporaryFolder().apply{create()}
-        val png = FileOutputStream(tempFolder.newFile("./test.png"))
-        val source = """
-            @startuml
-            Bob -> Alice : hello
-            @enduml
-        """.trimIndent()
-
-        val reader = SourceStringReader(source)
-        val desc = reader.outputImage(png).description
-        assertNotNull(desc)
-    }
 }

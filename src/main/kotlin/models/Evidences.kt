@@ -14,8 +14,8 @@ abstract class Evidences<T>(val name: String) : Flow<T> {
     }
 
     override fun toString(): String {
-        return """
-            object "<$type>\n$name" as $name  {
+        return """        
+            class "<$type>\n$name" as $name  {
                 ${timestamps.contentToString()}
                 ${if (data != null) "..\n ${data.contentToString()}" else ""}
             }

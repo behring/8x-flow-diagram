@@ -27,7 +27,9 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
         generateDiagram(buildString {
             appendLine("@startuml")
             appendLine("skinparam defaultFontColor White")
-            appendLine("skinparam objectBackgroundColor HotPink")
+            appendLine("skinparam classBackgroundColor HotPink")
+            appendLine("skinparam roundCorner 10")
+            appendLine("hide circle")
             contexts.forEach { context ->
                 context.contracts.forEach { contract ->
                     appendLine(contract.toString())
