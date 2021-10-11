@@ -1,5 +1,9 @@
 import dsl.diagram_8x_flow
+import net.sourceforge.plantuml.SourceStringReader
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
+import java.io.FileOutputStream
+import kotlin.test.assertNotNull
 
 internal class diagram_8x_flowTest {
     @Test
@@ -23,7 +27,7 @@ internal class diagram_8x_flowTest {
                     fulfillment("预充值") {
                         // 创建履约请求
                         request(rentingPlatform) {
-                            key_timestamps("创建时间","过期时间")
+                            key_timestamps("创建时间", "过期时间")
                             key_data("金额")
                         }
 
@@ -33,7 +37,7 @@ internal class diagram_8x_flowTest {
                             key_data("金额")
 
                             // 履约确认生成一个凭证
-                           val evidence = evidence("支付凭证") {
+                            val evidence = evidence("支付凭证") {
                                 key_timestamps("支付时间")
                                 key_data("金额")
                             }
@@ -44,5 +48,20 @@ internal class diagram_8x_flowTest {
                 }
             }
         }
+    }
+
+    @Test
+    fun create_diagram() {
+        val tempFolder = TemporaryFolder().apply{create()}
+        val png = FileOutputStream(tempFolder.newFile("./test.png"))
+        val source = """
+            @startuml
+            Bob -> Alice : hello
+            @enduml
+        """.trimIndent()
+
+        val reader = SourceStringReader(source)
+        val desc = reader.outputImage(png).description
+        assertNotNull(desc)
     }
 }
