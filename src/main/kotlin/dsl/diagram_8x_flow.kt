@@ -27,12 +27,19 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
         generateDiagram(buildString {
             appendLine("@startuml")
             appendLine("skinparam defaultFontColor White")
+            appendLine("skinparam arrowFontColor Black")
             appendLine("skinparam classBackgroundColor HotPink")
             appendLine("skinparam roundCorner 10")
             appendLine("hide circle")
             contexts.forEach { context ->
                 context.contracts.forEach { contract ->
                     appendLine(contract.toString())
+                    contract.fulfillments.forEach {fulfillment ->
+                        appendLine("""${contract.name} "1"--"n" ${fulfillment.request.name}""")
+                        appendLine(fulfillment.request.toString())
+                        appendLine("""${fulfillment.request.name} "1"--"1" ${fulfillment.confirmation.name}""")
+                        appendLine(fulfillment.confirmation.toString())
+                    }
                 }
             }
             appendLine("@enduml")
@@ -40,8 +47,11 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
 
     }
 
-    private fun generateDiagram(plantUmlStr: String, filePath: String): Boolean =
-        SourceStringReader(plantUmlStr).outputImage(FileOutputStream(File(filePath))).description != null
+    private fun generateDiagram(plantUmlStr: String, filePath: String): Boolean {
+        println(plantUmlStr)
+        return SourceStringReader(plantUmlStr).outputImage(FileOutputStream(File(filePath))).description != null
+    }
+
 }
 
 

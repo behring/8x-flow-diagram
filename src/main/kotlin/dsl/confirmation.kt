@@ -3,7 +3,7 @@ package dsl
 import models.Evidences
 import models.Role
 
-class confirmation(role: Role) : Evidences<confirmation>(role.name) {
+class confirmation(name: String, role: Role) : Evidences<confirmation>(name) {
 
     override fun invoke(function: confirmation.() -> Unit): confirmation {
         return apply { function() }
@@ -15,9 +15,6 @@ class confirmation(role: Role) : Evidences<confirmation>(role.name) {
 
     fun party(evidence: evidence?) {
 
-    }
-
-    override fun key_timestamps(vararg timestamps: String) {
     }
 
     override val type: String

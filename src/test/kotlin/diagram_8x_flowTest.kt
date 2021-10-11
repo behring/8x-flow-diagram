@@ -1,4 +1,5 @@
 import dsl.diagram_8x_flow
+import models.Role
 import net.sourceforge.plantuml.SourceStringReader
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -49,7 +50,17 @@ internal class diagram_8x_flowTest {
             context("预充值协议上下文") {
                 contract("预充值协议") {
                     key_timestamps("签订时间")
-                    key_data("哈哈哈")
+                    fulfillment("预充值") {
+                        request(Role("思沃租房",Role.Type.PARTY)) {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation(Role("预充值用户",Role.Type.PARTY)) {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+                    }
                 }
             }
         }.createDiagram("./8x-flow.png")

@@ -3,11 +3,13 @@ package models
 import dsl.Flow
 
 abstract class Evidences<T>(val name: String) : Flow<T> {
-    lateinit var timestamps: Array<out String>
     abstract val type: String
+    var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
 
-    abstract fun key_timestamps(vararg timestamps: String)
+    fun key_timestamps(vararg timestamps: String) {
+        this.timestamps = timestamps
+    }
 
     fun key_data(vararg data: String) {
         this.data = data
@@ -16,8 +18,9 @@ abstract class Evidences<T>(val name: String) : Flow<T> {
     override fun toString(): String {
         return """        
             class "<$type>\n$name" as $name  {
-                ${timestamps.contentToString()}
-                ${if (data != null) "..\n ${data.contentToString()}" else ""}
+                ${if (timestamps != null) timestamps.contentToString() else ""}
+                ${if (timestamps != null && data != null) ".." else ""}
+                ${if (data != null) data.contentToString() else ""}
             }
         """.trimIndent()
     }
