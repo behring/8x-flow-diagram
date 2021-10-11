@@ -1,6 +1,8 @@
 package models
 
 data class Role(val name: String, val type: Type) {
+    var participant: Participant? = null
+
     enum class Type {
         PARTY,
         DOMAIN,
@@ -8,9 +10,7 @@ data class Role(val name: String, val type: Type) {
         EVIDENCE
     }
 
-    infix fun party(participant: Participant): Role {
-        return this
-    }
+    infix fun played(participant: Participant): Role = apply { this.participant = participant }
 
     override fun toString(): String {
         return """

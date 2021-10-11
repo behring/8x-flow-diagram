@@ -10,15 +10,17 @@ class fulfillment(val name: String) : Flow<fulfillment> {
         return apply { function() }
     }
 
-    fun request(role: Role, request: request.() -> Unit) {
-        this.request = request("${name}请求", role, generateGenerics(role)).apply { request() }
+    fun request(role: Role? = null, request: request.() -> Unit) {
+        this.request = request("${name}请求", generateGenerics(role)).apply { request() }
     }
 
-    fun confirmation(role: Role, confirmation: confirmation.() -> Unit) {
-        this.confirmation = confirmation("${name}确认", role, generateGenerics(role)).apply { confirmation() }
+    fun confirmation(role: Role? = null, confirmation: confirmation.() -> Unit) {
+        this.confirmation = confirmation("${name}确认", generateGenerics(role)).apply { confirmation() }
     }
 
-    private fun generateGenerics(role: Role): String = """
+    private fun generateGenerics(role: Role?): String? = role?.let {
+        """
             <${role.type.name.lowercase()}\n${role.name}>
         """.trimIndent()
+    }
 }

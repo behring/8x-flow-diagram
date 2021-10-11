@@ -34,11 +34,18 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
             appendLine("hide circle")
             contexts.forEach { context ->
                 appendLine(context.toString())
+                context.participants.forEach { participant ->
+                    appendLine(participant.toString())
+                }
+
                 context.contracts.forEach { contract ->
                     appendLine(contract.toString())
                     contract.roles.forEach { role ->
                         appendLine(role.toString())
                         appendLine("""${contract.name} "1"--"1" ${role.name}""")
+                        role.participant?.let {
+                            appendLine("""${it.name} ..> ${role.name}""")
+                        }
                     }
 
                     contract.fulfillments.forEach {fulfillment ->

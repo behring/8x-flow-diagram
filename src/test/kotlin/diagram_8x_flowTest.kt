@@ -1,11 +1,5 @@
 import dsl.diagram_8x_flow
-import models.Role
-import net.sourceforge.plantuml.SourceStringReader
 import org.junit.Test
-import org.junit.rules.TemporaryFolder
-import java.io.File
-import java.io.FileOutputStream
-import kotlin.test.assertNotNull
 
 internal class diagram_8x_flowTest {
     @Test
@@ -19,8 +13,8 @@ internal class diagram_8x_flowTest {
                 // 定义一个合约
                 contract("预充值协议") {
                     // 创建2个角色party并扮演参与方party
-                    val prepaidUser = role_party("预充值用户") party houseAgent
-                    val rentingPlatform = role_party("思沃租房") party houseAgent
+                    val prepaidUser = role_party("预充值用户") played houseAgent
+                    val rentingPlatform = role_party("思沃租房") played houseAgent
 
                     // 指定合约的关键时间
                     key_timestamps("签订时间")
@@ -48,8 +42,9 @@ internal class diagram_8x_flowTest {
     fun create_contact_diagram() {
         diagram_8x_flow {
             context("预充值协议上下文") {
+                val houseAgent = participant_party("房产经纪人")
                 contract("预充值协议") {
-                    val prepaidUser = role_party("预充值用户")
+                    val prepaidUser = role_party("预充值用户") played houseAgent
                     val rentingPlatform = role_party("思沃租房")
 
                     key_timestamps("签订时间")
@@ -78,6 +73,24 @@ internal class diagram_8x_flowTest {
                     }
                 }
             }
+
+            context("三方支付上下文") {
+                contract("XXX支付协议") {
+                    key_timestamps("签订时间")
+                    fulfillment("代付") {
+                        request {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation {
+                            key_timestamps("创建时间")
+                            key_data("金额")
+                        }
+                    }
+                }
+            }
+
         }.createDiagram("./8x-flow2.png")
     }
 }

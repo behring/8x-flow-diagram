@@ -4,7 +4,7 @@ import models.Evidences
 import models.Role
 import java.util.*
 
-class request(name: String, val role: Role, note: String? = null) : Evidences<request>(name, note) {
+class request(name: String, note: String? = null) : Evidences<request>(name, note) {
 
     override fun invoke(function: request.() -> Unit): request = apply { function() }
 

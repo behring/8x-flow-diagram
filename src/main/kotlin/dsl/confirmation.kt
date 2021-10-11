@@ -4,7 +4,7 @@ import models.Evidences
 import models.Role
 import java.util.*
 
-class confirmation(name: String, val role: Role, note: String? = null) : Evidences<confirmation>(name, note) {
+class confirmation(name: String, note: String? = null) : Evidences<confirmation>(name, note) {
 
     fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
         return evidence(name).apply { evidence() }

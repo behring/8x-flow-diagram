@@ -6,4 +6,10 @@ data class Participant(val name: String, val type: Type) {
         PLACE,
         THING
     }
+
+    override fun toString(): String {
+        return """
+            class $name <<${type.name.lowercase()}>> #ForestGreen
+        """.trimIndent()
+    }
 }
