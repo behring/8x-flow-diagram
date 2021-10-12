@@ -4,9 +4,19 @@ import models.Evidence
 
 class evidence(name: String) : Evidence<evidence>(name) {
     private var roles: MutableList<confirmation> = mutableListOf()
+    var detail: detail? = null
 
     infix fun role(confirmation: confirmation) {
         roles.add(confirmation)
+    }
+
+    fun detail(name: String, detail: detail.() -> Unit): detail {
+        this.detail = detail(name)
+        return this.detail!!.apply { detail() }
+    }
+
+    fun generateClassesInContext(sb: StringBuilder) = detail?.let {
+        sb.appendLine("class ${it.name}")
     }
 
     override fun invoke(function: evidence.() -> Unit): evidence {
@@ -20,7 +30,11 @@ class evidence(name: String) : Evidence<evidence>(name) {
         return buildString {
             appendLine(super.toString())
             roles.forEach {
-                appendLine("""$name ..> ${it.name}""")
+                appendLine("""$name $PLAY_TO ${it.name}""")
+            }
+            detail?.let {
+                appendLine(it.toString())
+                appendLine("""$name $ONE_TO_N ${it.name}""")
             }
         }
     }

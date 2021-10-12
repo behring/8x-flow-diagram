@@ -24,7 +24,7 @@ class confirmation(name: String, note: String? = null) : Evidence<confirmation>(
             evidence?.let {
 
                 appendLine(evidence.toString())
-                appendLine("""${it.name} -- $name""")
+                appendLine("""${it.name} $ASSOCIATE $name""")
             }
         }
     }

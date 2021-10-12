@@ -4,6 +4,11 @@ import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
 
+const val ONE_TO_N = """ "1" -- "N" """
+const val ONE_TO_ONE = """ "1" -- "1" """
+const val ASSOCIATE = """ -- """
+const val PLAY_TO = """ ..> """
+
 interface Flow<T> {
     operator fun invoke(function: T.() -> Unit): T
 }
@@ -41,16 +46,16 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
                     appendLine(contract.toString())
                     contract.roles.forEach { role ->
                         appendLine(role.toString())
-                        appendLine("""${contract.name} "1"--"1" ${role.name}""")
+                        appendLine("""${contract.name} $ONE_TO_ONE ${role.name}""")
                         role.participant?.let {
-                            appendLine("""${it.name} ..> ${role.name}""")
+                            appendLine("""${it.name} $PLAY_TO ${role.name}""")
                         }
                     }
 
                     contract.fulfillments.forEach {fulfillment ->
-                        appendLine("""${contract.name} "1"--"n" ${fulfillment.request.name}""")
+                        appendLine("""${contract.name} $ONE_TO_N ${fulfillment.request.name}""")
                         appendLine(fulfillment.request.toString())
-                        appendLine("""${fulfillment.request.name} "1"--"1" ${fulfillment.confirmation.name}""")
+                        appendLine("""${fulfillment.request.name} $ONE_TO_ONE ${fulfillment.confirmation.name}""")
                         appendLine(fulfillment.confirmation.toString())
                     }
                 }

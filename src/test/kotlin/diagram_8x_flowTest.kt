@@ -1,57 +1,27 @@
+import dsl.detail
 import dsl.diagram_8x_flow
 import dsl.fulfillment
 import org.junit.Test
 
 internal class diagram_8x_flowTest {
     @Test
-    fun should_build_success() {
-        // 创建8x flow建模图
-        diagram_8x_flow {
-            // 定义一个上下文
-            context("预充值协议上下文") {
-                // 创建一个参与方party
-                val houseAgent = participant_party("房产经纪人")
-                // 定义一个合约
-                contract("预充值协议") {
-                    // 创建2个角色party并扮演参与方party
-                    val prepaidUser = role_party("预充值用户") played houseAgent
-                    val rentingPlatform = role_party("思沃租房") played houseAgent
-
-                    // 指定合约的关键时间
-                    key_timestamps("签订时间")
-
-                    // 创建合约中的履约项
-                    fulfillment("预充值") {
-                        // 创建履约请求
-                        request(rentingPlatform) {
-                            key_timestamps("创建时间", "过期时间")
-                            key_data("金额")
-                        }
-
-                        // 创建履约确认
-                        confirmation(prepaidUser) {
-                            key_timestamps("创建时间")
-                            key_data("金额")
-                        }
-                    }
-                }
-            }
-        }.createDiagram("./8x-flow.png")
-    }
-
-    @Test
     fun create_contact_diagram() {
         diagram_8x_flow {
 
             lateinit var refundInPrepaidContext: fulfillment
+            lateinit var prepaidInPrepaidContext: fulfillment
+
             context("预充值协议上下文") {
                 val houseAgent = participant_party("房产经纪人")
+
                 contract("预充值协议") {
+                    key_timestamps("签订时间")
+                    participant_place("预充值账户") associate this
+
                     val prepaidUser = role_party("预充值用户") played houseAgent
                     val rentingPlatform = role_party("思沃租房")
 
-                    key_timestamps("签订时间")
-                    fulfillment("预充值") {
+                    prepaidInPrepaidContext = fulfillment("预充值") {
                         request(rentingPlatform) {
                             key_timestamps("创建时间", "过期时间")
                             key_data("金额")
@@ -74,6 +44,40 @@ internal class diagram_8x_flowTest {
                             key_data("金额")
                         }
                     }
+
+                    fulfillment("发票开具") {
+                        request(prepaidUser) {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation(rentingPlatform) {
+                            key_timestamps("创建时间")
+                            key_data("金额")
+                        }
+                    }
+
+                    fulfillment("账单发送") {
+                        request(prepaidUser) {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation(rentingPlatform) {
+                            key_timestamps("发布时间")
+                            key_data("金额")
+
+                            evidence("账单") {
+                                key_timestamps("创建时间")
+                                key_data("账单期数, 总金额")
+
+                                detail("账单明细") {
+                                    key_timestamps("创建时间")
+                                    key_data("账单期数, 总金额")
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -90,10 +94,14 @@ internal class diagram_8x_flowTest {
                             key_timestamps("创建时间")
                             key_data("金额")
 
-                            evidence("支付凭证") {
+                            val evidence = evidence("支付凭证") {
                                 key_timestamps("支付时间")
                                 key_data("金额")
-                            } role refundInPrepaidContext.confirmation
+                            }
+                            evidence role refundInPrepaidContext.confirmation
+                            evidence role prepaidInPrepaidContext.confirmation
+
+
                         }
                     }
                 }

@@ -9,6 +9,12 @@ class context(val name: String) : Flow<context> {
     fun participant_party(name: String): Participant =
         Participant(name, Participant.Type.PARTY).apply { participants.add(this) }
 
+    fun participant_place(name: String): Participant =
+        Participant(name, Participant.Type.PLACE).apply { participants.add(this) }
+
+    fun participant_thing(name: String): Participant =
+        Participant(name, Participant.Type.THING).apply { participants.add(this) }
+
     fun contract(name: String, contract: contract.() -> Unit) = with(contract(name)) {
         contracts.add(this)
         contract()
@@ -39,6 +45,7 @@ class context(val name: String) : Flow<context> {
                 appendLine("class ${fulfillment.request.name}")
                 appendLine("class ${fulfillment.confirmation.name}")
                 fulfillment.confirmation.generateClassesInContext(this)
+                fulfillment.confirmation.evidence?.generateClassesInContext(this)
             }
         }
     }
