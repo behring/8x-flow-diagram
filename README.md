@@ -257,7 +257,13 @@ diagram_8x_flow {
 
 ```
 
-
+## 图例
+- 预充值协议
+![预充值协议](./images/prepaid_contract_diagram.png)
+- 信息推广服务合同
+![信息推广服务合同](./images/info_promotion_contract_diagram.png)
+- 商品订单合同
+![商品订单合同](./images/contract_with_rfp_diagram.png)
 
 ## 其他
 
