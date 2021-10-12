@@ -267,5 +267,5 @@ diagram_8x_flow {
 
 ## 其他
 
-如果有问题，可以[邮箱联系](mailto:lizhao@thoughtworks.com?subject=8X Flow建模图工具反馈)。
+如果有问题，可以[邮箱联系](mailto:lizhao@thoughtworks.com?subject=8xFlow建模图工具反馈)。
 
