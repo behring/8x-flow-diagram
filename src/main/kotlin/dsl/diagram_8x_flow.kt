@@ -1,5 +1,6 @@
 package dsl
 
+import models.Role
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
@@ -23,6 +24,12 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
     fun context(name: String, context: context.() -> Unit) = with(context(name)) {
         contexts.add(this)
         context()
+    }
+
+    fun generateGenerics(role: Role?): String? = role?.let {
+        """
+            < <<${role.type.name.lowercase()}>> \n ${role.name} >
+        """.trimIndent()
     }
 
     fun createDiagram(filePath: String) {

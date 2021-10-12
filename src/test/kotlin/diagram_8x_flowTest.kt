@@ -1,26 +1,23 @@
-import dsl.detail
 import dsl.diagram_8x_flow
 import dsl.fulfillment
 import org.junit.Test
 
 internal class diagram_8x_flowTest {
     @Test
-    fun create_contact_diagram() {
+    fun create_prepaid_contract_diagram() {
         diagram_8x_flow {
-
             lateinit var refundInPrepaidContext: fulfillment
             lateinit var prepaidInPrepaidContext: fulfillment
             lateinit var invoiceInPrepaidContext: fulfillment
 
             context("预充值协议上下文") {
                 val houseAgent = participant_party("房产经纪人")
+                val prepaidUser = role_party("预充值用户") played houseAgent
+                val rentingPlatform = role_party("思沃租房")
 
-                contract("预充值协议") {
+                contract("预充值协议", prepaidUser, rentingPlatform) {
                     key_timestamps("签订时间")
                     participant_place("预充值账户") associate this
-
-                    val prepaidUser = role_party("预充值用户") played houseAgent
-                    val rentingPlatform = role_party("思沃租房")
 
                     prepaidInPrepaidContext = fulfillment("预充值") {
                         request(rentingPlatform) {
@@ -143,6 +140,26 @@ internal class diagram_8x_flowTest {
                 }
             }
 
-        }.createDiagram("./8x-flow2.png")
+        }.createDiagram("./prepaid_contract_diagram.png")
+    }
+
+    @Test
+    fun create_info_promotion_contract_diagram() {
+        diagram_8x_flow {
+            context("信息推广上下文") {
+                val advertiser = role_party("广告主")
+                val promoter = role_party("推广商")
+
+                proposal("信息推广方案", advertiser) {
+                    key_timestamps("创建时间")
+                    key_data("点击报价")
+
+                    contract("信息推广服务合同",advertiser, promoter) {
+                        key_timestamps("签订时间")
+
+                    }
+                }
+            }
+        }.createDiagram("./info_promotion_contract_diagram.png")
     }
 }

@@ -1,13 +1,19 @@
 package dsl
 
+import dsl.diagram_8x_flow.generateGenerics
 import models.Participant
-
+import models.Role
+import java.lang.IllegalArgumentException
 
 
 class context(val name: String) : Flow<context> {
-    val allClasses:MutableList<String> = mutableListOf()
-    private val contracts: MutableList<contract> = mutableListOf()
+    val allClasses: MutableList<String> = mutableListOf()
+    val contracts: MutableList<contract> = mutableListOf()
+    private val proposals: MutableList<proposal> = mutableListOf()
     private val participants: MutableList<Participant> = mutableListOf()
+    private var roles: MutableList<Role> = mutableListOf()
+
+    fun role_party(name: String): Role = Role(name, Role.Type.PARTY, this).apply { roles.add(this) }
 
     fun participant_party(name: String): Participant =
         Participant(name, Participant.Type.PARTY, this).apply { participants.add(this) }
@@ -18,10 +24,19 @@ class context(val name: String) : Flow<context> {
     fun participant_thing(name: String): Participant =
         Participant(name, Participant.Type.THING, this).apply { participants.add(this) }
 
-    fun contract(name: String, contract: contract.() -> Unit) = with(contract(name, this)) {
-        contracts.add(this)
-        contract()
+
+    fun proposal(name: String, role: Role, proposal: proposal.() -> Unit) = with(
+        proposal(name, this, generateGenerics(role))
+    ) {
+        proposals.add(this)
+        proposal()
     }
+
+    fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) =
+        with(contract(name, this, *roles)) {
+            contracts.add(this)
+            contract()
+        }
 
     override fun invoke(function: context.() -> Unit): context {
         return apply { function() }
@@ -35,12 +50,20 @@ class context(val name: String) : Flow<context> {
             }
         """.trimIndent()
         )
+        proposals.forEach {
+            appendLine(it.toString())
+        }
+
         participants.forEach {
             appendLine(it.toString())
         }
 
-        contracts.forEach { contract ->
-            appendLine(contract.toString())
+        contracts.forEach {
+            appendLine(it.toString())
+        }
+
+        roles.forEach {
+            appendLine(it.toString())
         }
     }
 

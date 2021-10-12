@@ -3,11 +3,8 @@ package dsl
 import models.Evidence
 import models.Role
 
-class contract(name: String, context: context) : Evidence<contract>(name, context) {
+class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context) {
     var fulfillments: MutableList<fulfillment> = mutableListOf()
-    var roles: MutableList<Role> = mutableListOf()
-
-    fun role_party(name: String): Role = Role(name, Role.Type.PARTY, context).apply { roles.add(this) }
 
     fun fulfillment(name: String, fulfillment: fulfillment.() -> Unit): fulfillment = fulfillment(name, context).apply {
         fulfillments.add(this)

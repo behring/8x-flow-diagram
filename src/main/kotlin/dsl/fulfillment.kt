@@ -1,5 +1,6 @@
 package dsl
 
+import dsl.diagram_8x_flow.generateGenerics
 import models.Role
 
 class fulfillment(val name: String, val context: context) : Flow<fulfillment> {
@@ -16,11 +17,5 @@ class fulfillment(val name: String, val context: context) : Flow<fulfillment> {
 
     fun confirmation(role: Role? = null, confirmation: confirmation.() -> Unit) {
         this.confirmation = confirmation("${name}确认", context, generateGenerics(role)).apply { confirmation() }
-    }
-
-    private fun generateGenerics(role: Role?): String? = role?.let {
-        """
-            < <<${role.type.name.lowercase()}>> \n ${role.name} >
-        """.trimIndent()
     }
 }
