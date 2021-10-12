@@ -55,6 +55,7 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
 
     private fun generateDiagram(plantUmlStr: String, filePath: String): Boolean {
         println(plantUmlStr)
+        println(filePath)
         return SourceStringReader(plantUmlStr).outputImage(FileOutputStream(File(filePath))).description != null
     }
 }

@@ -12,12 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
-    testImplementation(kotlin("test"))
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
     implementation(kotlin("script-runtime"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    testImplementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }
 
 tasks.test {
