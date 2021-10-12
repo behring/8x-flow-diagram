@@ -2,12 +2,15 @@ package dsl
 
 import models.Evidence
 
-class confirmation(name: String, context: context, note: String? = null) : Evidence<confirmation>(name, context, note) {
+class confirmation(name: String, context: context, generics: String?, note: String? = null) :
+    Evidence<confirmation>(name, context, generics, note) {
     var evidence: evidence? = null
     fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
         this.evidence = evidence(name, context)
         return this.evidence!!.apply { evidence() }
     }
+
+    fun role(): confirmation = apply { isRole = true }
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
 

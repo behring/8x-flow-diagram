@@ -10,6 +10,7 @@ internal class diagram_8x_flowTest {
 
             lateinit var refundInPrepaidContext: fulfillment
             lateinit var prepaidInPrepaidContext: fulfillment
+            lateinit var invoiceInPrepaidContext: fulfillment
 
             context("预充值协议上下文") {
                 val houseAgent = participant_party("房产经纪人")
@@ -45,7 +46,7 @@ internal class diagram_8x_flowTest {
                         }
                     }
 
-                    fulfillment("发票开具") {
+                    invoiceInPrepaidContext = fulfillment("发票开具") {
                         request(prepaidUser) {
                             key_timestamps("创建时间", "过期时间")
                             key_data("金额")
@@ -114,6 +115,29 @@ internal class diagram_8x_flowTest {
                             evidence role prepaidInPrepaidContext.confirmation
 
 
+                        }
+                    }
+                }
+            }
+
+            context("发票代开服务上下文") {
+                contract("发票代开协议") {
+                    key_timestamps("签订时间")
+                    fulfillment("发票代开") {
+                        request {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation {
+                            key_timestamps("创建时间")
+                            key_data("金额")
+
+                            val evidence = evidence("发票") {
+                                key_timestamps("开具时间")
+                                key_data("金额")
+                            }
+                            evidence role invoiceInPrepaidContext.confirmation
                         }
                     }
                 }

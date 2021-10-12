@@ -20,7 +20,7 @@ class fulfillment(val name: String, val context: context) : Flow<fulfillment> {
 
     private fun generateGenerics(role: Role?): String? = role?.let {
         """
-            <${role.type.name.lowercase()}\n${role.name}>
+            < <<${role.type.name.lowercase()}>> \n ${role.name} >
         """.trimIndent()
     }
 }

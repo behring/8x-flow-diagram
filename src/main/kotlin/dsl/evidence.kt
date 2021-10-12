@@ -7,7 +7,7 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
     var detail: detail? = null
 
     infix fun role(confirmation: confirmation) {
-        roles.add(confirmation)
+        roles.add(confirmation.role())
     }
 
     fun detail(name: String, detail: detail.() -> Unit): detail {

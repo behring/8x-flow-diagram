@@ -2,7 +2,8 @@ package dsl
 
 import models.Evidence
 
-class request(name: String, context: context, note: String? = null) : Evidence<request>(name, context, note) {
+class request(name: String, context: context, generics: String?, note: String? = null) :
+    Evidence<request>(name, context, generics, note) {
 
     override fun invoke(function: request.() -> Unit): request = apply { function() }
 

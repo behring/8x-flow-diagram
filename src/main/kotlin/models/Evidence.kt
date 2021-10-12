@@ -7,14 +7,15 @@ abstract class Evidence<T>(
     val name: String,
     val context: context,
     private val generics: String? = null,
-    val note: String? = null
+    private val note: String? = null
 ) : Flow<T> {
     init {
         context.allClasses.add(name)
     }
 
-    abstract val type: String
+    var isRole: Boolean = false
     var timestamps: Array<out String>? = null
+    abstract val type: String
     private var data: Array<out String>? = null
 
     fun key_timestamps(vararg timestamps: String) {
@@ -28,7 +29,7 @@ abstract class Evidence<T>(
     override fun toString(): String {
         return """
             ${note ?: ""}
-            class $name${generics ?: ""}<<$type>> {
+            class $name${generics ?: ""}<<$type>> ${if (isRole) "#Orange" else "#HotPink"}{
                 ${if (timestamps != null) timestamps.contentToString() else ""}
                 ${if (timestamps != null && data != null) ".." else ""}
                 ${if (data != null) data.contentToString() else ""}
