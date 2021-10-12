@@ -14,6 +14,10 @@ class context(val name: String) : Flow<context> {
 
     fun role_party(name: String): Role = Role(name, Role.Type.PARTY, this).apply { roles.add(this) }
 
+    fun role_domain(name: String): Role = Role(name, Role.Type.DOMAIN, this).apply { roles.add(this) }
+
+    fun role_3rd_system(name: String): Role = Role(name, Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
+
     fun participant_party(name: String): Participant =
         Participant(name, Participant.Type.PARTY, this).apply { participants.add(this) }
 

@@ -12,7 +12,7 @@ data class Role(val name: String, val type: Type, val context: context) {
     enum class Type {
         PARTY,
         DOMAIN,
-        `3RD_SYSTEM`,
+        THIRD_SYSTEM,
         EVIDENCE
     }
 
