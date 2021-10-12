@@ -147,15 +147,57 @@ internal class diagram_8x_flowTest {
     fun create_info_promotion_contract_diagram() {
         diagram_8x_flow {
             context("信息推广上下文") {
-                val advertiser = role_party("广告主")
-                val promoter = role_party("推广商")
+                val advertiser = role_party("广告主") played participant_party("预充值用户")
+                val promoter = role_party("推广商") played participant_party("思沃租房")
 
-                proposal("信息推广方案", advertiser) {
+                proposal("信息推广方案", promoter) {
                     key_timestamps("创建时间")
                     key_data("点击报价")
 
-                    contract("信息推广服务合同",advertiser, promoter) {
+                    participant_thing("用户账号")
+
+                    participant_thing("房屋租赁信息") associate this
+
+                    contract("信息推广服务合同", advertiser, promoter) {
                         key_timestamps("签订时间")
+
+                        fulfillment("推广重启") {
+                            request(advertiser) {
+                                key_timestamps("创建时间", "过期时间")
+                            }
+                            confirmation(promoter) {
+                                key_timestamps("启动时间")
+                            }
+                        }
+
+                        fulfillment("推广取消") {
+                            request(advertiser) {
+                                key_timestamps("创建时间", "过期时间")
+                            }
+                            confirmation(promoter) {
+                                key_timestamps("取消时间")
+                            }
+                        }
+
+                        fulfillment("支付") {
+                            request(promoter) {
+                                key_timestamps("创建时间", "过期时间", "终止时间")
+                                key_data("金额")
+                            }
+                            confirmation(advertiser) {
+                                key_timestamps("创建时间")
+                                key_data("金额")
+                            }
+                        }
+
+                        fulfillment("信息推广") {
+                            request(advertiser) {
+                                key_timestamps("创建时间", "过期时间", "终止时间")
+                            }
+                            confirmation(promoter) {
+                                key_timestamps("创建时间")
+                            }
+                        }
 
                     }
                 }
