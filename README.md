@@ -42,7 +42,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 
 3. 邮件该文件运行，在`8x-flow-diagram/diagrams`目录下查看`ello-word-diagram.png`文件。
 
-   ![./images/](/Users/behring/dev/8x-flow-diagram/images/hello-word-diagram.png)
+   ![商品订单合同](./images/hello-word-diagram.png)
 
 ## 语法介绍
 
