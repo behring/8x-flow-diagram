@@ -2,7 +2,7 @@ package dsl
 
 import models.Role
 
-class fulfillment(val name: String) : Flow<fulfillment> {
+class fulfillment(val name: String, val context: context) : Flow<fulfillment> {
     lateinit var request: request
     lateinit var confirmation: confirmation
 
@@ -11,11 +11,11 @@ class fulfillment(val name: String) : Flow<fulfillment> {
     }
 
     fun request(role: Role? = null, request: request.() -> Unit) {
-        this.request = request("${name}请求", generateGenerics(role)).apply { request() }
+        this.request = request("${name}请求", context, generateGenerics(role)).apply { request() }
     }
 
     fun confirmation(role: Role? = null, confirmation: confirmation.() -> Unit) {
-        this.confirmation = confirmation("${name}确认", generateGenerics(role)).apply { confirmation() }
+        this.confirmation = confirmation("${name}确认", context, generateGenerics(role)).apply { confirmation() }
     }
 
     private fun generateGenerics(role: Role?): String? = role?.let {

@@ -38,27 +38,6 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
             appendLine("hide circle")
             contexts.forEach { context ->
                 appendLine(context.toString())
-                context.participants.forEach {
-                    appendLine(it.toString())
-                }
-
-                context.contracts.forEach { contract ->
-                    appendLine(contract.toString())
-                    contract.roles.forEach { role ->
-                        appendLine(role.toString())
-                        appendLine("""${contract.name} $ONE_TO_ONE ${role.name}""")
-                        role.participant?.let {
-                            appendLine("""${it.name} $PLAY_TO ${role.name}""")
-                        }
-                    }
-
-                    contract.fulfillments.forEach {fulfillment ->
-                        appendLine("""${contract.name} $ONE_TO_N ${fulfillment.request.name}""")
-                        appendLine(fulfillment.request.toString())
-                        appendLine("""${fulfillment.request.name} $ONE_TO_ONE ${fulfillment.confirmation.name}""")
-                        appendLine(fulfillment.confirmation.toString())
-                    }
-                }
             }
             appendLine("@enduml")
         }, filePath)
@@ -69,7 +48,6 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
         println(plantUmlStr)
         return SourceStringReader(plantUmlStr).outputImage(FileOutputStream(File(filePath))).description != null
     }
-
 }
 
 

@@ -2,15 +2,11 @@ package dsl
 
 import models.Evidence
 
-class confirmation(name: String, note: String? = null) : Evidence<confirmation>(name, note) {
+class confirmation(name: String, context: context, note: String? = null) : Evidence<confirmation>(name, context, note) {
     var evidence: evidence? = null
     fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
-        this.evidence = evidence(name)
+        this.evidence = evidence(name, context)
         return this.evidence!!.apply { evidence() }
-    }
-
-    fun generateClassesInContext(sb: StringBuilder) = evidence?.let {
-        sb.appendLine("class ${it.name}")
     }
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
@@ -22,7 +18,6 @@ class confirmation(name: String, note: String? = null) : Evidence<confirmation>(
         return buildString {
             appendLine(super.toString())
             evidence?.let {
-
                 appendLine(evidence.toString())
                 appendLine("""${it.name} $ASSOCIATE $name""")
             }

@@ -78,6 +78,18 @@ internal class diagram_8x_flowTest {
                             }
                         }
                     }
+
+                    fulfillment("支付推广费用") {
+                        request(rentingPlatform) {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation(prepaidUser) {
+                            key_timestamps("创建时间")
+                            key_data("金额")
+                        }
+                    }
                 }
             }
 

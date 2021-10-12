@@ -1,6 +1,12 @@
 package models
 
-data class Role(val name: String, val type: Type) {
+import dsl.context
+
+data class Role(val name: String, val type: Type, val context: context) {
+    init {
+        context.allClasses.add(name)
+    }
+
     var participant: Participant? = null
 
     enum class Type {

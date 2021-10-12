@@ -2,7 +2,7 @@ package dsl
 
 import models.Evidence
 
-class detail(name: String) : Evidence<detail>(name) {
+class detail(name: String, context: context) : Evidence<detail>(name, context) {
 
     override fun invoke(function: detail.() -> Unit): detail {
         return apply { function() }

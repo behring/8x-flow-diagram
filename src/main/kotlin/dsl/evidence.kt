@@ -2,7 +2,7 @@ package dsl
 
 import models.Evidence
 
-class evidence(name: String) : Evidence<evidence>(name) {
+class evidence(name: String, context: context) : Evidence<evidence>(name, context) {
     private var roles: MutableList<confirmation> = mutableListOf()
     var detail: detail? = null
 
@@ -11,12 +11,8 @@ class evidence(name: String) : Evidence<evidence>(name) {
     }
 
     fun detail(name: String, detail: detail.() -> Unit): detail {
-        this.detail = detail(name)
+        this.detail = detail(name, context)
         return this.detail!!.apply { detail() }
-    }
-
-    fun generateClassesInContext(sb: StringBuilder) = detail?.let {
-        sb.appendLine("class ${it.name}")
     }
 
     override fun invoke(function: evidence.() -> Unit): evidence {

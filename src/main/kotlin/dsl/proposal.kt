@@ -2,7 +2,7 @@ package dsl
 
 import models.Evidence
 
-class proposal(name: String) : Evidence<proposal>(name) {
+class proposal(name: String, context: context) : Evidence<proposal>(name, context) {
 
     override fun invoke(function: proposal.() -> Unit): proposal {
         return apply { function() }

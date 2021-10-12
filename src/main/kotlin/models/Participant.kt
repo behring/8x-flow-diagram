@@ -1,9 +1,12 @@
 package models
 
 import dsl.ASSOCIATE
-import dsl.PLAY_TO
+import dsl.context
 
-data class Participant(val name: String, val type: Type) {
+data class Participant(val name: String, val type: Type, val context: context) {
+    init {
+        context.allClasses.add(name)
+    }
     private val associates: MutableList<Evidence<*>> = mutableListOf()
 
     enum class Type {
