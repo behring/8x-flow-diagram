@@ -4,13 +4,7 @@ import models.Participant
 
 class context(val name: String) : Flow<context> {
     var contracts: MutableList<contract> = mutableListOf()
-    var evidences: MutableList<evidence> = mutableListOf()
     var participants: MutableList<Participant> = mutableListOf()
-
-    fun evidence(name: String, evidence: evidence.() -> Unit) = evidence(name).apply {
-        evidences.add(this)
-        evidence()
-    }
 
     fun participant_party(name: String): Participant =
         Participant(name, Participant.Type.PARTY).apply { participants.add(this) }
@@ -44,9 +38,7 @@ class context(val name: String) : Flow<context> {
             contract.fulfillments.forEach { fulfillment ->
                 appendLine("class ${fulfillment.request.name}")
                 appendLine("class ${fulfillment.confirmation.name}")
-                fulfillment.confirmation.evidence?.let {
-                    appendLine("class ${it.name}")
-                }
+                fulfillment.confirmation.generateClassesInContext(this)
             }
         }
     }

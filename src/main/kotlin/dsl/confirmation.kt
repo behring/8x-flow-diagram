@@ -4,9 +4,13 @@ import models.Evidence
 
 class confirmation(name: String, note: String? = null) : Evidence<confirmation>(name, note) {
     var evidence: evidence? = null
+    fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
+        this.evidence = evidence(name)
+        return this.evidence!!.apply { evidence() }
+    }
 
-    fun produce(evidence: evidence) {
-        this.evidence = evidence
+    fun generateClassesInContext(sb: StringBuilder) = evidence?.let {
+        sb.appendLine("class ${it.name}")
     }
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
@@ -18,8 +22,9 @@ class confirmation(name: String, note: String? = null) : Evidence<confirmation>(
         return buildString {
             appendLine(super.toString())
             evidence?.let {
-                appendLine(it.toString())
-                appendLine("""${name} -- ${it.name}""")
+
+                appendLine(evidence.toString())
+                appendLine("""${it.name} -- $name""")
             }
         }
     }

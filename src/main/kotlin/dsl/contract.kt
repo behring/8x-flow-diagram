@@ -9,7 +9,7 @@ class contract(name: String) : Evidence<contract>(name) {
 
     fun role_party(name: String): Role = Role(name, Role.Type.PARTY).apply { roles.add(this) }
 
-    fun fulfillment(name: String, fulfillment: fulfillment.() -> Unit) =  with(fulfillment(name)) {
+    fun fulfillment(name: String, fulfillment: fulfillment.() -> Unit): fulfillment = fulfillment(name).apply {
         fulfillments.add(this)
         fulfillment()
     }

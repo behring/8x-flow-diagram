@@ -1,4 +1,5 @@
 import dsl.diagram_8x_flow
+import dsl.fulfillment
 import org.junit.Test
 
 internal class diagram_8x_flowTest {
@@ -41,6 +42,8 @@ internal class diagram_8x_flowTest {
     @Test
     fun create_contact_diagram() {
         diagram_8x_flow {
+
+            lateinit var refundInPrepaidContext: fulfillment
             context("预充值协议上下文") {
                 val houseAgent = participant_party("房产经纪人")
                 contract("预充值协议") {
@@ -60,7 +63,7 @@ internal class diagram_8x_flowTest {
                         }
                     }
 
-                    fulfillment("余额退款") {
+                    refundInPrepaidContext = fulfillment("余额退款") {
                         request(prepaidUser) {
                             key_timestamps("创建时间", "过期时间")
                             key_data("金额")
@@ -87,10 +90,10 @@ internal class diagram_8x_flowTest {
                             key_timestamps("创建时间")
                             key_data("金额")
 
-                            produce(evidence("支付凭证") {
+                            evidence("支付凭证") {
                                 key_timestamps("支付时间")
                                 key_data("金额")
-                            })
+                            } role refundInPrepaidContext.confirmation
                         }
                     }
                 }

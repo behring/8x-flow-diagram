@@ -1,6 +1,5 @@
 package dsl
 
-import models.Role
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
@@ -34,8 +33,8 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
             appendLine("hide circle")
             contexts.forEach { context ->
                 appendLine(context.toString())
-                context.participants.forEach { participant ->
-                    appendLine(participant.toString())
+                context.participants.forEach {
+                    appendLine(it.toString())
                 }
 
                 context.contracts.forEach { contract ->
