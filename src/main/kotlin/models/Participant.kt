@@ -1,6 +1,5 @@
 package models
 
-import dsl.ASSOCIATE
 import dsl.context
 
 data class Participant(val name: String, val type: Type, val context: context) {

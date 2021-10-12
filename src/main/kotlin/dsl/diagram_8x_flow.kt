@@ -1,14 +1,10 @@
 package dsl
 
-import models.Role
+import models.*
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
 
-const val ONE_TO_N = """ "1" -- "N" """
-const val ONE_TO_ONE = """ "1" -- "1" """
-const val ASSOCIATE = """ -- """
-const val PLAY_TO = """ ..> """
 
 interface Flow<T> {
     operator fun invoke(function: T.() -> Unit): T
@@ -24,6 +20,13 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
     fun context(name: String, context: context.() -> Unit) = with(context(name)) {
         contexts.add(this)
         context()
+    }
+
+    fun getAssociateLink(type: AssociationType): String = when (type) {
+        AssociationType.ONE_TO_ONE -> ONE_TO_ONE
+        AssociationType.ONE_TO_N -> ONE_TO_N
+        AssociationType.N_TO_N -> N_TO_N
+        AssociationType.NONE -> ASSOCIATE
     }
 
     fun generateGenerics(role: Role?): String? = role?.let {

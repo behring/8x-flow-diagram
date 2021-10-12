@@ -1,5 +1,6 @@
 package dsl
 
+import models.ASSOCIATE
 import models.Evidence
 
 class confirmation(name: String, context: context, generics: String?, note: String? = null) :

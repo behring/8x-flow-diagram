@@ -1,5 +1,6 @@
 import dsl.diagram_8x_flow
 import dsl.fulfillment
+import models.AssociationType.*
 import org.junit.Test
 
 internal class diagram_8x_flowTest {
@@ -161,7 +162,7 @@ internal class diagram_8x_flowTest {
                     contract("信息推广服务合同", advertiser, promoter) {
                         key_timestamps("签订时间")
 
-                        fulfillment("推广重启") {
+                        fulfillment("推广重启", ONE_TO_N) {
                             request(advertiser) {
                                 key_timestamps("创建时间", "过期时间")
                             }
@@ -170,7 +171,7 @@ internal class diagram_8x_flowTest {
                             }
                         }
 
-                        fulfillment("推广取消") {
+                        fulfillment("推广取消", ONE_TO_N) {
                             request(advertiser) {
                                 key_timestamps("创建时间", "过期时间")
                             }
@@ -179,7 +180,7 @@ internal class diagram_8x_flowTest {
                             }
                         }
 
-                        fulfillment("支付") {
+                        fulfillment("支付", ONE_TO_N) {
                             request(promoter) {
                                 key_timestamps("创建时间", "过期时间", "终止时间")
                                 key_data("金额")
@@ -190,13 +191,14 @@ internal class diagram_8x_flowTest {
                             }
                         }
 
-                        fulfillment("信息推广") {
+                        fulfillment("信息推广", ONE_TO_N) {
                             request(advertiser) {
                                 key_timestamps("创建时间", "过期时间", "终止时间")
                             }
                             confirmation(promoter) {
                                 key_timestamps("创建时间")
                             }
+                            associate(ONE_TO_N)
                         }
 
                     }

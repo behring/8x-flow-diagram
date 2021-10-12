@@ -1,15 +1,21 @@
 package dsl
 
-import models.Evidence
-import models.Role
+import dsl.diagram_8x_flow.getAssociateLink
+import models.*
 
-class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context) {
-    var fulfillments: MutableList<fulfillment> = mutableListOf()
+class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context),
+    Association {
+    var fulfillments: MutableList<Pair<fulfillment, AssociationType>> = mutableListOf()
 
-    fun fulfillment(name: String, fulfillment: fulfillment.() -> Unit): fulfillment = fulfillment(name, context).apply {
-        fulfillments.add(this)
-        fulfillment()
-    }
+    fun fulfillment(
+        name: String,
+        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        fulfillment: fulfillment.() -> Unit
+    ): fulfillment =
+        fulfillment(name, context).apply {
+            fulfillments.add(Pair(this, associationType))
+            fulfillment()
+        }
 
     override fun invoke(function: contract.() -> Unit): contract {
         return apply { function() }
@@ -17,6 +23,10 @@ class contract(name: String, context: context, private vararg val roles: Role) :
 
     override val type: String
         get() = contract::class.java.simpleName
+
+    override fun associate(type: AssociationType) {
+        TODO("Not yet implemented")
+    }
 
     override fun toString(): String {
         return buildString {
@@ -29,11 +39,11 @@ class contract(name: String, context: context, private vararg val roles: Role) :
                 }
             }
 
-            fulfillments.forEach { fulfillment ->
-                appendLine("""$name $ONE_TO_N ${fulfillment.request.name}""")
-                appendLine(fulfillment.request.toString())
-                appendLine("""${fulfillment.request.name} $ONE_TO_ONE ${fulfillment.confirmation.name}""")
-                appendLine(fulfillment.confirmation.toString())
+            fulfillments.forEach {
+                appendLine("""$name ${getAssociateLink(it.second)} ${it.first.request.name}""")
+                appendLine(it.first.request.toString())
+                appendLine(it.first.toString())
+                appendLine(it.first.confirmation.toString())
             }
         }
     }

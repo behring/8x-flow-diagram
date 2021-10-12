@@ -1,6 +1,7 @@
 package dsl
 
 import models.Evidence
+import models.ONE_TO_ONE
 import models.Role
 
 class proposal(name: String, context: context, generics: String?, note: String? = null) :
