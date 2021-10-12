@@ -3,13 +3,12 @@ package dsl
 import dsl.diagram_8x_flow.generateGenerics
 import models.Participant
 import models.Role
-import java.lang.IllegalArgumentException
-
 
 class context(val name: String) : Flow<context> {
     val allClasses: MutableList<String> = mutableListOf()
+    val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
-    private val proposals: MutableList<proposal> = mutableListOf()
+    private val rfps: MutableList<rfp> = mutableListOf()
     private val participants: MutableList<Participant> = mutableListOf()
     private var roles: MutableList<Role> = mutableListOf()
 
@@ -24,6 +23,13 @@ class context(val name: String) : Flow<context> {
     fun participant_thing(name: String): Participant =
         Participant(name, Participant.Type.THING, this).apply { participants.add(this) }
 
+
+    fun rfp(name: String, role: Role, rfp: rfp.() -> Unit) = with(
+        rfp(name, this, generateGenerics(role))
+    ) {
+        rfps.add(this)
+        rfp()
+    }
 
     fun proposal(name: String, role: Role, proposal: proposal.() -> Unit) = with(
         proposal(name, this, generateGenerics(role))
@@ -50,6 +56,11 @@ class context(val name: String) : Flow<context> {
             }
         """.trimIndent()
         )
+
+        rfps.forEach {
+            appendLine(it.toString())
+        }
+
         proposals.forEach {
             appendLine(it.toString())
         }

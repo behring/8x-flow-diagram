@@ -6,7 +6,7 @@ import models.Role
 
 class proposal(name: String, context: context, generics: String?, note: String? = null) :
     Evidence<proposal>(name, context, generics, note) {
-    lateinit var contract: contract
+    private lateinit var contract: contract
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
         this.contract = contract(name,context, *roles).apply {

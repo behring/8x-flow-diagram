@@ -1,5 +1,6 @@
 import dsl.diagram_8x_flow
 import dsl.fulfillment
+import dsl.rfp
 import models.AssociationType.*
 import org.junit.Test
 
@@ -141,7 +142,7 @@ internal class diagram_8x_flowTest {
                 }
             }
 
-        }.createDiagram("./prepaid_contract_diagram.png")
+        }.createDiagram("./diagrams/prepaid_contract_diagram.png")
     }
 
     @Test
@@ -204,6 +205,31 @@ internal class diagram_8x_flowTest {
                     }
                 }
             }
-        }.createDiagram("./info_promotion_contract_diagram.png")
+        }.createDiagram("./diagrams/info_promotion_contract_diagram.png")
+    }
+
+    @Test
+    fun create_contract_with_rfp_diagram() {
+        diagram_8x_flow {
+            context("商品销售上下文") {
+                val seller = role_party("卖家")
+                val buyer = role_party("买家")
+
+                rfp("询问商品价格", buyer) {
+                    key_timestamps("创建时间")
+
+                    proposal("商品报价方案", seller) {
+                        key_timestamps("创建时间")
+                        key_data("报价金额")
+
+                        participant_thing("商品") associate this
+
+                        contract("商品订单合同", seller, buyer) {
+                            key_timestamps("签订时间")
+                        }
+                    }
+                }
+            }
+        }.createDiagram("./diagrams/contract_with_rfp_diagram.png")
     }
 }
