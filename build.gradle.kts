@@ -14,6 +14,7 @@ repositories {
 dependencies {
     implementation(kotlin("script-runtime"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    testImplementation(kotlin("test"))
 }
 
 tasks.test {

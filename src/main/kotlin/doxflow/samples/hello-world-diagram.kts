@@ -1,4 +1,6 @@
-import dsl.diagram_8x_flow
+package doxflow.samples
+
+import doxflow.diagram_8x_flow
 
 diagram_8x_flow {
     context("商品销售上下文") {
@@ -6,4 +8,4 @@ diagram_8x_flow {
             key_timestamps("签订时间")
         }
     }
-} diagram "../../../diagrams/hello-word-diagram.png"
+} export "diagrams/hello-word-diagram.png"

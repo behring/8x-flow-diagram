@@ -1,4 +1,6 @@
-import dsl.diagram_8x_flow
+package doxflow.samples
+
+import doxflow.diagram_8x_flow
 
 diagram_8x_flow {
     context("商品销售上下文") {
@@ -20,4 +22,4 @@ diagram_8x_flow {
             }
         }
     }
-} diagram "../../../diagrams/contract_with_rfp_diagram.png"
+} export "diagrams/contract_with_rfp_diagram.png"

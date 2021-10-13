@@ -1,5 +1,7 @@
-import dsl.diagram_8x_flow
-import dsl.fulfillment
+package doxflow.samples
+
+import doxflow.diagram_8x_flow
+import doxflow.dsl.fulfillment
 
 diagram_8x_flow {
     lateinit var refundInPrepaidContext: fulfillment
@@ -136,4 +138,4 @@ diagram_8x_flow {
         }
     }
 
-} diagram "../../../diagrams/prepaid_contract_diagram.png"
+} export "diagrams/prepaid_contract_diagram.png"

@@ -1,14 +1,14 @@
-package models
+package doxflow.models
 
-import dsl.Flow
-import dsl.context
+import common.DSL
+import doxflow.dsl.context
 
 abstract class Evidence<T>(
     val name: String,
     val context: context,
     private val generics: String? = null,
     private val note: String? = null
-) : Flow<T> {
+) : DSL<T> {
     init {
         context.allClasses.add(name)
     }

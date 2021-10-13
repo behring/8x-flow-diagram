@@ -1,10 +1,11 @@
-package dsl
+package doxflow.dsl
 
-import dsl.diagram_8x_flow.generateGenerics
-import models.Participant
-import models.Role
+import common.DSL
+import doxflow.diagram_8x_flow.generateGenerics
+import doxflow.models.Participant
+import doxflow.models.Role
 
-class context(val name: String) : Flow<context> {
+class context(val name: String) : DSL<context> {
     val allClasses: MutableList<String> = mutableListOf()
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
@@ -60,9 +61,9 @@ class context(val name: String) : Flow<context> {
     private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
         .flatMap { it }.forEach { appendLine(it.toString()) }
 
-    private fun StringBuilder.addClassesToContext() = """        
-            package <color:black>$name</color> {
-                ${allClasses.forEach { appendLine("class $it") }}
-            }
-        """.trimIndent()
+    private fun StringBuilder.addClassesToContext() = apply {
+        appendLine("package <color:black>$name</color> {")
+        allClasses.forEach { appendLine("class $it") }
+        appendLine("}")
+    }
 }

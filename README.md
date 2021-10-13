@@ -29,7 +29,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 2. 键入如下代码：
 
    ```kotlin
-   import dsl.diagram_8x_flow
+   import doxflow.dsl.diagram_8x_flow
    
    diagram_8x_flow {
        context("商品销售上下文") {
@@ -37,7 +37,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
                key_timestamps("签订时间")
            }
        }
-   } diagram "../../../diagrams/hello-word-diagram.png"
+   } export "../../../diagrams/hello-word-diagram.png"
    ```
 
 3. 右键该文件运行，在`8x-flow-diagram/diagrams`目录下查看`hello-word-diagram.png`文件。
@@ -48,12 +48,12 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 
 ### **diagram_8x_flow**
 
-用来表示**生成一张8xflow业务建模图**，通过`diagram`来生成最终png图片。用法如下：
+用来表示**生成一张8xflow业务建模图**，通过`export`来生成最终png图片。用法如下：
 
 ```kotlin
 diagram_8x_flow {
    ...
-} diagram "../../../diagrams/hello-word-diagram.png"
+} export "../../../diagrams/hello-word-diagram.png"
 ```
 
 ### context
@@ -70,7 +70,7 @@ diagram_8x_flow {
   context("三方支付上下文") {
      ...
   }
-} diagram "../../../diagrams/hello-word-diagram.png"
+} export "../../../diagrams/hello-word-diagram.png"
 ```
 
 ### rfp（非必选）
@@ -90,7 +90,7 @@ diagram_8x_flow {
           	key_data("报价")
         }
     }
-} diagram "../../../diagrams/contract_with_rfp_diagram.png"
+} export "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
 >注意：不能指定rfp和proposal之间的关联关系，默认1对1。
@@ -115,7 +115,7 @@ diagram_8x_flow {
             }
         }
     }
-} diagram "../../../diagrams/contract_with_rfp_diagram.png"
+} export "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
 > 注意：不能指定proposal和contract之间的关联关系，默认1对1。
@@ -147,7 +147,7 @@ diagram_8x_flow {
             }
         }
     }
-} diagram "../../../diagrams/contract_with_rfp_diagram.png"
+} export "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
 ### fulfillment
@@ -155,7 +155,7 @@ diagram_8x_flow {
 fulfillment表示**一组履约项**，包含**request**和**confirmation**。我们可以通过`AssociationType`来指定contract和fulfillment之间的对应关系。
 
 ```kotlin
-import models.AssociationType.*
+import doxflow.common.AssociationType.*
 ...
  context("信息推广上下文") {
    			// 可以通过played关键字让参与方party扮演角色party
@@ -253,7 +253,7 @@ diagram_8x_flow {
             }
         }
     }
-} diagram "../../../diagrams/prepaid_contract_diagram.png"
+} export "../../../diagrams/prepaid_contract_diagram.png"
 
 ```
 

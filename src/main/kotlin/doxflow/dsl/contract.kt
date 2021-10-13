@@ -1,7 +1,9 @@
-package dsl
+package doxflow.dsl
 
-import dsl.diagram_8x_flow.getAssociateLink
-import models.*
+import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.models.ONE_TO_ONE
+import doxflow.models.PLAY_TO
+import doxflow.models.*
 
 class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context),
     Association {

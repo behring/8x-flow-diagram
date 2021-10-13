@@ -1,8 +1,8 @@
-package dsl
+package doxflow.dsl
 
-import models.Evidence
-import models.ONE_TO_ONE
-import models.Role
+import doxflow.models.Evidence
+import doxflow.models.ONE_TO_ONE
+import doxflow.models.Role
 
 class proposal(name: String, context: context, generics: String?, note: String? = null) :
     Evidence<proposal>(name, context, generics, note) {

@@ -1,6 +1,6 @@
-package models
+package doxflow.models
 
-import dsl.context
+import doxflow.dsl.context
 
 data class Role(val name: String, val type: Type, val context: context) {
     init {

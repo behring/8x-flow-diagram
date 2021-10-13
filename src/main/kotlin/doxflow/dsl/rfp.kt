@@ -1,9 +1,9 @@
-package dsl
+package doxflow.dsl
 
-import dsl.diagram_8x_flow.generateGenerics
-import models.Evidence
-import models.ONE_TO_ONE
-import models.Role
+import doxflow.diagram_8x_flow.generateGenerics
+import doxflow.models.Evidence
+import doxflow.models.ONE_TO_ONE
+import doxflow.models.Role
 
 class rfp(name: String, context: context, generics: String?, note: String? = null) :
     Evidence<rfp>(name, context, generics, note) {

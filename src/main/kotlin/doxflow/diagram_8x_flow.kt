@@ -1,21 +1,14 @@
-package dsl
+package doxflow
 
-import models.*
+import common.*
+import doxflow.dsl.context
+import doxflow.models.*
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
 
-
-interface Flow<T> {
-    operator fun invoke(function: T.() -> Unit): T
-}
-
-object diagram_8x_flow : Flow<diagram_8x_flow> {
+object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
     private var contexts: MutableList<context> = mutableListOf()
-
-    override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow {
-        return apply { function() }
-    }
 
     fun context(name: String, context: context.() -> Unit) = with(context(name)) {
         contexts.add(this)
@@ -35,7 +28,9 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
         """.trimIndent()
     }
 
-    infix fun diagram(filePath: String) {
+    override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply { function() }
+
+    override infix fun export(filePath: String) {
         generateDiagram(buildString {
             appendLine("@startuml")
 //            appendLine("skinparam backgroundColor transparent")
@@ -49,7 +44,7 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
                 appendLine(context.toString())
             }
             appendLine("@enduml")
-        }, filePath)
+        }, filePath).apply { if (this) contexts.clear()}
 
     }
 

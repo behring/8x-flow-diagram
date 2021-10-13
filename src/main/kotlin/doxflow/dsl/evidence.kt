@@ -1,8 +1,9 @@
-package dsl
+package doxflow.dsl
 
-import models.AssociationType
-import models.Evidence
-import models.PLAY_TO
+import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.models.AssociationType
+import doxflow.models.Evidence
+import doxflow.models.PLAY_TO
 
 class evidence(name: String, context: context) : Evidence<evidence>(name, context) {
     private var roles: MutableList<confirmation> = mutableListOf()
@@ -38,7 +39,7 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
             }
             detailAssociation?.let {
                 appendLine(it.first.toString())
-                appendLine("""$name ${diagram_8x_flow.getAssociateLink(it.second)} ${it.first.name}""")
+                appendLine("""$name ${getAssociateLink(it.second)} ${it.first.name}""")
             }
         }
     }

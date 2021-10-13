@@ -1,13 +1,13 @@
-package dsl
+package doxflow.dsl
 
-import dsl.diagram_8x_flow.generateGenerics
-import dsl.diagram_8x_flow.getAssociateLink
-import models.Association
-import models.AssociationType
-import models.ONE_TO_ONE
-import models.Role
+import common.DSL
+import doxflow.diagram_8x_flow.generateGenerics
+import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.models.Association
+import doxflow.models.AssociationType
+import doxflow.models.Role
 
-class fulfillment(val name: String, val context: context) : Flow<fulfillment>, Association {
+class fulfillment(val name: String, val context: context) : DSL<fulfillment>, Association {
     lateinit var request: request
     lateinit var confirmation: confirmation
     private var associateType: AssociationType = AssociationType.ONE_TO_ONE

@@ -1,5 +1,7 @@
-import dsl.diagram_8x_flow
-import models.AssociationType
+package doxflow.samples
+
+import doxflow.diagram_8x_flow
+import doxflow.models.AssociationType
 
 diagram_8x_flow {
     context("信息推广上下文") {
@@ -59,4 +61,4 @@ diagram_8x_flow {
             }
         }
     }
-} diagram "../../../diagrams/info_promotion_contract_diagram.png"
+} export "diagrams/info_promotion_contract_diagram.png"
