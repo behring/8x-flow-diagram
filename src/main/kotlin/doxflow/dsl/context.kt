@@ -49,9 +49,7 @@ class context(val name: String) : DSL<context> {
             contract()
         }
 
-    override fun invoke(function: context.() -> Unit): context {
-        return apply { function() }
-    }
+    override fun invoke(function: context.() -> Unit): context = apply { function() }
 
     override fun toString(): String = buildString {
         addClassesToContext();
