@@ -53,38 +53,16 @@ class context(val name: String) : Flow<context> {
     }
 
     override fun toString(): String = buildString {
-        appendLine(
-            """        
+        addClassesToContext();
+        generateClasses()
+    }
+
+    private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
+        .flatMap { it }.forEach { appendLine(it.toString()) }
+
+    private fun StringBuilder.addClassesToContext() = """        
             package <color:black>$name</color> {
-                ${generateClassesInContext()}
+                ${allClasses.forEach { appendLine("class $it") }}
             }
         """.trimIndent()
-        )
-
-        rfps.forEach {
-            appendLine(it.toString())
-        }
-
-        proposals.forEach {
-            appendLine(it.toString())
-        }
-
-        participants.forEach {
-            appendLine(it.toString())
-        }
-
-        contracts.forEach {
-            appendLine(it.toString())
-        }
-
-        roles.forEach {
-            appendLine(it.toString())
-        }
-    }
-
-    private fun generateClassesInContext() = buildString {
-        allClasses.forEach {
-            appendLine("class $it")
-        }
-    }
 }
