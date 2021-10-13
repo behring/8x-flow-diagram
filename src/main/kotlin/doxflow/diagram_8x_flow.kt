@@ -30,28 +30,23 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
 
     override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply { function() }
 
-    override infix fun export(filePath: String) {
-        generateDiagram(buildString {
-            appendLine("@startuml")
+    override fun buildPlantUmlString(): String = buildString {
+        appendLine("@startuml")
 //            appendLine("skinparam backgroundColor transparent")
 //            appendLine("skinparam defaultFontColor White")
 //            appendLine("skinparam arrowFontColor Black")
-            appendLine("skinparam classFontColor White")
-            appendLine("skinparam classAttributeFontColor White")
-            appendLine("skinparam roundCorner 10")
-            appendLine("hide circle")
-            contexts.forEach { context ->
-                appendLine(context.toString())
-            }
-            appendLine("@enduml")
-        }, filePath).apply { if (this) contexts.clear()}
-
+        appendLine("skinparam classFontColor White")
+        appendLine("skinparam classAttributeFontColor White")
+        appendLine("skinparam roundCorner 10")
+        appendLine("hide circle")
+        contexts.forEach { context ->
+            appendLine(context.toString())
+        }
+        appendLine("@enduml")
     }
 
-    private fun generateDiagram(plantUmlStr: String, filePath: String): Boolean {
-        println(plantUmlStr)
-        println(filePath)
-        return SourceStringReader(plantUmlStr).outputImage(FileOutputStream(File(filePath))).description != null
+    override fun exportResult(isSuccess: Boolean) {
+        if (isSuccess) contexts.clear()
     }
 }
 
