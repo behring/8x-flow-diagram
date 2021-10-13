@@ -37,10 +37,10 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
                key_timestamps("签订时间")
            }
        }
-   }.createDiagram("../../../diagrams/hello-word-diagram.png")
+   } diagram "../../../diagrams/hello-word-diagram.png"
    ```
 
-3. 邮件该文件运行，在`8x-flow-diagram/diagrams`目录下查看`ello-word-diagram.png`文件。
+3. 右键该文件运行，在`8x-flow-diagram/diagrams`目录下查看`hello-word-diagram.png`文件。
 
    ![商品订单合同](./images/hello-word-diagram.png)
 
@@ -48,12 +48,12 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 
 ### **diagram_8x_flow**
 
-用来表示**生成一张8xflow业务建模图**，通过`createDiagram`来生成最终png图片。用法如下：
+用来表示**生成一张8xflow业务建模图**，通过`diagram`来生成最终png图片。用法如下：
 
 ```kotlin
 diagram_8x_flow {
    ...
-}.createDiagram("../../../diagrams/hello-word-diagram.png")
+} diagram "../../../diagrams/hello-word-diagram.png"
 ```
 
 ### context
@@ -70,7 +70,7 @@ diagram_8x_flow {
   context("三方支付上下文") {
      ...
   }
-}.createDiagram("../../../diagrams/hello-word-diagram.png")
+} diagram "../../../diagrams/hello-word-diagram.png"
 ```
 
 ### rfp（非必选）
@@ -90,7 +90,7 @@ diagram_8x_flow {
           	key_data("报价")
         }
     }
-}.createDiagram("../../../diagrams/contract_with_rfp_diagram.png")
+} diagram "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
 >注意：不能指定rfp和proposal之间的关联关系，默认1对1。
@@ -115,7 +115,7 @@ diagram_8x_flow {
             }
         }
     }
-}.createDiagram("../../../diagrams/contract_with_rfp_diagram.png")
+} diagram "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
 > 注意：不能指定proposal和contract之间的关联关系，默认1对1。
@@ -147,7 +147,7 @@ diagram_8x_flow {
             }
         }
     }
-}.createDiagram("../../../diagrams/contract_with_rfp_diagram.png")
+} diagram "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
 ### fulfillment
@@ -253,7 +253,7 @@ diagram_8x_flow {
             }
         }
     }
-}.createDiagram("../../../diagrams/prepaid_contract_diagram.png")
+} diagram "../../../diagrams/prepaid_contract_diagram.png"
 
 ```
 

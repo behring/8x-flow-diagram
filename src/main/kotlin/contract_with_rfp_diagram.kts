@@ -20,4 +20,4 @@ diagram_8x_flow {
             }
         }
     }
-}.createDiagram("../../../diagrams/contract_with_rfp_diagram.png")
+} diagram "../../../diagrams/contract_with_rfp_diagram.png"

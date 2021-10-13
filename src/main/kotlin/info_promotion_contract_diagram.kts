@@ -59,4 +59,4 @@ diagram_8x_flow {
             }
         }
     }
-}.createDiagram("../../../diagrams/info_promotion_contract_diagram.png")
+} diagram "../../../diagrams/info_promotion_contract_diagram.png"

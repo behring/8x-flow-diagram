@@ -6,4 +6,4 @@ diagram_8x_flow {
             key_timestamps("签订时间")
         }
     }
-}.createDiagram("../../../diagrams/hello-word-diagram.png")
+} diagram "../../../diagrams/hello-word-diagram.png"

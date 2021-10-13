@@ -35,7 +35,7 @@ object diagram_8x_flow : Flow<diagram_8x_flow> {
         """.trimIndent()
     }
 
-    fun createDiagram(filePath: String) {
+    infix fun diagram(filePath: String) {
         generateDiagram(buildString {
             appendLine("@startuml")
 //            appendLine("skinparam backgroundColor transparent")
