@@ -1,14 +1,14 @@
 package architecture.dsl
 
+import common.ChildElement
 import common.DSL
 
-data class process(val name: String) : DSL<process> {
+class process(name: String, private val layer: layer) : ChildElement(name, layer), DSL<process> {
     infix fun call(process: process) {
 
     }
 
-    fun component(name: String, function: (component.() -> Unit)? = null): component =
-        component(name).apply { function?.let { it() } }
+    fun component(name: String): component = component(name, layer)
 
     override fun invoke(function: process.() -> Unit): process = apply { function() }
 

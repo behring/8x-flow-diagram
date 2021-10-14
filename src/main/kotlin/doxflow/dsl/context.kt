@@ -1,14 +1,15 @@
 package doxflow.dsl
 
 import common.DSL
+import common.TopContainer
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.models.Participant
 import doxflow.models.Role
 
-class context(val name: String) : DSL<context> {
-    val allClasses: MutableList<String> = mutableListOf()
+class context(val name: String) : DSL<context>, TopContainer {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
+    private val childClasses: MutableList<String> = mutableListOf()
     private val rfps: MutableList<rfp> = mutableListOf()
     private val participants: MutableList<Participant> = mutableListOf()
     private var roles: MutableList<Role> = mutableListOf()
@@ -51,17 +52,17 @@ class context(val name: String) : DSL<context> {
 
     override fun invoke(function: context.() -> Unit): context = apply { function() }
 
+    override fun addElement(element: String) {
+        childClasses.add("class $element")
+    }
+
     override fun toString(): String = buildString {
-        addClassesToContext();
+        addElements(childClasses, name, "package")
         generateClasses()
     }
 
     private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
         .flatMap { it }.forEach { appendLine(it.toString()) }
 
-    private fun StringBuilder.addClassesToContext() = apply {
-        appendLine("package <color:black>$name</color> {")
-        allClasses.forEach { appendLine("class $it") }
-        appendLine("}")
-    }
+
 }

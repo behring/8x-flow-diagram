@@ -5,12 +5,25 @@ import common.DSL
 import common.Diagram
 
 object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
+    var layers: MutableList<layer> = mutableListOf()
 
-    fun layer(name: String, function: layer.() -> Unit) = with(layer(name)) { function() }
+    fun layer(name: String, function: layer.() -> Unit): layer = layer(name).apply {
+        layers.add(this)
+        function()
+    }
 
     override fun invoke(function: diagram_inter_process.() -> Unit): diagram_inter_process = apply { function() }
 
-    override fun buildPlantUmlString(): String {
-        return ""
+    override fun buildPlantUmlString(): String = """
+        |@startuml
+        |skinparam componentStyle rectangle
+        ${buildPlantUmlContent()}
+        |@enduml
+        """.trimMargin()
+
+    private fun buildPlantUmlContent(): String = buildString {
+        layers.forEach { layer ->
+            appendLine(layer.toString())
+        }
     }
 }

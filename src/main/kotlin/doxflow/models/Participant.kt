@@ -1,11 +1,9 @@
 package doxflow.models
 
+import common.ChildElement
 import doxflow.dsl.context
 
-data class Participant(val name: String, val type: Type, val context: context) {
-    init {
-        context.allClasses.add(name)
-    }
+class Participant(name: String, val type: Type, val context: context) : ChildElement(name, context) {
     private val associates: MutableList<Evidence<*>> = mutableListOf()
 
     enum class Type {

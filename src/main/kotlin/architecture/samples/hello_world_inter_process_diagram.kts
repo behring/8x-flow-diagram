@@ -1,5 +1,4 @@
 import architecture.diagram_inter_process
-import architecture.dsl.process
 
 diagram_inter_process {
     layer("应用服务") {
@@ -22,4 +21,4 @@ diagram_inter_process {
     layer("第三方系统") {
 
     }
-}
+} export "./diagrams/hello_world_inter_process_diagram.png"

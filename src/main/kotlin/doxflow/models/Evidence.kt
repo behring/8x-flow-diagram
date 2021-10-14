@@ -1,18 +1,15 @@
 package doxflow.models
 
+import common.ChildElement
 import common.DSL
 import doxflow.dsl.context
 
 abstract class Evidence<T>(
-    val name: String,
+    name: String,
     val context: context,
     private val generics: String? = null,
     private val note: String? = null
-) : DSL<T> {
-    init {
-        context.allClasses.add(name)
-    }
-
+) : ChildElement(name, context), DSL<T> {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
     abstract val type: String

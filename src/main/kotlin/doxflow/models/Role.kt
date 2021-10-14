@@ -1,12 +1,9 @@
 package doxflow.models
 
+import common.ChildElement
 import doxflow.dsl.context
 
-data class Role(val name: String, val type: Type, val context: context) {
-    init {
-        context.allClasses.add(name)
-    }
-
+class Role(name: String, val type: Type, val context: context) : ChildElement(name, context) {
     var participant: Participant? = null
 
     enum class Type {

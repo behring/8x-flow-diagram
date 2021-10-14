@@ -8,6 +8,27 @@ interface DSL<T> {
     operator fun invoke(function: T.() -> Unit): T
 }
 
+interface TopContainer {
+    fun addElement(element: String)
+
+    fun StringBuilder.addElements(
+        elements: List<String>,
+        topContainerName: String,
+        topContainerType: String
+    ) = apply {
+        appendLine("$topContainerType <color:black>$topContainerName</color> {")
+        elements.forEach { appendLine(it) }
+        appendLine("}")
+    }
+}
+
+open class ChildElement(val name: String, topContainer: TopContainer) {
+    init {
+        topContainer.addElement(name)
+    }
+}
+
+
 interface Diagram {
     fun buildPlantUmlString(): String
 
@@ -19,11 +40,18 @@ interface Diagram {
 
     private fun generateDiagram(filePath: String): Boolean {
         val plantumlStr = buildPlantUmlString()
-        println(plantumlStr)
-        println(filePath)
-        with(SourceStringReader(plantumlStr).outputImage(FileOutputStream(File(filePath))).description != null) {
+        println(
+            """
+            |================================
+            |   $plantumlStr
+            |================================
+            |   $filePath
+        """.trimMargin()
+        )
+
+        val file = File(filePath).apply { parentFile.mkdirs() }
+        with(SourceStringReader(plantumlStr).outputImage(FileOutputStream(file)).description != null) {
             return apply { exportResult(this) }
         }
-
     }
 }

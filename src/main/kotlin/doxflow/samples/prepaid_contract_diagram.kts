@@ -138,4 +138,4 @@ diagram_8x_flow {
         }
     }
 
-} export "diagrams/prepaid_contract_diagram.png"
+} export "./diagrams/prepaid_contract_diagram.png"

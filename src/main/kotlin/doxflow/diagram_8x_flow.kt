@@ -3,9 +3,6 @@ package doxflow
 import common.*
 import doxflow.dsl.context
 import doxflow.models.*
-import net.sourceforge.plantuml.SourceStringReader
-import java.io.File
-import java.io.FileOutputStream
 
 object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
     private var contexts: MutableList<context> = mutableListOf()
@@ -30,23 +27,29 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
 
     override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply { function() }
 
-    override fun buildPlantUmlString(): String = buildString {
-        appendLine("@startuml")
-//            appendLine("skinparam backgroundColor transparent")
-//            appendLine("skinparam defaultFontColor White")
-//            appendLine("skinparam arrowFontColor Black")
-        appendLine("skinparam classFontColor White")
-        appendLine("skinparam classAttributeFontColor White")
-        appendLine("skinparam roundCorner 10")
-        appendLine("hide circle")
-        contexts.forEach { context ->
-            appendLine(context.toString())
-        }
-        appendLine("@enduml")
-    }
+    /**
+     * skinparam backgroundColor transparent
+     * skinparam defaultFontColor White
+     * skinparam arrowFontColor Black
+     **/
+    override fun buildPlantUmlString(): String = """
+        |@startuml
+        |skinparam classFontColor White
+        |skinparam classAttributeFontColor White
+        |skinparam roundCorner 10
+        |hide circle
+        ${buildPlantUmlContent()}
+        |@enduml
+        """.trimMargin()
 
     override fun exportResult(isSuccess: Boolean) {
         if (isSuccess) contexts.clear()
+    }
+
+    private fun buildPlantUmlContent(): String = buildString {
+        contexts.forEach { context ->
+            appendLine(context.toString())
+        }
     }
 }
 

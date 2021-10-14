@@ -8,4 +8,4 @@ diagram_8x_flow {
             key_timestamps("签订时间")
         }
     }
-} export "diagrams/hello-word-diagram.png"
+} export "./diagrams/hello_word_diagram.png"
