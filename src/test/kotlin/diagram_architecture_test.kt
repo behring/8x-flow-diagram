@@ -26,6 +26,6 @@ internal class diagram_architecture_test {
             layer("第三方系统") {
 
             }
-        } export "./diagrams/hello_world_inter_process_diagram.png"
+        } export "./diagrams/inter_process_diagram.png"
     }
 }

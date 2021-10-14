@@ -27,9 +27,13 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     private fun buildPlantUmlContent(): String = buildString {
         layers.forEach { layer ->
             appendLine(layer.toString())
-            layer.processes.forEach { process ->
-                appendLine(process.toString())
-            }
+        }
+        /**
+         * 注意：此方法不能再layers.forEach中继续对process进行forEach调用，
+         * 必须在所有的layer构建完成后再构建process，否则生成图中，process会脱离layer
+         * */
+        layers.flatMap { it.processes }.forEach {
+            appendLine(it.toString())
         }
     }
 }

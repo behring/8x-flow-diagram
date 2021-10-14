@@ -1,6 +1,25 @@
 import architecture.diagram_inter_process
 
 diagram_inter_process {
+    layer("前端", "#Cyan") {
+        process("思沃租房通用版Web端")
+        process("思沃租房App个人版Android端")
+        process("思沃租房App个人版IOS端")
+        process("思沃租房App经纪人版Android端")
+        process("思沃租房App经纪人版IOS端")
+        process("后台管理系统Web端")
+    }
+
+    layer("BFF", "#RoyalBlue") {
+        process("思沃租房WebBFF")
+        process("思沃租房MobileBFF")
+    }
+
+    layer("技术组件", "#RoyalBlue") {
+        process("支付网关")
+        process("三方服务网关")
+    }
+
     layer("应用服务", "#LightSeaGreen") {
         process("租赁信息应用服务")
         process("推广服务应用服务")
@@ -17,6 +36,7 @@ diagram_inter_process {
     layer("领域服务", "#orange") {
         process("房屋信息管理系统")
         process("用户账户管理系统")
+        process("鉴权认证服务")
     }
 
     layer("第三方系统", "#gray") {
@@ -27,4 +47,4 @@ diagram_inter_process {
         process("发票代开服务")
         process("短信发送服务")
     }
-} export "./diagrams/hello_world_inter_process_diagram.png"
+} export "./diagrams/tw_renting_inter_process_diagram.png"
