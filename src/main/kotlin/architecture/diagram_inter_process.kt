@@ -9,7 +9,7 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     var layers: MutableList<layer> = mutableListOf()
 
     fun layer(name: String, color: String? = null, function: layer.() -> Unit): layer =
-        layer(Element(name, "package", color)).apply {
+        layer(Element(name, "rectangle", color)).apply {
             layers.add(this)
             function()
         }
