@@ -1,5 +1,6 @@
 package doxflow
 
+import architecture.models.Element
 import common.*
 import doxflow.dsl.context
 import doxflow.models.*
@@ -7,7 +8,7 @@ import doxflow.models.*
 object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
     private var contexts: MutableList<context> = mutableListOf()
 
-    fun context(name: String, context: context.() -> Unit) = with(context(name)) {
+    fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "package"))) {
         contexts.add(this)
         context()
     }
@@ -21,7 +22,7 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
 
     fun generateGenerics(role: Role?): String? = role?.let {
         """
-            < <<${role.type.name.lowercase()}>> \n ${role.name} >
+            < <<${role.type.name.lowercase()}>> \n ${role.element.name} >
         """.trimIndent()
     }
 

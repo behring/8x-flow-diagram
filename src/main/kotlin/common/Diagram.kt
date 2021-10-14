@@ -1,5 +1,6 @@
 package common
 
+import architecture.models.Element
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
@@ -8,19 +9,18 @@ interface DSL<T> {
     operator fun invoke(function: T.() -> Unit): T
 }
 
-interface TopContainer {
+interface ParentContainer {
     val backgroundColor: String?
         get() = null
 
-    fun addElement(element: String)
+    fun addElement(element: Element)
 
     fun StringBuilder.addElements(
         elements: List<String>,
-        topContainerName: String,
-        topContainerType: String
+        container: Element
     ) = appendLine(
         """
-        |$topContainerType <color:black>$topContainerName</color> {
+        |${container.type} <color:black>${container.name}</color> {
         |   ${generateElementsStr(elements)}
         |}""".trimMargin()
     )
@@ -30,9 +30,11 @@ interface TopContainer {
     }
 }
 
-open class ChildElement(val name: String, topContainer: TopContainer) {
+open class ChildElement(element: Element, container: ParentContainer) {
+    constructor(name: String, type: String, container: ParentContainer) : this(Element(name, type), container)
+
     init {
-        topContainer.addElement(name)
+        container.addElement(element)
     }
 }
 

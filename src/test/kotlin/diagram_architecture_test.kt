@@ -1,10 +1,5 @@
 import architecture.diagram_inter_process
-import architecture.dsl.layer
-import doxflow.diagram_8x_flow
-import doxflow.dsl.fulfillment
-import doxflow.models.AssociationType.*
 import org.junit.Test
-import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 internal class diagram_architecture_test {

@@ -1,9 +1,10 @@
 package doxflow.models
 
+import architecture.models.Element
 import common.ChildElement
 import doxflow.dsl.context
 
-class Role(name: String, val type: Type, val context: context) : ChildElement(name, context) {
+class Role(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {
     var participant: Participant? = null
 
     enum class Type {
@@ -17,7 +18,7 @@ class Role(name: String, val type: Type, val context: context) : ChildElement(na
 
     override fun toString(): String {
         return """
-            class $name <<${type.name.lowercase()}>> #orange
+            class ${element.name} <<${type.name.lowercase()}>> #orange
         """.trimIndent()
     }
 }
