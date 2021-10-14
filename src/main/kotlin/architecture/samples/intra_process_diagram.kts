@@ -24,4 +24,4 @@ diagram_intra_process {
     process("MobileBFF")
     process("SqliteDB")
 
-} export "./diagrams/inter_process_diagram.png"
+} export "./diagrams/intra_process_diagram.png"
