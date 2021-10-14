@@ -7,7 +7,7 @@ import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.models.Participant
 import doxflow.models.Role
 
-class context(val element: Element) : DSL<context>, ParentContainer {
+class context(override val element: Element) : DSL<context>, ParentContainer {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
     private val childClasses: MutableList<String> = mutableListOf()

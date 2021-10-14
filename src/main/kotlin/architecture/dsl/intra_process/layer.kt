@@ -1,20 +1,20 @@
-package architecture.dsl
+package architecture.dsl.intra_process
 
+import architecture.dsl.component
 import architecture.models.Element
 import common.DSL
 import common.ParentContainer
-import doxflow.dsl.proposal
 
-data class layer(val element: Element) : DSL<layer>, ParentContainer {
+class layer(override val element: Element) : DSL<layer>, ParentContainer {
     private val childComponents: MutableList<String> = mutableListOf()
-    val processes: MutableList<process> = mutableListOf()
+    val components: MutableList<component> = mutableListOf()
 
     override val backgroundColor: String?
         get() = element.color
 
-    fun process(name: String, color: String? = null, function: (process.() -> Unit)? = null): process =
-        process(Element(name, "rectangle", color), this).apply {
-            processes.add(this)
+    fun component(name: String, color: String? = null, function: (component.() -> Unit)? = null): component =
+        component(Element(name, "rectangle", color), this).apply {
+            components.add(this)
             function?.let { it() }
         }
 

@@ -7,9 +7,18 @@ import java.io.FileOutputStream
 
 interface DSL<T> {
     operator fun invoke(function: T.() -> Unit): T
+    fun generateInteractions(element: Element, elementInteractions: List<Pair<String, String>>): String = buildString {
+        elementInteractions.forEach {
+            append("[${element.name}]-->[${it.first}]")
+            appendLine(with(it.second) {
+                return@with if (!isNullOrBlank()) ":${it.second}" else ""
+            })
+        }
+    }
 }
 
 interface ParentContainer {
+    val element: Element
     val backgroundColor: String?
         get() = null
 

@@ -1,16 +1,16 @@
 package architecture
 
-import architecture.dsl.layer
+import architecture.dsl.inter_process.service
 import architecture.models.Element
 import common.DSL
 import common.Diagram
 
 object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
-    var layers: MutableList<layer> = mutableListOf()
+    var services: MutableList<service> = mutableListOf()
 
-    fun layer(name: String, color: String? = null, function: layer.() -> Unit): layer =
-        layer(Element(name, "rectangle", color)).apply {
-            layers.add(this)
+    fun service(name: String, color: String? = null, function: service.() -> Unit): service =
+        service(Element(name, "rectangle", color)).apply {
+            services.add(this)
             function()
         }
 
@@ -25,18 +25,18 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
         """.trimMargin()
 
     override fun exportResult(isSuccess: Boolean) {
-        if (isSuccess) layers.clear()
+        if (isSuccess) services.clear()
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        layers.forEach { layer ->
-            appendLine(layer.toString())
+        services.forEach { service ->
+            appendLine(service.toString())
         }
         /**
-         * 注意：此方法不能再layers.forEach中继续对process进行forEach调用，
-         * 必须在所有的layer构建完成后再构建process，否则生成图中，process会脱离layer
+         * 注意：此方法不能再services.forEach中继续对process进行forEach调用，
+         * 必须在所有的service构建完成后再构建process，否则生成图中，process会脱离service
          * */
-        layers.flatMap { it.processes }.forEach {
+        services.flatMap { it.processes }.forEach {
             appendLine(it.toString())
         }
     }
