@@ -35,7 +35,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 
 ### 创建Helloword建模图
 
-1. 在`8x-flow-diagram/src/main/kotlin`目录下创建hello-word-diagram.kts脚本文件。
+1. 在`8x-flow-diagram/src/main/kotlin/doxflow/samples`目录下创建`hello-word-diagram.kts`脚本文件。
 
 2. 键入如下代码：
 
@@ -281,38 +281,134 @@ diagram_8x_flow {
 ## 进程间(Inter-process)架构图
 
 * **创建服务层(Service)**：*服务层用来表示不同服务所处的层级，例如：前端，BFF，应用服务层，领域服务等等。*
-* **创建服务(process)**：*服务用来表示处于独立进程的业务模块，例如：微信客户端，MobileBFF，鉴权认证服务等等。*
+* **创建服务(Process)**：*服务用来表示处于独立进程的业务模块，例如：微信客户端，MobileBFF，鉴权认证服务等等。*
 * **创建进程内组件(Component)**：*进程内组件用来表示业务模块内的关键组件，例如：信息推广服务中包含推广报价引擎组件。*
 
 它们三者的关系式：Service包含Procss包含Component。
 
+- 进程间架构图
+
+![](/Users/behring/dev/8x-flow-diagram/images/inter-process-example.png)
+
+- 一部分进程间架构交互图
+
+![](/Users/behring/dev/8x-flow-diagram/images/inter-process-communication.png)
+
 ### 创建一个简单进程间架构图
 
+1. 在`8x-flow-diagram/src/main/kotlin/architecture/samples`目录下创建`inter_process_diagram.kts`脚本文件。
 
+2. 键入如下代码：
+
+   ```kotlin
+   import architecture.diagram_inter_process
+   
+   diagram_inter_process {
+     	// 颜色可以省略，也可以通过#ffffff方式自定义颜色
+       service("应用服务", "#LightSeaGreen") {
+           process("租赁信息应用服务")
+           process("推广服务应用服务")
+           process("后台管理应用服务")
+       }
+   
+       service("核心业务能力", "#HotPink") {
+           process("信息推广服务") {
+               component("推广报价引擎", "#orange")
+           }
+           process("预充值服务")
+       }
+   
+       service("领域服务", "#orange") {
+           process("房屋信息管理系统")
+           process("用户账户管理系统")
+       }
+   
+       service("第三方系统", "#gray") {
+           process("微信支付")
+           process("支付宝支付")
+           process("银联支付")
+           process("ADX数据监测系统")
+           process("发票代开服务")
+           process("短信发送服务")
+       }
+   } export "./diagrams/inter_process_diagram.png"
+   ```
+
+3. 右键该文件运行，在`8x-flow-diagram/src/main/kotlin/architecture/samples/diagrams`目录下查看`inter_process_diagram.png`文件。
+
+   ![inter_process_diagram](/Users/behring/dev/8x-flow-diagram/images/inter_process_diagram.png)
 
 ### 语法介绍
 
+#### diagram_inter_process
 
+用来表示**生成一张进程间架构图**，通过`export`来生成最终png图片。用法如下：
+
+```kotlin
+diagram_inter_process {
+   ...
+} export "../../../diagrams/inter_process_diagram.png"
+```
+
+#### service
+
+用来表示不同服务所处的层级。**内部必须包含process**。
+
+#### process
+
+用来**表示处于独立进程的业务模块**。**可以和其他process进行交互**。用法如下：
+
+```kotlin
+diagram_inter_process {
+		service("前端", "#Cyan") {
+      	// 可以让前端的中的“思沃租房通用版Web端”组件通过call方法调用BFF的“思沃租房WebBF”组件
+        process("思沃租房通用版Web端").call("思沃租房WebBFF","1. GET /web-bff/ads")
+    }
+  	service("BFF", "#RoyalBlue") {
+        process("思沃租房WebBFF")
+				process("思沃租房MobileBFF")
+    }
+  } export "./diagrams/tw_renting_inter_process_communication_diagram.png"
+
+```
+
+#### component
+
+用来表示**业务模块内的关键组件**，**必须包含在process内部**。用法如下：
+
+```kotlin
+diagram_inter_process {
+    service("核心业务能力", "#HotPink") {
+        process("信息推广服务") {
+          	// 在业务模块内部定义关键组件
+            component("推广报价引擎", "#orange")
+        }
+        process("预充值服务")
+    }
+} export "./diagrams/inter_process_diagram.png"
+```
 
 ### 图例
+
+![](/Users/behring/dev/8x-flow-diagram/images/tw_renting_inter_process_communication_diagram.png)
 
 
 
 ## 进程内(Intra-process)架构图
 
-
+TODO
 
 ### 创建一个简单进程内架构图
 
-
+TODO
 
 ### 语法介绍
 
-
+TODO
 
 ### 图例
 
-
+TODO
 
 ## 后续开发计划
 
