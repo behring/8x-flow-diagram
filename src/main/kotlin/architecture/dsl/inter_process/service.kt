@@ -5,25 +5,28 @@ import common.DSL
 import common.ParentContainer
 
 class service(override val element: Element) : DSL<service>, ParentContainer {
-    private val childComponents: MutableList<String> = mutableListOf()
+    private val childComponents: MutableList<Element> = mutableListOf()
     val processes: MutableList<process> = mutableListOf()
 
     override val backgroundColor: String?
         get() = element.color
 
-    fun process(name: String, color: String? = null, function: (process.() -> Unit)? = null): process =
-        process(Element(name, "rectangle", color), this).apply {
-            processes.add(this)
-            function?.let { it() }
-        }
+    fun process(name: String, color: String? = null, function: (process.() -> Unit)? = null): process {
+        val process = process(Element(name, "rectangle", color), this)
+        processes.add(process)
+        element.childElements.add(process.element)
+        function?.let { process.it() }
+        return process
+    }
+
 
     override fun invoke(function: service.() -> Unit): service = apply { function() }
 
     override fun addElement(element: Element) {
-        childComponents.add("${element.type} ${element.name} ${element.color ?: this.element.color ?: ""}")
+        childComponents.add(element)
     }
 
     override fun toString(): String = buildString {
-        addElements(childComponents, element)
+        with(childComponents) { if (isNotEmpty()) addElements(childComponents, element) }
     }
 }

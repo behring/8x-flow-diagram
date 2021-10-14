@@ -6,25 +6,27 @@ import common.ChildElement
 import common.DSL
 import common.ParentContainer
 
-class process(override val element: Element, private val container: ParentContainer) : ChildElement(element, container),
+class process(override val element: Element, container: ParentContainer) : ChildElement(element, container),
     ParentContainer, DSL<process> {
-    private val childComponents: MutableList<String> = mutableListOf()
+    private val components: MutableList<component> = mutableListOf()
     private val processInteractions: MutableList<Pair<String, String>> = mutableListOf()
 
     fun call(processName: String, command: String = "") {
         processInteractions.add(Pair(processName, command))
     }
 
-    fun component(name: String, color: String? = null): component = component(Element(name, "rectangle", color), this)
+    fun component(name: String, color: String? = null): component {
+        val component = component(Element(name, "rectangle", color), this)
+        components.add(component)
+        element.childElements.add(component.element)
+        return component
+    }
 
     override fun invoke(function: process.() -> Unit): process = apply { function() }
 
-    override fun addElement(element: Element) {
-        childComponents.add("${element.type} ${element.name} ${element.color ?: this.element.color ?: ""}")
-    }
+
 
     override fun toString(): String = buildString {
-        with(childComponents) { if (isNotEmpty()) addElements(childComponents, container.element) }
         appendLine(generateInteractions(element, processInteractions))
     }
 }

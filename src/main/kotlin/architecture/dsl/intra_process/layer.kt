@@ -6,7 +6,7 @@ import common.DSL
 import common.ParentContainer
 
 class layer(override val element: Element) : DSL<layer>, ParentContainer {
-    private val childComponents: MutableList<String> = mutableListOf()
+    private val childComponents: MutableList<Element> = mutableListOf()
     val components: MutableList<component> = mutableListOf()
 
     override val backgroundColor: String?
@@ -21,7 +21,8 @@ class layer(override val element: Element) : DSL<layer>, ParentContainer {
     override fun invoke(function: layer.() -> Unit): layer = apply { function() }
 
     override fun addElement(element: Element) {
-        childComponents.add("${element.type} ${element.name} ${element.color ?: this.element.color ?: ""}")
+        childComponents.add(element)
+//        childComponents.add("${element.type} ${element.name} ${element.color ?: this.element.color ?: ""}")
     }
 
     override fun toString(): String = buildString {

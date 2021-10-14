@@ -7,8 +7,8 @@ import common.DSL
 import common.Diagram
 
 object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
-    var layers: MutableList<layer> = mutableListOf()
-    val processes: MutableList<process> = mutableListOf()
+    private var layers: MutableList<layer> = mutableListOf()
+    private val processes: MutableList<process> = mutableListOf()
 
     fun layer(name: String, color: String? = null, function: layer.() -> Unit): layer =
         layer(Element(name, "rectangle", color)).apply {
@@ -33,7 +33,10 @@ object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
         """.trimMargin()
 
     override fun exportResult(isSuccess: Boolean) {
-        if (isSuccess) layers.clear()
+        if (isSuccess) {
+            layers.clear()
+            processes.clear()
+        }
     }
 
     private fun buildPlantUmlContent(): String = buildString {

@@ -8,23 +8,20 @@ internal class diagram_architecture_test {
         diagram_inter_process {
             service("应用服务") {
                 process("租赁信息应用服务")
-                process("租赁信息应用服务")
                 process("后台管理应用服务")
             }
 
             service("核心业务能力") {
-                process("信息推广服务")
-                process("预充值服务") {
+                process("信息推广服务") {
                     component("推广报价引擎")
                 }
+                process("预充值服务")
             }
 
             service("领域服务") {
-
             }
 
             service("第三方系统") {
-
             }
         } export "./diagrams/inter_process_diagram.png"
     }

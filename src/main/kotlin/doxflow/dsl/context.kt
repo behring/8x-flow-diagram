@@ -10,7 +10,7 @@ import doxflow.models.Role
 class context(override val element: Element) : DSL<context>, ParentContainer {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
-    private val childClasses: MutableList<String> = mutableListOf()
+    private val childClasses: MutableList<Element> = mutableListOf()
     private val rfps: MutableList<rfp> = mutableListOf()
     private val participants: MutableList<Participant> = mutableListOf()
     private var roles: MutableList<Role> = mutableListOf()
@@ -54,7 +54,7 @@ class context(override val element: Element) : DSL<context>, ParentContainer {
     override fun invoke(function: context.() -> Unit): context = apply { function() }
 
     override fun addElement(element: Element) {
-        childClasses.add("class ${element.name}")
+        childClasses.add(element)
     }
 
     override fun toString(): String = buildString {

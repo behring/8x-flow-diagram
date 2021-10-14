@@ -22,21 +22,32 @@ interface ParentContainer {
     val backgroundColor: String?
         get() = null
 
-    fun addElement(element: Element)
+    fun addElement(element: Element) {}
 
     fun StringBuilder.addElements(
-        elements: List<String>,
+        elements: List<Element>,
         container: Element
-    ) = appendLine(
-        """
-        |${container.type} <color:black>${container.name}</color> {
-        |   ${generateElementsStr(elements)}
-        |}""".trimMargin()
-    )
-
-    private fun generateElementsStr(elements: List<String>) = buildString {
-        elements.forEach { appendLine(it) }
+    ) = apply {
+        appendLine("${container.type} ${container.name} {")
+        generateElementsStr(container, elements, this)
+        appendLine("}")
     }
+
+    fun generateElementsStr(container: Element, elements: List<Element>, elementsStr: StringBuilder) {
+        val mutableElement = elements.toMutableList()
+        do {
+            val element = mutableElement.removeFirst()
+            elementsStr.append("${element.type} ${element.name} ${element.color ?: container.color ?: ""}")
+            if (element.childElements.isNotEmpty()) {
+                elementsStr.appendLine("{")
+                generateElementsStr(element, element.childElements, elementsStr)
+                elementsStr.appendLine("}")
+            } else {
+                elementsStr.appendLine()
+            }
+        } while (mutableElement.isNotEmpty())
+    }
+
 }
 
 open class ChildElement(element: Element, container: ParentContainer) {

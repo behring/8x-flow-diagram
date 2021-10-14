@@ -1,10 +1,28 @@
 # 8x Flow 业务建模图DSL生成工具
 
+[TOC]
+
+
 
 ## 介绍
-手动绘制[8x Flow](https://huhao.dev/posts/2932e594/)业务建模图是低效痛苦，并且没有办法版本管理。虽然有一些[8x flow的建模图绘制工具](https://github.com/vincentx/8x-flow)，但是不支持语法检查，并且生成的图不够友好。因此我开发了此工具。此工具基于Kotlin语言，通过自定义DSL来友好的支持建模图生成。
 
-目前此工具支持如下功能：
+手动绘制[8x Flow](https://huhao.dev/posts/2932e594/)业务建模图是低效痛苦，特别是业务频繁变动时，更新业务建模图的成本很高。虽然有一些[8x flow的建模图绘制工具](https://github.com/vincentx/8x-flow)，但是不支持语法检查，并且生成的图不够友好，因此我开发了此工具。此工具基于Kotlin语言，通过友好的自定义DSL生成8xFlow业务建模图。
+
+目前此工具除了支持生成**8x Flow业务建模图**，还支持创建**进程间(inter-process)**和**进程内(intra-process)架构图**。
+
+
+
+## 快速开始
+
+### 环境准备
+
+clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到本地后，通过[Intellij Idea](https://www.jetbrains.com/idea/)打开工程，查看`8x-flow-diagram/src/test/kotlin`下的示例代码。
+
+>注意：项目是通过PlantUML API生成建模图，如果生成图例失败，请查看是否安装了[GraphViz](https://plantuml.com/zh/graphviz-dot)
+
+### 
+
+## 8x Flow业务建模图
 
 * **创建时标对象(Evidences)**：包括*方案征集书(RFP)、提案(Proposal)、合约(Contract)、履约请求(Fulfillment-Request)、 履约确认(Fulfillment-Confirmation)、凭证(Evidence)。*
 * **创建参与者对象(Participants)**：*包括参与方(Party)、标的物(Thing)、场所(Place)。*
@@ -14,13 +32,6 @@
 ![8xflow业务建模图图例](./images/8xflow业务建模图图例.svg)
 
 
-
-## 快速开始
-
-### 环境准备
-clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到本地后，通过[Intellij Idea](https://www.jetbrains.com/idea/)打开工程。
-
->注意：项目是通过PlantUML API生成建模图，如果生成图例失败，请查看是否安装了[GraphViz](https://plantuml.com/zh/graphviz-dot)
 
 ### 创建Helloword建模图
 
@@ -44,9 +55,9 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 
    ![商品订单合同](./images/hello-word-diagram.png)
 
-## 语法介绍
+### 语法介绍
 
-### **diagram_8x_flow**
+#### diagram_8x_flow
 
 用来表示**生成一张8xflow业务建模图**，通过`export`来生成最终png图片。用法如下：
 
@@ -56,7 +67,7 @@ diagram_8x_flow {
 } export "../../../diagrams/hello-word-diagram.png"
 ```
 
-### context
+#### context
 
 用来表示**一个上下文**，一张建模图可以包含多个上下文，可以在上下文中定义**合约中的角色(Role)**，提供给其他图例使用。
 
@@ -73,7 +84,7 @@ diagram_8x_flow {
 } export "../../../diagrams/hello-word-diagram.png"
 ```
 
-### rfp（非必选）
+#### rfp（非必选）
 
 rfp在建模图中**是非必选项**，如果DSL中包含rfp，后续的图例必须包裹在rfp之中（这样就可以区分一个context中多个rfp关联的propsal和contract）。
 
@@ -95,7 +106,7 @@ diagram_8x_flow {
 
 >注意：不能指定rfp和proposal之间的关联关系，默认1对1。
 
-### proposal（非必选）
+#### proposal（非必选）
 
 proposal在建模图中**也是非必选**，当且仅当**rfp出现时proposal必选**。
 
@@ -120,7 +131,7 @@ diagram_8x_flow {
 
 > 注意：不能指定proposal和contract之间的关联关系，默认1对1。
 
-### contract
+#### contract
 
 contract是建模图中的核心，可以在proposal或者context下包裹。
 
@@ -150,7 +161,7 @@ diagram_8x_flow {
 } export "../../../diagrams/contract_with_rfp_diagram.png"
 ```
 
-### fulfillment
+#### fulfillment
 
 fulfillment表示**一组履约项**，包含**request**和**confirmation**。我们可以通过`AssociationType`来指定contract和fulfillment之间的对应关系。
 
@@ -179,7 +190,7 @@ import doxflow.common.AssociationType.*
 ...
 ```
 
-### participant_xxx
+#### participant_xxx
 
 participant_xxx可以用来创建参与者，包括如下DSL：
 
@@ -187,7 +198,7 @@ participant_xxx可以用来创建参与者，包括如下DSL：
 - participant_thing
 - participant_place
 
-### role_xxx
+#### role_xxx
 
 participant_xxx可以用来创建角色，包括如下DSL：
 
@@ -197,7 +208,7 @@ participant_xxx可以用来创建角色，包括如下DSL：
 
 
 
-### 凭证创建和凭证角色化
+#### 凭证创建和凭证角色化
 
 凭证是通过`evidence`语法创建，目前**仅仅支持在confirmation中创建凭证**。通过`role`方法完成凭证角色化。
 
@@ -257,13 +268,55 @@ diagram_8x_flow {
 
 ```
 
-## 图例
+### 图例
 - 预充值协议
 ![预充值协议](./images/prepaid_contract_diagram.png)
 - 信息推广服务合同
 ![信息推广服务合同](./images/info_promotion_contract_diagram.png)
 - 商品订单合同
 ![商品订单合同](./images/contract_with_rfp_diagram.png)
+
+
+
+## 进程间(Inter-process)架构图
+
+* **创建服务层(Service)**：*服务层用来表示不同服务所处的层级，例如：前端，BFF，应用服务层，领域服务等等。*
+* **创建服务(process)**：*服务用来表示处于独立进程的业务模块，例如：微信客户端，MobileBFF，鉴权认证服务等等。*
+* **创建进程内组件(Component)**：*进程内组件用来表示业务模块内的关键组件，例如：信息推广服务中包含推广报价引擎组件。*
+
+它们三者的关系式：Service包含Procss包含Component。
+
+### 创建一个简单进程间架构图
+
+
+
+### 语法介绍
+
+
+
+### 图例
+
+
+
+## 进程内(Intra-process)架构图
+
+
+
+### 创建一个简单进程内架构图
+
+
+
+### 语法介绍
+
+
+
+### 图例
+
+
+
+## 后续开发计划
+
+- 通过8xFlow建模图的履约项生成API文档。TODO
 
 ## 其他
 
