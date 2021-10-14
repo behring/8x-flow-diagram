@@ -24,6 +24,10 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
         |@enduml
         """.trimMargin()
 
+    override fun exportResult(isSuccess: Boolean) {
+        if (isSuccess) layers.clear()
+    }
+
     private fun buildPlantUmlContent(): String = buildString {
         layers.forEach { layer ->
             appendLine(layer.toString())
