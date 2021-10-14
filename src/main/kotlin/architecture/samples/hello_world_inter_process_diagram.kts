@@ -1,7 +1,7 @@
 import architecture.diagram_inter_process
 
 diagram_inter_process {
-    layer("应用服务") {
+    layer("应用服务", "#red") {
         process("租赁信息应用服务")
         process("租赁信息应用服务")
         process("后台管理应用服务")

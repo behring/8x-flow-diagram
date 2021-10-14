@@ -8,7 +8,7 @@ class process(name: String, private val layer: layer) : ChildElement(name, layer
 
     }
 
-    fun component(name: String): component = component(name, layer)
+    fun component(name: String): component = component(name, layer.backgroundColor, layer)
 
     override fun invoke(function: process.() -> Unit): process = apply { function() }
 

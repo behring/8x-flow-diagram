@@ -9,16 +9,24 @@ interface DSL<T> {
 }
 
 interface TopContainer {
+    val backgroundColor: String?
+        get() = null
+
     fun addElement(element: String)
 
     fun StringBuilder.addElements(
         elements: List<String>,
         topContainerName: String,
         topContainerType: String
-    ) = apply {
-        appendLine("$topContainerType <color:black>$topContainerName</color> {")
+    ) = appendLine(
+        """
+        |$topContainerType <color:black>$topContainerName</color> {
+        |   ${generateElementsStr(elements)}
+        |}""".trimMargin()
+    )
+
+    private fun generateElementsStr(elements: List<String>) = buildString {
         elements.forEach { appendLine(it) }
-        appendLine("}")
     }
 }
 
@@ -28,6 +36,9 @@ open class ChildElement(val name: String, topContainer: TopContainer) {
     }
 }
 
+object Color {
+
+}
 
 interface Diagram {
     fun buildPlantUmlString(): String
