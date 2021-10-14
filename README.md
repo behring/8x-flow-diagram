@@ -288,11 +288,11 @@ diagram_8x_flow {
 
 - 进程间架构图
 
-![](/Users/behring/dev/8x-flow-diagram/images/inter-process-example.png)
+![](./images/inter-process-example.png)
 
 - 一部分进程间架构交互图
 
-![](/Users/behring/dev/8x-flow-diagram/images/inter-process-communication.png)
+![](./images/inter-process-communication.png)
 
 ### 创建一个简单进程间架构图
 
@@ -336,7 +336,7 @@ diagram_8x_flow {
 
 3. 右键该文件运行，在`8x-flow-diagram/src/main/kotlin/architecture/samples/diagrams`目录下查看`inter_process_diagram.png`文件。
 
-   ![inter_process_diagram](/Users/behring/dev/8x-flow-diagram/images/inter_process_diagram.png)
+   ![inter_process_diagram](./images/inter_process_diagram.png)
 
 ### 语法介绍
 
@@ -390,7 +390,7 @@ diagram_inter_process {
 
 ### 图例
 
-![](/Users/behring/dev/8x-flow-diagram/images/tw_renting_inter_process_communication_diagram.png)
+![](./images/tw_renting_inter_process_communication_diagram.png)
 
 
 
