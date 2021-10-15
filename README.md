@@ -27,7 +27,7 @@
     - [图例](#图例-1)
   - [进程内(Intra-process)架构图](#进程内intra-process架构图)
     - [语法介绍](#语法介绍-2)
-      - [diagram_inter_process](#diagram_inter_process-1)
+      - [diagram_intra_process](#diagram_intra_process)
       - [layer](#layer)
       - [component](#component-1)
       - [process](#process-1)
@@ -438,7 +438,7 @@ diagram_inter_process {
 
 ### 语法介绍
 
-#### diagram_inter_process
+#### diagram_intra_process
 
 用来表示**生成一张进程内架构图**，通过`export`来生成最终png图片。用法如下：
 
