@@ -1,7 +1,39 @@
 # 8x Flow 业务建模图DSL生成工具
 
-[TOC]
-
+- [8x Flow 业务建模图DSL生成工具](#8x-flow-业务建模图dsl生成工具)
+  - [介绍](#介绍)
+  - [快速开始](#快速开始)
+    - [环境准备](#环境准备)
+  - [8x Flow业务建模图](#8x-flow业务建模图)
+    - [创建Helloword建模图](#创建helloword建模图)
+    - [语法介绍](#语法介绍)
+      - [diagram_8x_flow](#diagram_8x_flow)
+      - [context](#context)
+      - [rfp（非必选）](#rfp非必选)
+      - [proposal（非必选）](#proposal非必选)
+      - [contract](#contract)
+      - [fulfillment](#fulfillment)
+      - [participant_xxx](#participant_xxx)
+      - [role_xxx](#role_xxx)
+      - [凭证创建和凭证角色化](#凭证创建和凭证角色化)
+    - [图例](#图例)
+  - [进程间(Inter-process)架构图](#进程间inter-process架构图)
+    - [创建一个简单进程间架构图](#创建一个简单进程间架构图)
+    - [语法介绍](#语法介绍-1)
+      - [diagram_inter_process](#diagram_inter_process)
+      - [service](#service)
+      - [process](#process)
+      - [component](#component)
+    - [图例](#图例-1)
+  - [进程内(Intra-process)架构图](#进程内intra-process架构图)
+    - [语法介绍](#语法介绍-2)
+      - [diagram_inter_process](#diagram_inter_process-1)
+      - [layer](#layer)
+      - [component](#component-1)
+      - [process](#process-1)
+    - [图例](#图例-2)
+  - [后续开发计划](#后续开发计划)
+  - [其他](#其他)
 
 
 ## 介绍
@@ -20,7 +52,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 
 >注意：项目是通过PlantUML API生成建模图，如果生成图例失败，请查看是否安装了[GraphViz](https://plantuml.com/zh/graphviz-dot)
 
-### 
+
 
 ## 8x Flow业务建模图
 
@@ -487,8 +519,6 @@ diagram_intra_process {
 } export "./diagrams/intra_process_diagram.png"
 
 ```
-
-#### 
 
 ### 图例
 
