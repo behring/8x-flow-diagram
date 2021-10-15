@@ -1,13 +1,14 @@
 package doxflow.dsl
 
-import common.DSL
+import doxflow.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.diagram_8x_flow.getAssociateLink
 import doxflow.models.Association
 import doxflow.models.AssociationType
 import doxflow.models.Role
 
-class fulfillment(val name: String, val context: context) : DSL<fulfillment>, Association {
+class fulfillment(val name: String, val context: context, override var resource: String? = null) :
+    BusinessAbility<fulfillment>, Association {
     lateinit var request: request
     lateinit var confirmation: confirmation
     private var associateType: AssociationType = AssociationType.ONE_TO_ONE

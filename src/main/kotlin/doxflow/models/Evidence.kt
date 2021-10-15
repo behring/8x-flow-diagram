@@ -1,6 +1,7 @@
 package doxflow.models
 
 import common.ChildElement
+import doxflow.BusinessAbility
 import common.DSL
 import common.KeyInfo
 import doxflow.dsl.context
@@ -8,13 +9,18 @@ import doxflow.dsl.context
 abstract class Evidence<T>(
     val name: String,
     val context: context,
+    override var resource: String? = null,
     private val generics: String? = null,
     private val note: String? = null
 ) : ChildElement(name, "class", context), KeyInfo<T> {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
-    abstract val type: String
     private var data: Array<out String>? = null
+
+    /**
+     * Evidence的类型：包括rfp，proposal，contract，request, confirmation
+     * */
+    abstract val type: String
 
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
 

@@ -1,13 +1,14 @@
 package doxflow.dsl
 
 import architecture.models.Element
-import common.DSL
 import common.ParentContainer
+import doxflow.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.models.Participant
 import doxflow.models.Role
 
-class context(override val element: Element) : DSL<context>, ParentContainer {
+class context(override val element: Element, override var resource: String? = null) : BusinessAbility<context>,
+    ParentContainer {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
     private val childClasses: MutableList<Element> = mutableListOf()
@@ -19,7 +20,8 @@ class context(override val element: Element) : DSL<context>, ParentContainer {
 
     fun role_domain(name: String): Role = Role(Element(name, "class"), Role.Type.DOMAIN, this).apply { roles.add(this) }
 
-    fun role_3rd_system(name: String): Role = Role(Element(name, "class"), Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
+    fun role_3rd_system(name: String): Role =
+        Role(Element(name, "class"), Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
 
     fun participant_party(name: String): Participant =
         Participant(Element(name, "class"), Participant.Type.PARTY, this).apply { participants.add(this) }
@@ -64,6 +66,4 @@ class context(override val element: Element) : DSL<context>, ParentContainer {
 
     private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
         .flatMap { it }.forEach { appendLine(it.toString()) }
-
-
 }
