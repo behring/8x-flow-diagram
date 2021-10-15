@@ -396,22 +396,107 @@ diagram_inter_process {
 
 ## 进程内(Intra-process)架构图
 
-TODO
+* **创建分层(Layer)**：*分层用来表示进程内架构中的层。例如：应用层，业务逻辑层，数据层等*
+* **创建组件(Component)**：*组件用来表示每一层包含的组件。*
+* **创建进程外服务(Process)**：*用来表示进程外服务。*
 
-### 创建一个简单进程内架构图
+- 进程内架构图
 
-TODO
+  <img src="./images/intra-process-sample.png" alt="intra-process-sample" style="zoom:50%;" />
 
 ### 语法介绍
 
-TODO
+#### diagram_inter_process
+
+用来表示**生成一张进程内架构图**，通过`export`来生成最终png图片。用法如下：
+
+```kotlin
+diagram_intra_process {
+   ...
+} export "../../../diagrams/intra_process_diagram.png"
+```
+
+#### layer
+
+用来表示进程内架构分层。**内部必须包含component**。
+
+```kotlin
+diagram_intra_process {
+  	//	定义应用层包含哪些组件
+     layer("应用层", "#HotPink") {
+        component("Activity")
+        component("ViewModel")
+        component("Service")
+    }
+} export "./diagrams/intra_process_diagram.png"
+```
+
+
+
+#### component
+
+用来表示**进程内的组件**，**必须包含在layer内部**。**组件可以和其他组件(component)以及进程外服务(process)交互**。用法如下：
+
+```kotlin
+diagram_inter_process {
+     layer("应用层", "#HotPink") {
+       // 通过call方法完成组件的调用，call方法参数1是组件名，参数2是调用的描述(optional)
+        component("Activity").call("ViewModel", "方法调用")
+        component("ViewModel").call("Presenter", "方法调用")
+        component("Service").call("Presenter", "方法调用")
+    }
+      layer("业务层", "#orange") {
+        component("Presenter")
+    }
+} export "./diagrams/intra_process_diagram.png"
+```
+
+#### process
+
+用来**表示进程外服务**。**可以和进程的内的component进行交互**。来表示进程边界的调用关系。用法如下：
+
+```kotlin
+diagram_intra_process {
+    layer("应用层", "#HotPink") {
+        component("Activity").call("ViewModel", "方法调用")
+        component("ViewModel").call("Presenter", "方法调用")
+        component("Service").call("Presenter", "方法调用")
+    }
+
+    layer("业务层", "#orange") {
+        component("Presenter").call("Repository", "方法调用")
+    }
+
+    layer("数据层", "#LightSeaGreen") {
+        val repo = component("Repository")
+        repo.call("DBDataSource", "方法调用")
+        repo.call("RemoteDataSource", "方法调用")
+        // DBDataSource组件会调用系统的DB来读写数据
+        component("DBDataSource").call("SqliteDB", "读写")
+        // RemoteDataSource组件会调用进程外的BFF来获取数据
+        component("RemoteDataSource").call("MobileBFF", "Http请求")
+    }
+
+  	// 进程外的push服务会调用进程内的service来推送消息
+    process("PushService").call("Service", "消息推送")
+    // 进程外的BFF服务
+    process("MobileBFF")
+    // 进程外的系统数据库
+    process("SqliteDB")
+
+} export "./diagrams/intra_process_diagram.png"
+
+```
+
+#### 
 
 ### 图例
 
-TODO
+![](/Users/behring/dev/8x-flow-diagram/images/intra_process_diagram.png)
 
 ## 后续开发计划
 
+- 集成内架构测试策略。TODO
 - 通过8xFlow建模图的履约项生成API文档。TODO
 
 ## 其他
