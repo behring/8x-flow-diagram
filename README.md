@@ -522,7 +522,7 @@ diagram_intra_process {
 
 ### 图例
 
-![](/Users/behring/dev/8x-flow-diagram/images/intra_process_diagram.png)
+![](./images/intra_process_diagram.png)
 
 ## 后续开发计划
 
