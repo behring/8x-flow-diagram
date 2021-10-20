@@ -525,7 +525,7 @@ diagram_intra_process {
 ![](./images/intra_process_diagram.png)
 
 ## 后续开发计划
-- 生成合约分析中的凭证。DOING
+- 生成合约分析中的凭证。DONE
 - 通过合约分析中的凭证生成合约文本。TODO
 - 通过合约文本中的权责关系(request,confirmation)生成基础8xflow建模图DSL。TODO
 - 通过8xflow建模图DSL修改添加参与方、三方系统、凭证角色化等信息生成最终8xflow建模图。 DONE
