@@ -9,6 +9,7 @@ interface DSL<T> {
     operator fun invoke(function: T.() -> Unit): T
     fun generateInteractions(element: Element, elementInteractions: List<Pair<String, String>>): String = buildString {
         elementInteractions.forEach {
+            // class element指定关系时，不能使用[]括号
             append("[${element.name}]-->[${it.first}]")
             appendLine(with(it.second) {
                 return@with if (!isNullOrBlank()) ":${it.second}" else ""

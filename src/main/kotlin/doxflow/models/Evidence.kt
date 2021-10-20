@@ -2,6 +2,7 @@ package doxflow.models
 
 import common.ChildElement
 import common.DSL
+import common.KeyInfo
 import doxflow.dsl.context
 
 abstract class Evidence<T>(
@@ -9,19 +10,15 @@ abstract class Evidence<T>(
     val context: context,
     private val generics: String? = null,
     private val note: String? = null
-) : ChildElement(name, "class", context), DSL<T> {
+) : ChildElement(name, "class", context), KeyInfo<T> {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
     abstract val type: String
     private var data: Array<out String>? = null
 
-    fun key_timestamps(vararg timestamps: String) {
-        this.timestamps = timestamps
-    }
+    override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
 
-    fun key_data(vararg data: String) {
-        this.data = data
-    }
+    override fun key_data(vararg data: String) = data.let { this.data = it }
 
     override fun toString(): String {
         return """
