@@ -22,7 +22,6 @@ class layer(override val element: Element) : DSL<layer>, ParentContainer {
 
     override fun addElement(element: Element) {
         childComponents.add(element)
-//        childComponents.add("${element.type} ${element.name} ${element.color ?: this.element.color ?: ""}")
     }
 
     override fun toString(): String = buildString {

@@ -39,7 +39,7 @@ diagram_contract_analysis {
                 key_timestamps("签署时间", "开始时间")
                 key_data("推广信息ID")
                 // 通过preorder定义前序凭证，该凭证属于rfp类型
-                this preorder rfp("推广服务价格提案") {
+                this preorder proposal("推广服务价格提案") {
                     key_timestamps("起止时间")
                     key_data("单价")
                     this belong_to "推广协议"

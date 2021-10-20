@@ -7,6 +7,7 @@ import contract.dsl.proposal
 import contract.dsl.rfp
 
 object diagram_contract_analysis : DSL<diagram_contract_analysis>, Diagram {
+    var contractToEvidences: MutableMap<String, MutableList<evidence>> = linkedMapOf()
     private var evidences: MutableList<evidence> = mutableListOf()
 
     fun evidence(name: String, function: evidence.() -> Unit): evidence = dsl(name, function)
@@ -31,12 +32,23 @@ object diagram_contract_analysis : DSL<diagram_contract_analysis>, Diagram {
         |skinparam classAttributeFontColor White
         |skinparam roundCorner 10
         |hide circle
-        ${buildPlantUmlContent()}
+        |${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()
 
     private fun buildPlantUmlContent(): String = buildString {
+        createContracts(this)
         evidences.forEach { appendLine(it.toString()) }
+    }
+
+    private fun createContracts(sb: StringBuilder) {
+        contractToEvidences.forEach { (contract, evidences) ->
+            sb.appendLine("package $contract {")
+            evidences.forEach { evidence ->
+                sb.appendLine("class ${evidence.name}")
+            }
+            sb.appendLine("}")
+        }
     }
 
     override fun invoke(function: diagram_contract_analysis.() -> Unit): diagram_contract_analysis =
