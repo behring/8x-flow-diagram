@@ -4,8 +4,8 @@ plugins {
     kotlin("jvm") version "1.5.10"
 }
 
-group = "me.behring"
-version = "1.0-SNAPSHOT"
+group = "tech.behring.darkhorse"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
