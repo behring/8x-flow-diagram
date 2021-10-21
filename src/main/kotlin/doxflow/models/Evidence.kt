@@ -2,7 +2,6 @@ package doxflow.models
 
 import common.ChildElement
 import doxflow.BusinessAbility
-import common.DSL
 import common.KeyInfo
 import doxflow.dsl.context
 
@@ -12,7 +11,7 @@ abstract class Evidence<T>(
     override var resource: String? = null,
     private val generics: String? = null,
     private val note: String? = null
-) : ChildElement(name, "class", context), KeyInfo<T> {
+) : ChildElement(name, "class", context), BusinessAbility<T>, KeyInfo<T> {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
