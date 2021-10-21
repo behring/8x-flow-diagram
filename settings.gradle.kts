@@ -1,3 +1,3 @@
 
-rootProject.name = "8x-flow-diagram"
+rootProject.name = "dark-horse-tools"
 
