@@ -1,16 +1,15 @@
 package architecture.dsl.intra_process
 
-import architecture.models.Element
+import common.Element
 import common.DSL
+import common.Interactions
 
-class process(val element: Element) : DSL<process> {
+class process(val element: Element) : Interactions {
     private val componentInteractions: MutableList<Pair<String, String>> = mutableListOf()
 
     fun call(componentName: String, command: String = "") {
         componentInteractions.add(Pair(componentName, command))
     }
-
-    override fun invoke(function: process.() -> Unit): process = apply { function() }
 
     override fun toString(): String = buildString {
         with(element) { appendLine("$type $name $color") }

@@ -2,9 +2,9 @@ package architecture
 
 import architecture.dsl.intra_process.layer
 import architecture.dsl.intra_process.process
-import architecture.models.Element
 import common.DSL
 import common.Diagram
+import common.Element
 
 object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
     private var layers: MutableList<layer> = mutableListOf()

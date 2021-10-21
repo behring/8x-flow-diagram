@@ -1,4 +1,4 @@
-package contract.dsl
+package contract.analysis.dsl
 
 import common.KeyInfo
 import contract.analysis.diagram_contract_analysis.contractToEvidences

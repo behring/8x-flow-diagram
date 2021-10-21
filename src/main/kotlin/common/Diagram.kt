@@ -1,12 +1,25 @@
 package common
 
-import architecture.models.Element
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.File
 import java.io.FileOutputStream
 
-interface DSL<T> {
-    operator fun invoke(function: T.() -> Unit): T
+/**
+ * 表示UML中的一个任意元素
+ * type name color
+ * package A #yellow
+ * */
+data class Element(val name: String, val type: String, val color: String? = null) {
+    val childElements: MutableList<Element> = mutableListOf()
+}
+
+interface KeyInfo<T> : DSL<T> {
+    fun key_timestamps(vararg timestamps: String)
+
+    fun key_data(vararg data: String)
+}
+
+interface Interactions {
     fun generateInteractions(element: Element, elementInteractions: List<Pair<String, String>>): String = buildString {
         elementInteractions.forEach {
             // class element指定关系时，不能使用[]括号
@@ -16,6 +29,7 @@ interface DSL<T> {
             })
         }
     }
+
 }
 
 interface ParentContainer {
@@ -51,7 +65,7 @@ interface ParentContainer {
 
 }
 
-open class ChildElement(element: Element, container: ParentContainer) {
+open class ChildElement(element: Element, container: ParentContainer) : Interactions {
     constructor(name: String, type: String, container: ParentContainer) : this(Element(name, type), container)
 
     init {

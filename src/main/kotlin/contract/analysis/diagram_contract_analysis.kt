@@ -1,10 +1,10 @@
 package contract.analysis
 
 import common.*
-import contract.dsl.contract
-import contract.dsl.evidence
-import contract.dsl.proposal
-import contract.dsl.rfp
+import contract.analysis.dsl.contract
+import contract.analysis.dsl.evidence
+import contract.analysis.dsl.proposal
+import contract.analysis.dsl.rfp
 
 object diagram_contract_analysis : DSL<diagram_contract_analysis>, Diagram {
     var contractToEvidences: MutableMap<String, MutableList<evidence>> = linkedMapOf()

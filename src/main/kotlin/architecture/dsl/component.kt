@@ -1,8 +1,8 @@
 package architecture.dsl
 
-import architecture.models.Element
 import common.ChildElement
 import common.DSL
+import common.Element
 import common.ParentContainer
 
 data class component(val element: Element, val container: ParentContainer) : ChildElement(element, container),

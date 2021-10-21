@@ -1,6 +1,6 @@
 package architecture.dsl.inter_process
 
-import architecture.models.Element
+import common.Element
 import common.DSL
 import common.ParentContainer
 

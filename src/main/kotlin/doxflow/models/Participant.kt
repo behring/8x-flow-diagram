@@ -1,6 +1,6 @@
 package doxflow.models
 
-import architecture.models.Element
+import common.Element
 import common.ChildElement
 import doxflow.dsl.context
 

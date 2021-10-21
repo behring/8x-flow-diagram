@@ -1,9 +1,9 @@
 package architecture
 
 import architecture.dsl.inter_process.service
-import architecture.models.Element
 import common.DSL
 import common.Diagram
+import common.Element
 
 object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     var services: MutableList<service> = mutableListOf()

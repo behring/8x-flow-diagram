@@ -1,9 +1,9 @@
 package architecture.dsl.inter_process
 
 import architecture.dsl.component
-import architecture.models.Element
 import common.ChildElement
 import common.DSL
+import common.Element
 import common.ParentContainer
 
 class process(override val element: Element, container: ParentContainer) : ChildElement(element, container),

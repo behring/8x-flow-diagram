@@ -27,7 +27,6 @@ class contract(name: String, context: context, private vararg val roles: Role) :
         get() = contract::class.java.simpleName
 
     override fun associate(type: AssociationType) {
-        TODO("Not yet implemented")
     }
 
     override fun toString(): String {

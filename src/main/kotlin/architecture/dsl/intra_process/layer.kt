@@ -1,7 +1,7 @@
 package architecture.dsl.intra_process
 
 import architecture.dsl.component
-import architecture.models.Element
+import common.Element
 import common.DSL
 import common.ParentContainer
 

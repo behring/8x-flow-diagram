@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import architecture.models.Element
+import common.Element
 import common.ParentContainer
 import doxflow.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
