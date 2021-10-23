@@ -1,4 +1,4 @@
-import doxflow.BusinessAbility
+import doxflow.models.BusinessAbility
 import org.junit.Test
 import kotlin.test.assertEquals
 

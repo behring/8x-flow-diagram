@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.BusinessAbility
+import doxflow.models.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.diagram_8x_flow.getAssociateLink
 import doxflow.models.Association

@@ -2,7 +2,7 @@ package doxflow.dsl
 
 import common.Element
 import common.ParentContainer
-import doxflow.BusinessAbility
+import doxflow.models.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.models.Participant
 import doxflow.models.Role

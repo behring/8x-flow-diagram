@@ -1,7 +1,7 @@
 package doxflow.models
 
 import common.ChildElement
-import doxflow.BusinessAbility
+import doxflow.models.BusinessAbility
 import common.KeyInfo
 import doxflow.dsl.context
 

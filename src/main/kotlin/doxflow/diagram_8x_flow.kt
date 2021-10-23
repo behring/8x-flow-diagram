@@ -5,23 +5,7 @@ import common.*
 import doxflow.dsl.context
 import doxflow.models.*
 
-interface BusinessAbility<T> : DSL<T> {
-    var resource: String?
-
-    fun String.pluralize(): String {
-        val vowel = arrayOf('a', 'e', 'i', 'o', 'u')
-        val specificPlurals = mapOf("person" to "people")
-        if (this.isBlank()) return this
-        return when {
-            specificPlurals.containsKey(this) -> specificPlurals[this].toString()
-            endsWith('s') || endsWith('x') || endsWith("ch") || endsWith("sh") -> this + "es"
-            !vowel.contains(this[length - 2]) && last() == 'y' -> this.substring(0, length - 1) + "ies"
-            else -> this + 's'
-        }
-    }
-}
-
-object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
+object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
     private var contexts: MutableList<context> = mutableListOf()
 
     fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "package"))) {
@@ -40,6 +24,11 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
         """
             < <<${role.type.name.lowercase()}>> \n ${role.element.name} >
         """.trimIndent()
+    }
+
+    fun export_diagram_and_doc(diagram: String, doc: String) {
+        export(diagram)
+        export_doc(doc)
     }
 
     override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply { function() }
@@ -67,6 +56,10 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram {
         contexts.forEach { context ->
             appendLine(context.toString())
         }
+    }
+
+    override fun buildDocContent(): String {
+        TODO("Not yet implemented")
     }
 }
 

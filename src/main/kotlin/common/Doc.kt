@@ -6,7 +6,7 @@ import java.io.File
 interface Doc {
     fun buildDocContent(): String
 
-    infix fun export(filePath: String) {
+    infix fun export_doc(filePath: String) {
         generateDoc(filePath)
     }
 
