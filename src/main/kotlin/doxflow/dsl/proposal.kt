@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.models.*
+import doxflow.models.diagram.*
 
 class proposal(name: String, context: context, generics: String?, note: String? = null) :
     Evidence<proposal>(name, context, generics, note), Association {

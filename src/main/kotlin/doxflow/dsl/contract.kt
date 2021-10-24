@@ -1,9 +1,7 @@
 package doxflow.dsl
 
 import doxflow.diagram_8x_flow.getAssociateLink
-import doxflow.models.ONE_TO_ONE
-import doxflow.models.PLAY_TO
-import doxflow.models.*
+import doxflow.models.diagram.*
 
 class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context) {
     var fulfillments: MutableList<Pair<fulfillment, AssociationType>> = mutableListOf()
@@ -24,7 +22,7 @@ class contract(name: String, context: context, private vararg val roles: Role) :
 
     override val type: String
         get() = contract::class.java.simpleName
-    
+
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())

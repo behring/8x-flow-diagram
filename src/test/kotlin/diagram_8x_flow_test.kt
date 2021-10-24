@@ -1,9 +1,7 @@
 import doxflow.diagram_8x_flow
 import doxflow.dsl.fulfillment
-import doxflow.models.AssociationType.*
+import doxflow.models.diagram.AssociationType.*
 import org.junit.Test
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 
 internal class diagram_8x_flow_test {
     @Test

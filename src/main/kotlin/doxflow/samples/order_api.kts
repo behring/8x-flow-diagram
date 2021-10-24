@@ -1,7 +1,7 @@
 package doxflow.samples
 
 import doxflow.diagram_8x_flow
-import doxflow.models.AssociationType.ONE_TO_N
+import doxflow.models.diagram.AssociationType.ONE_TO_N
 
 diagram_8x_flow {
     context("商品销售上下文") {

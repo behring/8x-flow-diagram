@@ -1,4 +1,4 @@
-import doxflow.models.BusinessAbility
+import doxflow.models.ability.BusinessAbility
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -15,10 +15,10 @@ internal class BusinessAbilityTest {
         assertEquals("people", actual)
     }
 
-    class contract(override var resource: String?) : BusinessAbility<contract> {
+    class contract(override var resource: String = "") : BusinessAbility<contract> {
         override fun invoke(function: contract.() -> Unit): contract = this
-        fun pluralize(): String? {
-            return resource?.pluralize()
+        fun pluralize(): String {
+            return resource.pluralize()
         }
     }
 }

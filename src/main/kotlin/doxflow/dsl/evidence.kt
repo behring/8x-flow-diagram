@@ -1,9 +1,9 @@
 package doxflow.dsl
 
 import doxflow.diagram_8x_flow.getAssociateLink
-import doxflow.models.AssociationType
-import doxflow.models.Evidence
-import doxflow.models.PLAY_TO
+import doxflow.models.diagram.AssociationType
+import doxflow.models.diagram.Evidence
+import doxflow.models.diagram.PLAY_TO
 
 class evidence(name: String, context: context) : Evidence<evidence>(name, context) {
     private var roles: MutableList<confirmation> = mutableListOf()

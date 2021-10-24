@@ -1,16 +1,17 @@
-package doxflow.models
+package doxflow.models.diagram
 
 import common.ChildElement
-import doxflow.models.BusinessAbility
+import doxflow.models.ability.BusinessAbility
 import common.KeyInfo
 import doxflow.dsl.context
+import doxflow.models.ability.BusinessAbilityTable
 
 abstract class Evidence<T>(
     val name: String,
     val context: context,
-    override var resource: String? = null,
     private val generics: String? = null,
-    private val note: String? = null
+    private val note: String? = null,
+    override var resource: String = ""
 ) : ChildElement(name, "class", context), BusinessAbility<T>, KeyInfo<T> {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
@@ -21,7 +22,7 @@ abstract class Evidence<T>(
      * */
     abstract val type: String
 
-    open fun toApiString(): String {return ""}
+    open fun addBusinessAbility(table: BusinessAbilityTable) {}
 
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
 

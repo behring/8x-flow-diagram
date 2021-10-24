@@ -3,7 +3,7 @@ package doxflow
 import common.Element
 import common.*
 import doxflow.dsl.context
-import doxflow.models.*
+import doxflow.models.diagram.*
 
 object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
     private var contexts: MutableList<context> = mutableListOf()

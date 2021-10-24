@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.models.Evidence
+import doxflow.models.diagram.Evidence
 
 class detail(name: String, context: context) : Evidence<detail>(name, context) {
 

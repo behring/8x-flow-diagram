@@ -1,7 +1,7 @@
 package doxflow.dsl
 
-import doxflow.models.ASSOCIATE
-import doxflow.models.Evidence
+import doxflow.models.diagram.ASSOCIATE
+import doxflow.models.diagram.Evidence
 
 class confirmation(name: String, context: context, generics: String?, note: String? = null) :
     Evidence<confirmation>(name, context, generics, note) {

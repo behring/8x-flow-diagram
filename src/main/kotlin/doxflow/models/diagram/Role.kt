@@ -1,4 +1,4 @@
-package doxflow.models
+package doxflow.models.diagram
 
 import common.Element
 import common.ChildElement

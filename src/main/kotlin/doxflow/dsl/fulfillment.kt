@@ -1,13 +1,13 @@
 package doxflow.dsl
 
-import doxflow.models.BusinessAbility
+import doxflow.models.ability.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.diagram_8x_flow.getAssociateLink
-import doxflow.models.Association
-import doxflow.models.AssociationType
-import doxflow.models.Role
+import doxflow.models.diagram.Association
+import doxflow.models.diagram.AssociationType
+import doxflow.models.diagram.Role
 
-class fulfillment(val name: String, val context: context, override var resource: String? = null) :
+class fulfillment(val name: String, val context: context, override var resource: String = "") :
     BusinessAbility<fulfillment>, Association {
     lateinit var request: request
     lateinit var confirmation: confirmation

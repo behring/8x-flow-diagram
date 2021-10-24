@@ -1,9 +1,9 @@
-package doxflow.models
+package doxflow.models.ability
 
 import common.DSL
 
 interface BusinessAbility<T> : DSL<T> {
-    var resource: String?
+    var resource: String
 
     fun String.pluralize(): String {
         val vowel = arrayOf('a', 'e', 'i', 'o', 'u')

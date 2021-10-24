@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.models.Evidence
+import doxflow.models.diagram.Evidence
 
 class request(name: String, context: context, generics: String?, note: String? = null) :
     Evidence<request>(name, context, generics, note) {

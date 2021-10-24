@@ -2,14 +2,14 @@ package doxflow.dsl
 
 import common.Element
 import common.ParentContainer
-import doxflow.diagram_8x_flow
-import doxflow.models.BusinessAbility
+import doxflow.models.ability.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
-import doxflow.models.AssociationType
-import doxflow.models.Participant
-import doxflow.models.Role
+import doxflow.models.ability.BusinessAbilityTable
+import doxflow.models.diagram.AssociationType
+import doxflow.models.diagram.Participant
+import doxflow.models.diagram.Role
 
-class context(override val element: Element, override var resource: String? = null) : BusinessAbility<context>,
+class context(override val element: Element, override var resource: String = "") : BusinessAbility<context>,
     ParentContainer {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
@@ -36,7 +36,7 @@ class context(override val element: Element, override var resource: String? = nu
 
 
     fun rfp(name: String, role: Role, rfp: rfp.() -> Unit) = with(
-        rfp(name, this, generateGenerics(role))
+        rfp(name, this, role)
     ) {
         rfps.add(this)
         rfp()
@@ -64,9 +64,7 @@ class context(override val element: Element, override var resource: String? = nu
 
     fun toApiString(): String = buildString {
         appendLine("## 业务能力表 - ${element.name}")
-        appendLine("|角色|HTTP方法|URI|业务能力|业务能力服务|")
-        appendLine("|---|---|---|---|---|")
-        generateApis()
+        addBusinessAbilities(BusinessAbilityTable())
     }
 
     override fun invoke(function: context.() -> Unit): context = apply { function() }
@@ -79,8 +77,12 @@ class context(override val element: Element, override var resource: String? = nu
         addElements(childClasses, element)
         generateClasses()
     }
-    private fun StringBuilder.generateApis() = arrayOf(rfps, proposals, contracts)
-        .flatMap { it }.forEach { appendLine(it.toApiString()) }
+
+    private fun StringBuilder.addBusinessAbilities(table: BusinessAbilityTable) {
+        arrayOf(rfps, proposals, contracts)
+            .flatMap { it }.forEach { it.addBusinessAbility(table) }
+        appendLine(table.toString())
+    }
 
     private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
         .flatMap { it }.forEach { appendLine(it.toString()) }

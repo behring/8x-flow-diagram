@@ -1,4 +1,4 @@
-package doxflow.models
+package doxflow.models.diagram
 
 const val ONE_TO_N = """ "1" -- "N" """
 const val ONE_TO_ONE = """ "1" -- "1" """

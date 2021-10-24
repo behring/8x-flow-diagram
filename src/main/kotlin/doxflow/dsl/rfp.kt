@@ -1,12 +1,14 @@
 package doxflow.dsl
 
 import doxflow.diagram_8x_flow.generateGenerics
-import doxflow.models.Evidence
-import doxflow.models.ONE_TO_ONE
-import doxflow.models.Role
+import doxflow.models.ability.BusinessAbilityTable
+import doxflow.models.ability.BusinessAbilityTable.Row
+import doxflow.models.diagram.Evidence
+import doxflow.models.diagram.ONE_TO_ONE
+import doxflow.models.diagram.Role
 
-class rfp(name: String, context: context, generics: String?, note: String? = null) :
-    Evidence<rfp>(name, context, generics, note) {
+class rfp(name: String, context: context, val role: Role, note: String? = null) :
+    Evidence<rfp>(name, context, generateGenerics(role), note) {
     private lateinit var proposal: proposal
 
     fun proposal(name: String, role: Role, proposal: proposal.() -> Unit) {
@@ -30,7 +32,37 @@ class rfp(name: String, context: context, generics: String?, note: String? = nul
         }
     }
 
-    override fun toApiString(): String = buildString {
-        // TODO: 2021/10/24  
+    override fun addBusinessAbility(table: BusinessAbilityTable) {
+
+        table.addRow(
+            Row(
+                "POST", "/${resource.pluralize()}",
+                "发起$name", "${context.element.name}服务", role.element.name
+            )
+        )
+        table.addRow(
+            Row(
+                "GET", "/${resource.pluralize()}",
+                "查看${name}列表", "${context.element.name}服务"
+            )
+        )
+        table.addRow(
+            Row(
+                "GET", "/${resource.pluralize()}/{rid}",
+                "查看$name", "${context.element.name}服务", role.element.name
+            )
+        )
+        table.addRow(
+            Row(
+                "PUT", "/${resource.pluralize()}/{rid}",
+                "更改$name", "${context.element.name}服务", role.element.name
+            )
+        )
+        table.addRow(
+            Row(
+                "DELETE", "/${resource.pluralize()}/{rid}",
+                "取消$name", "${context.element.name}服务", role.element.name
+            )
+        )
     }
 }
