@@ -1,15 +1,14 @@
 package doxflow.dsl
 
-import doxflow.models.Evidence
-import doxflow.models.ONE_TO_ONE
-import doxflow.models.Role
+import doxflow.models.*
 
 class proposal(name: String, context: context, generics: String?, note: String? = null) :
-    Evidence<proposal>(name, context, generics, note) {
+    Evidence<proposal>(name, context, generics, note), Association {
     private lateinit var contract: contract
+    private lateinit var associateType: AssociationType
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
-        this.contract = contract(name,context, *roles).apply {
+        this.contract = contract(name, context, *roles).apply {
             context.contracts.add(this)
             contract()
         }
@@ -19,6 +18,10 @@ class proposal(name: String, context: context, generics: String?, note: String? 
         get() = proposal::class.java.simpleName
 
     override fun invoke(function: proposal.() -> Unit): proposal = apply { function() }
+
+    override fun associate(type: AssociationType) {
+        associateType = type
+    }
 
     override fun toString(): String {
         return buildString {

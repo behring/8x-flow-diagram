@@ -4,6 +4,7 @@ import common.Element
 import common.ParentContainer
 import doxflow.models.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
+import doxflow.models.AssociationType
 import doxflow.models.Participant
 import doxflow.models.Role
 
@@ -40,9 +41,16 @@ class context(override val element: Element, override var resource: String? = nu
         rfp()
     }
 
-    fun proposal(name: String, role: Role, proposal: proposal.() -> Unit) = with(
+    fun proposal(
+        name: String,
+        role: Role,
+        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        proposal: proposal.() -> Unit
+    ) = with(
         proposal(name, this, generateGenerics(role))
     ) {
+        associate(associationType)
+        resource = this.javaClass.simpleName
         proposals.add(this)
         proposal()
     }

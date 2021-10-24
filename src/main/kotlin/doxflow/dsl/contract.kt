@@ -5,8 +5,7 @@ import doxflow.models.ONE_TO_ONE
 import doxflow.models.PLAY_TO
 import doxflow.models.*
 
-class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context),
-    Association {
+class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context) {
     var fulfillments: MutableList<Pair<fulfillment, AssociationType>> = mutableListOf()
 
     fun fulfillment(
@@ -25,10 +24,7 @@ class contract(name: String, context: context, private vararg val roles: Role) :
 
     override val type: String
         get() = contract::class.java.simpleName
-
-    override fun associate(type: AssociationType) {
-    }
-
+    
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
