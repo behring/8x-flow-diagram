@@ -33,6 +33,11 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
 
     override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply { function() }
 
+    override fun buildDocContent(): String = buildString {
+        appendLine("# 服务与业务能力")
+        appendLine(buildApiDocContent())
+    }
+
     /**
      * skinparam backgroundColor transparent
      * skinparam defaultFontColor White
@@ -58,8 +63,10 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         }
     }
 
-    override fun buildDocContent(): String {
-        TODO("Not yet implemented")
+    private fun buildApiDocContent(): String = buildString {
+        contexts.forEach { context ->
+            appendLine(context.toApiString())
+        }
     }
 }
 

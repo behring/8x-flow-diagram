@@ -29,4 +29,8 @@ class rfp(name: String, context: context, generics: String?, note: String? = nul
             appendLine("$name$ONE_TO_ONE${proposal.name}")
         }
     }
+
+    override fun toApiString(): String = buildString {
+        // TODO: 2021/10/24  
+    }
 }

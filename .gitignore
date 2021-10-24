@@ -3,3 +3,4 @@
 build
 diagrams
 ./**/diagrams
+.DS_Store

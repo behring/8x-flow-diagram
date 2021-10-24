@@ -21,6 +21,8 @@ abstract class Evidence<T>(
      * */
     abstract val type: String
 
+    open fun toApiString(): String {return ""}
+
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
 
     override fun key_data(vararg data: String) = data.let { this.data = it }

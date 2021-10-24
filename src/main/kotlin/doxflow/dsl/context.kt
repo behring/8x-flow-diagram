@@ -2,6 +2,7 @@ package doxflow.dsl
 
 import common.Element
 import common.ParentContainer
+import doxflow.diagram_8x_flow
 import doxflow.models.BusinessAbility
 import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.models.AssociationType
@@ -61,6 +62,13 @@ class context(override val element: Element, override var resource: String? = nu
             contract()
         }
 
+    fun toApiString(): String = buildString {
+        appendLine("## 业务能力表 - ${element.name}")
+        appendLine("|角色|HTTP方法|URI|业务能力|业务能力服务|")
+        appendLine("|---|---|---|---|---|")
+        generateApis()
+    }
+
     override fun invoke(function: context.() -> Unit): context = apply { function() }
 
     override fun addElement(element: Element) {
@@ -71,6 +79,8 @@ class context(override val element: Element, override var resource: String? = nu
         addElements(childClasses, element)
         generateClasses()
     }
+    private fun StringBuilder.generateApis() = arrayOf(rfps, proposals, contracts)
+        .flatMap { it }.forEach { appendLine(it.toApiString()) }
 
     private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
         .flatMap { it }.forEach { appendLine(it.toString()) }
