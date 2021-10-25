@@ -2,17 +2,17 @@ import architecture.diagram_inter_process
 
 diagram_inter_process {
     service("前端", "#Cyan") {
-        process("思沃租房通用版Web端")
-        process("思沃租房App个人版Android端")
-        process("思沃租房App个人版IOS端")
-        process("思沃租房App经纪人版Android端")
-        process("思沃租房App经纪人版IOS端")
+        process("链家租房通用版Web端")
+        process("链家租房App个人版Android端")
+        process("链家租房App个人版IOS端")
+        process("链家租房App经纪人版Android端")
+        process("链家租房App经纪人版IOS端")
         process("后台管理系统Web端")
     }
 
     service("BFF", "#RoyalBlue") {
-        process("思沃租房WebBFF")
-        process("思沃租房MobileBFF")
+        process("链家租房WebBFF")
+        process("链家租房MobileBFF")
     }
 
     service("技术组件", "#RoyalBlue") {
@@ -47,4 +47,4 @@ diagram_inter_process {
         process("发票代开服务")
         process("短信发送服务")
     }
-} export "./diagrams/tw_renting_inter_process_diagram.png"
+} export "./diagrams/lianjia_inter_process_diagram.png"

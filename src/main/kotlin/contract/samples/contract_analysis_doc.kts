@@ -6,7 +6,7 @@ doc_contract_content {
     // 定义合约
     contract("预充值合约") {
         // 定义合约的签订方
-        val twPlatform = person("甲方", "思沃租房")
+        val twPlatform = person("甲方", "链家租房")
         val realtor = person("乙方", "房产经纪人")
 
         // 定义履约项并提供证明履约完成的凭证

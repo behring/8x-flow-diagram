@@ -80,12 +80,12 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
                key_timestamps("签订时间")
            }
        }
-   } export "../../../diagrams/hello-word-diagram.png"
+   } export "../../../diagrams/hello_word_diagram.png"
    ```
 
-3. 右键该文件运行，在`8x-flow-diagram/diagrams`目录下查看`hello-word-diagram.png`文件。
+3. 右键该文件运行，在`8x-flow-diagram/diagrams`目录下查看`hello_word_diagram.png`文件。
 
-   ![商品订单合同](./images/hello-word-diagram.png)
+   ![商品订单合同](./images/hello_word_diagram.png)
 
 ### 语法介绍
 
@@ -96,7 +96,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 ```kotlin
 diagram_8x_flow {
    ...
-} export "../../../diagrams/hello-word-diagram.png"
+} export "../../../diagrams/hello_word_diagram.png"
 ```
 
 #### context
@@ -105,15 +105,15 @@ diagram_8x_flow {
 
 ```kotlin
 diagram_8x_flow {
-	context("商品销售上下文") {
-    val seller = role_party("卖家")
-    val buyer = role_party("买家")
+	context("读者订阅上下文") {
+    val reader = role_party("读者")
+    val geekTimePlatform = role_party("极客时间平台")
      ...
   }
   context("三方支付上下文") {
      ...
   }
-} export "../../../diagrams/hello-word-diagram.png"
+} export "../../../diagrams/hello_word_diagram.png"
 ```
 
 #### rfp（非必选）
@@ -200,21 +200,25 @@ fulfillment表示**一组履约项**，包含**request**和**confirmation**。�
 ```kotlin
 import doxflow.common.AssociationType.*
 ...
- context("信息推广上下文") {
-   			// 可以通过played关键字让参与方party扮演角色party
-        val advertiser = role_party("广告主") played participant_party("预充值用户")
-        val promoter = role_party("推广商") played participant_party("思沃租房")
+ context("读者订阅上下文") {
+   // 可以通过played关键字让参与方party扮演角色party
+   val reader = role_party("读者") played participant_party("极客时间注册用户")
+   val contentProvider = role_party("内容提供商") played participant_party("极客时间平台")
    ...
-   contract("信息推广服务合同", advertiser, promoter) {
-		key_timestamps("签订时间")
-      fulfillment("推广重启", ONE_TO_N) {
+   contract("专栏订阅合同", reader, contentProvider) {
+		key_timestamps("订阅时间")
+    // 可以通过associate方法设置合同关联的participant
+    participant_place("专栏") associate this
+     
+      fulfillment("专栏付款", ONE_TO_ONE) {
         // request可以指定或者忽略履约角色，但是不建议省略（三方合同可以省略）
-        request(advertiser) {
+ 				request(contentProvider) {
           key_timestamps("创建时间", "过期时间")
+          key_data("金额")
         }
         // confirmation可以指定或者忽略履约角色，但是不建议省略（三方合同可以省略）
-        confirmation(promoter) {
-          key_timestamps("启动时间")
+        confirmation(reader) {
+          key_timestamps("创建时间")
         }
       }
 		}
@@ -247,28 +251,24 @@ participant_xxx可以用来创建角色，包括如下DSL：
 ```kotlin
 diagram_8x_flow {
   // 凭证角色化是跨上下文的，因此需要在diagram_8x_flow下定义需要角色化的fulfillment(其实是fulfillment下的confirmation角色化)
-    lateinit var refundInPrepaidContext: fulfillment
+    lateinit var paymentInReaderSubscriptionContext: fulfillment
     
-    context("预充值协议上下文") {
-        val houseAgent = participant_party("房产经纪人")
-        val prepaidUser = role_party("预充值用户") played houseAgent
-        val rentingPlatform = role_party("思沃租房")
-
-        contract("预充值协议", prepaidUser, rentingPlatform) {
-            key_timestamps("签订时间")
-            participant_place("预充值账户") associate this
+    context("读者订阅上下文") {
+       ...
+        contract("专栏订阅合同", reader, contentProvider) {
+            key_timestamps("订阅时间")
+						...
 
           	// 这里是重点因为该履约项的确认是通过其他上下文的凭证来扮演的，所以需要临时保存
-            refundInPrepaidContext = fulfillment("余额退款") {
-                request(prepaidUser) {
-                    key_timestamps("创建时间", "过期时间")
-                    key_data("金额")
-                }
-
-                confirmation(rentingPlatform) {
-                    key_timestamps("创建时间")
-                    key_data("金额")
-                }
+            paymentInReaderSubscriptionContext = fulfillment("专栏付款") {
+              request(contentProvider) {
+                key_timestamps("创建时间", "过期时间")
+                key_data("金额")
+              }
+              
+            	confirmation(reader) {
+              	key_timestamps("创建时间")
+            	}
             }
         }
     }
@@ -291,20 +291,20 @@ diagram_8x_flow {
                         key_data("金额")
                     }
                   	//通过evidence的role关键字指定该evidence需要扮演哪个履约项的角色(这里指定了之前临时保存的fulfillment下的confirmation)
-                    evidence role refundInPrepaidContext.confirmation
+                    evidence role paymentInReaderSubscriptionContext.confirmation
                 }
             }
         }
     }
-} export "../../../diagrams/prepaid_contract_diagram.png"
+} export "../../../diagrams/reader_subscription_diagram.png"
 
 ```
 
 ### 图例
-- 预充值协议
-![预充值协议](./images/prepaid_contract_diagram.png)
-- 信息推广服务合同
-![信息推广服务合同](./images/info_promotion_contract_diagram.png)
+- 专栏订阅协议
+![预充值协议](./images/reader_subscription_diagram.png)
+- 绩效协议
+![信息推广服务合同](./images/editor_performance_diagram.png)
 - 商品订单合同
 ![商品订单合同](./images/contract_with_rfp_diagram.png)
 
@@ -393,14 +393,14 @@ diagram_inter_process {
 ```kotlin
 diagram_inter_process {
 		service("前端", "#Cyan") {
-      	// 可以让前端的中的“思沃租房通用版Web端”组件通过call方法调用BFF的“思沃租房WebBF”组件
-        process("思沃租房通用版Web端").call("思沃租房WebBFF","1. GET /web-bff/ads")
+      	// 可以让前端的中的“链家租房通用版Web端”组件通过call方法调用BFF的“链家租房WebBF”组件
+        process("链家租房通用版Web端").call("链家租房WebBFF","1. GET /web-bff/ads")
     }
   	service("BFF", "#RoyalBlue") {
-        process("思沃租房WebBFF")
-				process("思沃租房MobileBFF")
+        process("链家租房WebBFF")
+				process("链家租房MobileBFF")
     }
-  } export "./diagrams/tw_renting_inter_process_communication_diagram.png"
+  } export "./diagrams/lianjia_inter_process_communication_diagram.png"
 
 ```
 
@@ -422,7 +422,7 @@ diagram_inter_process {
 
 ### 图例
 
-![](./images/tw_renting_inter_process_communication_diagram.png)
+![](./images/lianjia_inter_process_communication_diagram.png)
 
 
 

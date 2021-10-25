@@ -9,6 +9,9 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
     private var roles: MutableList<confirmation> = mutableListOf()
     var detailAssociation: Pair<detail, AssociationType>? = null
 
+    /**
+     * 凭证角色化，让当前凭证扮演confirmation(调用有confirmation变为橙色，当前evidence指向confirmation)
+     * */
     infix fun role(confirmation: confirmation) {
         roles.add(confirmation.role())
     }

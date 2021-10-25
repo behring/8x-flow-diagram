@@ -1,90 +1,54 @@
 import doxflow.diagram_8x_flow
+import doxflow.dsl.detail
 import doxflow.dsl.fulfillment
 import doxflow.models.diagram.AssociationType.*
 import org.junit.Test
 
 internal class diagram_8x_flow_test {
     @Test
-    fun create_prepaid_contract_diagram() {
+    fun create_reader_subscription_diagram() {
         diagram_8x_flow {
-            lateinit var refundInPrepaidContext: fulfillment
-            lateinit var prepaidInPrepaidContext: fulfillment
-            lateinit var invoiceInPrepaidContext: fulfillment
+            lateinit var paymentInReaderSubscriptionContext: fulfillment
 
-            context("预充值协议上下文") {
-                val houseAgent = participant_party("房产经纪人")
-                val prepaidUser = role_party("预充值用户") played houseAgent
-                val rentingPlatform = role_party("思沃租房")
+            context("读者订阅上下文") {
+                val reader = role_party("读者") played participant_party("极客时间注册用户")
+                val contentProvider = role_party("内容提供商") played participant_party("极客时间平台")
 
-                contract("预充值协议", prepaidUser, rentingPlatform) {
-                    key_timestamps("签订时间")
-                    participant_place("预充值账户") associate this
+                contract("专栏订阅合同", reader, contentProvider) {
+                    key_timestamps("订阅时间")
+                    participant_place("专栏") associate this
 
-                    prepaidInPrepaidContext = fulfillment("预充值") {
-                        request(rentingPlatform) {
+                    paymentInReaderSubscriptionContext = fulfillment("专栏付款") {
+                        request(contentProvider) {
                             key_timestamps("创建时间", "过期时间")
                             key_data("金额")
                         }
 
-                        confirmation(prepaidUser) {
+                        confirmation(reader) {
                             key_timestamps("创建时间")
                             key_data("金额")
                         }
                     }
 
-                    refundInPrepaidContext = fulfillment("余额退款") {
-                        request(prepaidUser) {
-                            key_timestamps("创建时间", "过期时间")
-                            key_data("金额")
+                    fulfillment("付费内容访问") {
+                        request(reader) {
+                            key_timestamps("创建时间", "订阅时间")
+                            key_data("专栏")
                         }
 
-                        confirmation(rentingPlatform) {
-                            key_timestamps("创建时间")
-                            key_data("金额")
-                        }
-                    }
-
-                    invoiceInPrepaidContext = fulfillment("发票开具") {
-                        request(prepaidUser) {
-                            key_timestamps("创建时间", "过期时间")
-                            key_data("金额")
-                        }
-
-                        confirmation(rentingPlatform) {
-                            key_timestamps("创建时间")
-                            key_data("金额")
+                        confirmation(contentProvider) {
+                            key_timestamps("订阅时间")
+                            key_data("专栏")
                         }
                     }
 
-                    fulfillment("账单发送") {
-                        request(prepaidUser) {
-                            key_timestamps("创建时间", "过期时间")
+                    fulfillment("断更补偿") {
+                        request(reader) {
+                            key_timestamps("创建时间", "最后更新时间")
                             key_data("金额")
                         }
 
-                        confirmation(rentingPlatform) {
-                            key_timestamps("发布时间")
-                            key_data("金额")
-
-                            evidence("账单") {
-                                key_timestamps("创建时间")
-                                key_data("账单期数, 总金额")
-
-                                detail("账单明细") {
-                                    key_timestamps("创建时间")
-                                    key_data("账单期数, 总金额")
-                                }
-                            }
-                        }
-                    }
-
-                    fulfillment("支付推广费用") {
-                        request(rentingPlatform) {
-                            key_timestamps("创建时间", "过期时间")
-                            key_data("金额")
-                        }
-
-                        confirmation(prepaidUser) {
+                        confirmation(contentProvider) {
                             key_timestamps("创建时间")
                             key_data("金额")
                         }
@@ -109,103 +73,57 @@ internal class diagram_8x_flow_test {
                                 key_timestamps("支付时间")
                                 key_data("金额")
                             }
-                            evidence role refundInPrepaidContext.confirmation
-                            evidence role prepaidInPrepaidContext.confirmation
-
-
+                            evidence role paymentInReaderSubscriptionContext.confirmation
                         }
                     }
                 }
             }
-
-            context("发票代开服务上下文") {
-                contract("发票代开协议") {
-                    key_timestamps("签订时间")
-                    fulfillment("发票代开") {
-                        request {
-                            key_timestamps("创建时间", "过期时间")
-                            key_data("金额")
-                        }
-
-                        confirmation {
-                            key_timestamps("创建时间")
-                            key_data("金额")
-
-                            val evidence = evidence("发票") {
-                                key_timestamps("开具时间")
-                                key_data("金额")
-                            }
-                            evidence role invoiceInPrepaidContext.confirmation
-                        }
-                    }
-                }
-            }
-
-        } export "./diagrams/prepaid_contract_diagram.png"
-
+        } export "./diagrams/reader_subscription_diagram.png"
     }
 
     @Test
-    fun create_info_promotion_contract_diagram() {
+    fun create_editor_performance_diagram() {
         diagram_8x_flow {
-            context("信息推广上下文") {
-                val advertiser = role_party("广告主") played participant_party("预充值用户")
-                val promoter = role_party("推广商") played participant_party("思沃租房")
+            context("编辑绩效协议上下文") {
+                val editor = role_party("编辑")
+                val geekTimePlatform = role_party("极客时间平台")
 
-                proposal("信息推广方案", promoter) {
-                    key_timestamps("创建时间")
-                    key_data("点击报价")
+                contract("绩效协议") {
+                    key_timestamps("签订时间")
+                    editor associate this
+                    geekTimePlatform associate this
 
-                    participant_thing("用户账号")
-
-                    participant_thing("房屋租赁信息") associate this
-
-                    contract("信息推广服务合同", advertiser, promoter) {
-                        key_timestamps("签订时间")
-
-                        fulfillment("推广重启", ONE_TO_N) {
-                            request(advertiser) {
-                                key_timestamps("创建时间", "过期时间")
-                            }
-                            confirmation(promoter) {
-                                key_timestamps("启动时间")
-                            }
+                    fulfillment("目标设定") {
+                        request(editor) {
+                            key_timestamps("开始时间", "截止时间")
+                            key_data("绩效指标")
                         }
 
-                        fulfillment("推广取消", ONE_TO_N) {
-                            request(advertiser) {
-                                key_timestamps("创建时间", "过期时间")
-                            }
-                            confirmation(promoter) {
-                                key_timestamps("取消时间")
-                            }
+                        confirmation(geekTimePlatform) {
+                            key_timestamps("确认时间")
+                            key_data("目标完成率")
+                        }
+                    }
+
+                    fulfillment("周进度检查") {
+                        request(editor) {
+                            key_timestamps("开始时间", "截止时间")
+                            key_data("周进度")
                         }
 
-                        fulfillment("支付", ONE_TO_N) {
-                            request(promoter) {
-                                key_timestamps("创建时间", "过期时间", "终止时间")
-                                key_data("金额")
-                            }
-                            confirmation(advertiser) {
-                                key_timestamps("创建时间")
-                                key_data("金额")
+                        confirmation(geekTimePlatform) {
+                            key_timestamps("确认时间")
+                            key_data("周进度完成率")
+
+                            this dependent_on confirmation("周进度检查确认条目") {
+                                key_timestamps("确认时间")
+                                key_data("专栏选题", "文章提交", "专栏立项", "交稿确认")
                             }
                         }
-
-                        fulfillment("信息推广", ONE_TO_N) {
-                            request(advertiser) {
-                                key_timestamps("创建时间", "过期时间", "终止时间")
-                            }
-                            confirmation(promoter) {
-                                key_timestamps("创建时间")
-                            }
-                            associate(ONE_TO_N)
-                        }
-
                     }
                 }
             }
-        } export "./diagrams/info_promotion_contract_diagram.png"
+        } export "./diagrams/editor_performance_diagram.png"
     }
 
     @Test

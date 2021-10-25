@@ -17,12 +17,10 @@ class Participant(val element: Element, val type: Type, val context: context) : 
         associates.add(associate)
     }
 
-    override fun toString(): String {
-        return buildString {
-            appendLine("""${element.type} ${element.name} <<${type.name.lowercase()}>> #ForestGreen""".trimIndent())
-            associates.forEach {
-                appendLine("${element.name} $ASSOCIATE ${it.name}")
-            }
+    override fun toString(): String = buildString {
+        appendLine("${element.type} ${element.name} <<${type.name.lowercase()}>> #ForestGreen")
+        associates.forEach {
+            appendLine("${element.name} $ASSOCIATE ${it.name}")
         }
     }
 }

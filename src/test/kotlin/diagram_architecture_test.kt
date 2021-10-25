@@ -36,20 +36,20 @@ internal class diagram_architecture_test {
     }
 
     @Test
-    fun create_tw_renting_inter_process_diagram() {
+    fun create_lianjia_inter_process_diagram() {
         diagram_inter_process {
             service("前端", "#Cyan") {
-                process("思沃租房通用版Web端")
-                process("思沃租房App个人版Android端")
-                process("思沃租房App个人版IOS端")
-                process("思沃租房App经纪人版Android端")
-                process("思沃租房App经纪人版IOS端")
+                process("链家租房通用版Web端")
+                process("链家租房App个人版Android端")
+                process("链家租房App个人版IOS端")
+                process("链家租房App经纪人版Android端")
+                process("链家租房App经纪人版IOS端")
                 process("后台管理系统Web端")
             }
 
             service("BFF", "#RoyalBlue") {
-                process("思沃租房WebBFF")
-                process("思沃租房MobileBFF")
+                process("链家租房WebBFF")
+                process("链家租房MobileBFF")
             }
 
             service("技术组件", "#RoyalBlue") {
@@ -84,19 +84,19 @@ internal class diagram_architecture_test {
                 process("发票代开服务")
                 process("短信发送服务")
             }
-        } export "./diagrams/tw_renting_inter_process_diagram.png"
+        } export "./diagrams/lianjia_inter_process_diagram.png"
     }
 
     @Test
-    fun create_tw_renting_inter_process_communication_diagram() {
+    fun create_lianjia_inter_process_communication_diagram() {
         diagram_inter_process {
             service("前端", "#Cyan") {
-                process("思沃租房通用版Web端").call("思沃租房WebBFF", "1. GET /web-bff/ads")
-                process("思沃租房通用版Web端").call("ADX数据监测系统", "5. GET /adx/xxx")
+                process("链家租房通用版Web端").call("链家租房WebBFF", "1. GET /web-bff/ads")
+                process("链家租房通用版Web端").call("ADX数据监测系统", "5. GET /adx/xxx")
             }
 
             service("BFF", "#RoyalBlue") {
-                process("思沃租房WebBFF").call("租赁信息应用服务", "2. GET /rental/ads")
+                process("链家租房WebBFF").call("租赁信息应用服务", "2. GET /rental/ads")
             }
 
             service("应用服务", "#LightSeaGreen") {
@@ -120,7 +120,7 @@ internal class diagram_architecture_test {
             service("第三方系统", "#gray") {
                 process("ADX数据监测系统").call("三方服务网关", "6. POST /3rd-party-gateway/ad-data")
             }
-        } export "./diagrams/tw_renting_inter_process_communication_diagram.png"
+        } export "./diagrams/lianjia_inter_process_communication_diagram.png"
     }
 
     @Test
