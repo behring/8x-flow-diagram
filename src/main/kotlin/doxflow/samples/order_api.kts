@@ -20,7 +20,20 @@ diagram_8x_flow {
 
                 contract("商品订单合同", seller, buyer) {
                     resource = "order"
+                    association_type = ONE_TO_N
                     key_timestamps("签订时间")
+
+                    fulfillment("订单支付") {
+                        resource = "payment"
+                        request(seller) {
+                            key_timestamps("创建时间", "过期时间")
+                            key_data("金额")
+                        }
+
+                        confirmation(buyer) {
+                            key_timestamps("创建时间")
+                        }
+                    }
                 }
             }
         }

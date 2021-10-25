@@ -1,10 +1,11 @@
 package doxflow.dsl
 
 import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 
 class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context) {
-    var fulfillments: MutableList<Pair<fulfillment, AssociationType>> = mutableListOf()
+    var fulfillments: MutableList<fulfillment> = mutableListOf()
 
     fun fulfillment(
         name: String,
@@ -12,9 +13,18 @@ class contract(name: String, context: context, private vararg val roles: Role) :
         fulfillment: fulfillment.() -> Unit
     ): fulfillment =
         fulfillment(name, context).apply {
-            fulfillments.add(Pair(this, associationType))
+            this.contract = this@contract
+            association_type = associationType
+            fulfillments.add(this)
             fulfillment()
         }
+
+    override fun addBusinessAbility(table: BusinessAbilityTable) {
+        super.addBusinessAbility(table)
+        fulfillments.forEach {
+            it.request.addBusinessAbility(table)
+        }
+    }
 
     override fun invoke(function: contract.() -> Unit): contract {
         return apply { function() }
@@ -35,10 +45,10 @@ class contract(name: String, context: context, private vararg val roles: Role) :
             }
 
             fulfillments.forEach {
-                appendLine("""$name ${getAssociateLink(it.second)} ${it.first.request.name}""")
-                appendLine(it.first.request.toString())
-                appendLine(it.first.toString())
-                appendLine(it.first.confirmation.toString())
+                appendLine("""$name ${getAssociateLink(it.association_type)} ${it.request.name}""")
+                appendLine(it.request.toString())
+                appendLine(it.toString())
+                appendLine(it.confirmation.toString())
             }
         }
     }

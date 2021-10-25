@@ -5,14 +5,17 @@ import doxflow.models.diagram.*
 class proposal(name: String, context: context, role: Role?, note: String? = null) :
     Evidence<proposal>(name, context, role, note) {
     private lateinit var contract: contract
+
     init {
         resource = type
     }
+
     // 当前proposal是否有对应的rfp
     var rfp: rfp? = null
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
         this.contract = contract(name, context, *roles).apply {
+            association_type = AssociationType.ONE_TO_ONE
             context.contracts.add(this)
             contract()
         }

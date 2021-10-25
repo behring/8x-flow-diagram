@@ -42,7 +42,7 @@ class context(override val element: Element, override var resource: String = "")
     ) = with(
         rfp(name, this, role)
     ) {
-        this.associationType = associationType
+        this.association_type = associationType
         rfps.add(this)
         rfp()
     }
@@ -55,7 +55,7 @@ class context(override val element: Element, override var resource: String = "")
     ) = with(
         proposal(name, this, role)
     ) {
-        this.associationType = associationType
+        this.association_type = associationType
         resource = this.javaClass.simpleName
         proposals.add(this)
         proposal()
@@ -63,6 +63,7 @@ class context(override val element: Element, override var resource: String = "")
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) =
         with(contract(name, this, *roles)) {
+            association_type = AssociationType.ONE_TO_ONE
             contracts.add(this)
             contract()
         }

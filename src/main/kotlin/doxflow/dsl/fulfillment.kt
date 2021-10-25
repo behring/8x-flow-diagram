@@ -7,14 +7,18 @@ import doxflow.models.diagram.AssociationType
 import doxflow.models.diagram.Role
 
 class fulfillment(val name: String, val context: context, override var resource: String = "",
-                  override var associationType: AssociationType = AssociationType.ONE_TO_ONE
+                  override var association_type: AssociationType = AssociationType.ONE_TO_ONE
 ) :
     BusinessAbility<fulfillment>, Association {
+    lateinit var contract: contract
     lateinit var request: request
     lateinit var confirmation: confirmation
 
     fun request(role: Role? = null, request: request.() -> Unit) {
         this.request = request("${name}请求", context, role).apply { request() }
+        this.request.resource = resource
+        this.request.contract = contract
+        this.request.association_type = association_type
     }
 
     fun confirmation(role: Role? = null, confirmation: confirmation.() -> Unit) {
@@ -27,7 +31,7 @@ class fulfillment(val name: String, val context: context, override var resource:
 
     override fun toString(): String {
         return buildString {
-            appendLine("""${request.name} ${getAssociateLink(associationType)} ${confirmation.name}""")
+            appendLine("""${request.name} ${getAssociateLink(association_type)} ${confirmation.name}""")
         }
     }
 }

@@ -25,25 +25,28 @@ abstract class Evidence<T>(
 
     open fun getUriPrefix(): String = ""
 
-    override var associationType: AssociationType = AssociationType.ONE_TO_ONE
+    override var association_type: AssociationType = AssociationType.ONE_TO_ONE
 
-    open fun getUri(): String = when (associationType) {
+    open fun getUri(): String = when (association_type) {
         AssociationType.ONE_TO_ONE -> "${getUriPrefix()}/$resource"
         AssociationType.ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
         else -> "${getUriPrefix()}/$resource"
     }
 
-    fun addBusinessAbility(table: BusinessAbilityTable) {
+    open fun addBusinessAbility(table: BusinessAbilityTable) {
+        if (resource.isBlank()) return
         val roleName = role?.element?.name ?: ""
         val serviceName = "${context.element.name}服务"
         val singularUri: String
-        when (associationType) {
-            AssociationType.ONE_TO_ONE -> singularUri = "${getUriPrefix()}/$resource"
-
+        when (association_type) {
+            AssociationType.ONE_TO_ONE -> {
+                singularUri = "${getUriPrefix()}/$resource"
+                table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建$name", serviceName, roleName))
+            }
             AssociationType.ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
-                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "发起$name", serviceName, roleName))
+                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建$name", serviceName, roleName))
                 table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${name}列表", serviceName))
             }
             else -> singularUri = "${getUriPrefix()}/$resource"
