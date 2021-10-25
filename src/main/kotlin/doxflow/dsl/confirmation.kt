@@ -1,13 +1,10 @@
 package doxflow.dsl
 
-import doxflow.diagram_8x_flow.generateGenerics
-import doxflow.models.diagram.ASSOCIATE
-import doxflow.models.diagram.Evidence
-import doxflow.models.diagram.ONE_TO_ONE
-import doxflow.models.diagram.Role
+import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.models.diagram.*
 
-class confirmation(name: String, context: context, generics: String?, note: String? = null) :
-    Evidence<confirmation>(name, context, generics, note) {
+class confirmation(name: String, context: context, role: Role?, note: String? = null) :
+    Evidence<confirmation>(name, context, role, note) {
     /**
      * 当前confirmation是否存在一个evidence去扮演它
      * */
@@ -37,7 +34,7 @@ class confirmation(name: String, context: context, generics: String?, note: Stri
     }
 
     fun confirmation(name: String, role: Role? = null, confirmation: confirmation.() -> Unit): confirmation =
-        confirmation("${name}确认", context, generateGenerics(role)).apply {
+        confirmation("${name}确认", context, role).apply {
             role()
             confirmation()
         }
@@ -57,7 +54,7 @@ class confirmation(name: String, context: context, generics: String?, note: Stri
             }
             dependentConfirmation?.let {
                 appendLine(dependentConfirmation.toString())
-                appendLine("""$name $ONE_TO_ONE ${it.name}""")
+                appendLine("""$name ${getAssociateLink(association_type)} ${it.name}""")
             }
         }
     }

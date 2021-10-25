@@ -48,9 +48,9 @@ class context(override val element: Element, override var resource: String = "")
         associationType: AssociationType = AssociationType.ONE_TO_ONE,
         proposal: proposal.() -> Unit
     ) = with(
-        proposal(name, this, generateGenerics(role))
+        proposal(name, this, role)
     ) {
-        associate(associationType)
+        association_type = associationType
         resource = this.javaClass.simpleName
         proposals.add(this)
         proposal()

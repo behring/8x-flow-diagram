@@ -50,6 +50,7 @@ interface ParentContainer {
 
     fun generateElementsStr(container: Element, elements: List<Element>, elementsStr: StringBuilder) {
         val mutableElement = elements.toMutableList()
+        if (mutableElement.isEmpty()) return
         do {
             val element = mutableElement.removeFirst()
             elementsStr.append("${element.type} ${element.name} ${element.color ?: container.color ?: ""}")

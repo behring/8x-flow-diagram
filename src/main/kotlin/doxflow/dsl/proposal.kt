@@ -2,10 +2,14 @@ package doxflow.dsl
 
 import doxflow.models.diagram.*
 
-class proposal(name: String, context: context, generics: String?, note: String? = null) :
-    Evidence<proposal>(name, context, generics, note), Association {
+class proposal(name: String, context: context, role: Role?, note: String? = null) :
+    Evidence<proposal>(name, context, role, note) {
     private lateinit var contract: contract
-    private lateinit var associateType: AssociationType
+    init {
+        resource = type
+    }
+    // 当前proposal是否有对应的rfp
+    var rfp: rfp? = null
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
         this.contract = contract(name, context, *roles).apply {
@@ -19,8 +23,11 @@ class proposal(name: String, context: context, generics: String?, note: String? 
 
     override fun invoke(function: proposal.() -> Unit): proposal = apply { function() }
 
-    override fun associate(type: AssociationType) {
-        associateType = type
+    override fun getUriPrefix(): String {
+        rfp?.let {
+            return it.getUri()
+        }
+        return super.getUriPrefix()
     }
 
     override fun toString(): String {

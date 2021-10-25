@@ -7,7 +7,7 @@ const val ASSOCIATE = """ -- """
 const val PLAY_TO = """ ..> """
 
 interface Association {
-    fun associate(type: AssociationType)
+    var association_type: AssociationType
 }
 
 enum class AssociationType {
