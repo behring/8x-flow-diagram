@@ -25,18 +25,29 @@ abstract class Evidence<T>(
 
     open fun getUriPrefix(): String = ""
 
-    override var association_type: AssociationType = AssociationType.ONE_TO_ONE
+    override var associationType: AssociationType = AssociationType.ONE_TO_ONE
 
-    open fun getUri(): String = "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
+    open fun getUri(): String = when (associationType) {
+        AssociationType.ONE_TO_ONE -> "${getUriPrefix()}/$resource"
+        AssociationType.ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
+        else -> "${getUriPrefix()}/$resource"
+    }
 
     fun addBusinessAbility(table: BusinessAbilityTable) {
         val roleName = role?.element?.name ?: ""
-        val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
-        val singularUri = "$pluralUri/{${resource[0]}id}"
         val serviceName = "${context.element.name}服务"
+        val singularUri: String
+        when (associationType) {
+            AssociationType.ONE_TO_ONE -> singularUri = "${getUriPrefix()}/$resource"
 
-        table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "发起$name", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${name}列表", serviceName))
+            AssociationType.ONE_TO_N -> {
+                val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
+                singularUri = "$pluralUri/{${resource[0]}id}"
+                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "发起$name", serviceName, roleName))
+                table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${name}列表", serviceName))
+            }
+            else -> singularUri = "${getUriPrefix()}/$resource"
+        }
         table.addRow(BusinessAbilityTable.Row("GET", singularUri, "查看$name", serviceName, roleName))
         table.addRow(BusinessAbilityTable.Row("PUT", singularUri, "更改$name", serviceName, roleName))
         table.addRow(BusinessAbilityTable.Row("DELETE", singularUri, "取消$name", serviceName, roleName))

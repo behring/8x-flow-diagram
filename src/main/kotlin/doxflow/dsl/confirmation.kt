@@ -54,7 +54,7 @@ class confirmation(name: String, context: context, role: Role?, note: String? = 
             }
             dependentConfirmation?.let {
                 appendLine(dependentConfirmation.toString())
-                appendLine("""$name ${getAssociateLink(association_type)} ${it.name}""")
+                appendLine("""$name ${getAssociateLink(associationType)} ${it.name}""")
             }
         }
     }

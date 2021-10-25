@@ -4,11 +4,10 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.diagram_8x_flow.getAssociateLink
 import doxflow.models.diagram.Association
 import doxflow.models.diagram.AssociationType
-import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Role
 
 class fulfillment(val name: String, val context: context, override var resource: String = "",
-                  override var association_type: AssociationType = AssociationType.ONE_TO_ONE
+                  override var associationType: AssociationType = AssociationType.ONE_TO_ONE
 ) :
     BusinessAbility<fulfillment>, Association {
     lateinit var request: request
@@ -28,7 +27,7 @@ class fulfillment(val name: String, val context: context, override var resource:
 
     override fun toString(): String {
         return buildString {
-            appendLine("""${request.name} ${getAssociateLink(association_type)} ${confirmation.name}""")
+            appendLine("""${request.name} ${getAssociateLink(associationType)} ${confirmation.name}""")
         }
     }
 }

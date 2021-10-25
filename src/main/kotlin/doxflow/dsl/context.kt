@@ -3,7 +3,6 @@ package doxflow.dsl
 import common.Element
 import common.ParentContainer
 import doxflow.models.ability.BusinessAbility
-import doxflow.diagram_8x_flow.generateGenerics
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.AssociationType
 import doxflow.models.diagram.Participant
@@ -35,9 +34,15 @@ class context(override val element: Element, override var resource: String = "")
         Participant(Element(name, "class"), Participant.Type.THING, this).apply { participants.add(this) }
 
 
-    fun rfp(name: String, role: Role, rfp: rfp.() -> Unit) = with(
+    fun rfp(
+        name: String,
+        role: Role,
+        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        rfp: rfp.() -> Unit
+    ) = with(
         rfp(name, this, role)
     ) {
+        this.associationType = associationType
         rfps.add(this)
         rfp()
     }
@@ -50,7 +55,7 @@ class context(override val element: Element, override var resource: String = "")
     ) = with(
         proposal(name, this, role)
     ) {
-        association_type = associationType
+        this.associationType = associationType
         resource = this.javaClass.simpleName
         proposals.add(this)
         proposal()

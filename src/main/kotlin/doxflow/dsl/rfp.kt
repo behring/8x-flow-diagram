@@ -18,7 +18,7 @@ class rfp(name: String, context: context, role: Role, note: String? = null) :
         this.proposal = proposal(name, context, role).apply {
             context.proposals.add(this)
             rfp = this@rfp
-            association_type = associationType
+            this.associationType = associationType
             proposal()
         }
     }
