@@ -39,9 +39,6 @@ class contract(name: String, context: context, private vararg val roles: Role) :
             roles.forEach { role ->
                 appendLine(role.toString())
                 appendLine("""$name $ONE_TO_ONE ${role.element.name}""")
-                role.participant?.let {
-                    appendLine("""${it.element.name} $PLAY_TO ${role.element.name}""")
-                }
             }
 
             fulfillments.forEach {

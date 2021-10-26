@@ -5,6 +5,7 @@ import common.ParentContainer
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.AssociationType
+import doxflow.models.diagram.PLAY_TO
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Role
 
@@ -90,6 +91,14 @@ class context(override val element: Element, override var resource: String = "")
         appendLine(table.toString())
     }
 
-    private fun StringBuilder.generateClasses() = arrayOf(participants, roles, rfps, proposals, contracts)
-        .flatMap { it }.forEach { appendLine(it.toString()) }
+    private fun StringBuilder.generateClasses() {
+        arrayOf(participants, roles, rfps, proposals, contracts)
+            .flatMap { it }.forEach { appendLine(it.toString()) }
+
+        roles.forEach { role ->
+            role.participant?.let {
+                appendLine("""${it.element.name} $PLAY_TO ${role.element.name}""")
+            }
+        }
+    }
 }
