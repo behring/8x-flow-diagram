@@ -1,6 +1,9 @@
 package common
 
+import net.sourceforge.plantuml.FileFormat
+import net.sourceforge.plantuml.FileFormatOption
 import net.sourceforge.plantuml.SourceStringReader
+import net.sourceforge.plantuml.cucadiagram.dot.GraphvizUtils
 import java.io.File
 import java.io.FileOutputStream
 
@@ -99,8 +102,20 @@ interface Diagram {
         )
 
         val file = File(filePath).apply { parentFile.mkdirs() }
-        with(SourceStringReader(plantumlStr).outputImage(FileOutputStream(file)).description != null) {
+        GraphvizUtils.setLocalImageLimit(10000)
+        with(
+            SourceStringReader(plantumlStr).outputImage(
+                FileOutputStream(file),
+                FileFormatOption(getFileType(filePath))
+            ).description != null
+        ) {
             return apply { exportResult(this) }
         }
+    }
+
+    private fun getFileType(filePath: String): FileFormat = when (File(filePath).extension) {
+        "svg" -> FileFormat.SVG
+        "png" -> FileFormat.PNG
+        else -> throw IllegalArgumentException("file format error, format: ${File(filePath).extension}")
     }
 }
