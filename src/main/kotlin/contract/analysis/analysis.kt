@@ -1,5 +1,6 @@
 package contract.analysis.dsl
 
+import common.Color.PINK
 import common.KeyInfo
 import contract.analysis.diagram_contract_analysis.contractToEvidences
 
@@ -50,10 +51,10 @@ open class evidence(val name: String) : KeyInfo<evidence> {
     override fun toString(): String = buildString {
         appendLine(
             """
-            class $name<<${this@evidence.javaClass.simpleName}>> #HotPink {
-                ${if (timestamps != null) timestamps.contentToString() else ""}
+            class $name<<${this@evidence.javaClass.simpleName}>> $PINK {
+                ${timestamps?.joinToString() ?: ""}
                 ${if (timestamps != null && data != null) ".." else ""}
-                ${if (data != null) data.contentToString() else ""}
+                ${data?.joinToString() ?: ""}
             }
         """.trimIndent()
         )

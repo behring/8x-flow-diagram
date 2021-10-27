@@ -26,7 +26,6 @@ object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
 
     override fun buildPlantUmlString(): String = """
         |@startuml
-        |skinparam componentStyle rectangle
         |skinparam rectangleFontColor black
         ${buildPlantUmlContent()}
         |@enduml

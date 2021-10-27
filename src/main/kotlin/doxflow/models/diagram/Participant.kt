@@ -2,6 +2,7 @@ package doxflow.models.diagram
 
 import common.Element
 import common.ChildElement
+import common.Color.GREEN
 import doxflow.dsl.context
 
 class Participant(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {
@@ -18,7 +19,7 @@ class Participant(val element: Element, val type: Type, val context: context) : 
     }
 
     override fun toString(): String = buildString {
-        appendLine("${element.type} ${element.name} <<${type.name.lowercase()}>> #ForestGreen")
+        appendLine("${element.type} ${element.name} <<${type.name.lowercase()}>> $GREEN")
         associates.forEach {
             appendLine("${element.name} $ASSOCIATE ${it.name}")
         }

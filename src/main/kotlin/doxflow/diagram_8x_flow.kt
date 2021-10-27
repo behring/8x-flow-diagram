@@ -42,12 +42,16 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
      * skinparam backgroundColor transparent
      * skinparam defaultFontColor White
      * skinparam arrowFontColor Black
+     * skinparam roundCorner 10
      **/
     override fun buildPlantUmlString(): String = """
         |@startuml
-        |skinparam classFontColor White
-        |skinparam classAttributeFontColor White
-        |skinparam roundCorner 10
+        |skinparam class {
+        |   BorderColor black
+        |   FontColor White
+        |   AttributeFontColor White
+        |   StereotypeFontColor White
+        |}
         |hide circle
         ${buildPlantUmlContent()}
         |@enduml

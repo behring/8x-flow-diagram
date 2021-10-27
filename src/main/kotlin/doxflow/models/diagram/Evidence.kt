@@ -1,6 +1,8 @@
 package doxflow.models.diagram
 
 import common.ChildElement
+import common.Color.PINK
+import common.Color.YELLOW
 import doxflow.models.ability.BusinessAbility
 import common.KeyInfo
 import doxflow.diagram_8x_flow.generateGenerics
@@ -63,10 +65,10 @@ abstract class Evidence<T>(
     override fun toString(): String {
         return """
             ${note ?: ""}
-            class $name${generateGenerics(role) ?: ""}<<$type>> ${if (isRole) "#Orange" else "#HotPink"}{
-                ${if (timestamps != null) timestamps.contentToString() else ""}
+            class $name${generateGenerics(role) ?: ""}<<$type>> ${if (isRole) YELLOW else PINK}{
+                ${timestamps?.joinToString() ?: ""}
                 ${if (timestamps != null && data != null) ".." else ""}
-                ${if (data != null) data.contentToString() else ""}
+                ${data?.joinToString() ?: ""}
             }
         """.trimIndent()
     }

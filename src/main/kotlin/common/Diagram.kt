@@ -78,7 +78,9 @@ open class ChildElement(element: Element, container: ParentContainer) : Interact
 }
 
 object Color {
-
+    const val PINK = "#F0637C"
+    const val GREEN = "#6D9D79"
+    const val YELLOW = "#CA8422"
 }
 
 interface Diagram {

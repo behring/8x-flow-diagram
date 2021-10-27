@@ -61,7 +61,7 @@ clone [8x-flow-diagram](https://github.com/behring/8x-flow-diagram)的代码到�
 * **创建角色对象(Roles)**：包括*合约中的角色(Role)、领域逻辑角色化(Domain)、第三方系统角色化(3rd System)、凭证角色化(Evidence As Role)。*
 * **创建关系**：*关联关系(1对1、1对N、无数量)；扮演角色关系。*  
 
-![8xflow业务建模图图例](./images/8xflow业务建模图图例.svg)
+![8xflow业务建模图图例](./images/8xflow业务建模图图例.png)
 
 
 

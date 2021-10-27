@@ -2,6 +2,7 @@ package doxflow.models.diagram
 
 import common.Element
 import common.ChildElement
+import common.Color.YELLOW
 import doxflow.dsl.context
 
 class Role(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {
@@ -22,7 +23,7 @@ class Role(val element: Element, val type: Type, val context: context) : ChildEl
     }
 
     override fun toString(): String = buildString {
-        appendLine("class ${element.name} <<${type.name.lowercase()}>> #orange")
+        appendLine("class ${element.name} <<${type.name.lowercase()}>> $YELLOW")
         associates.forEach {
             appendLine("${element.name} $ASSOCIATE ${it.name}")
         }
