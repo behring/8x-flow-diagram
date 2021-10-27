@@ -8,7 +8,7 @@ import doxflow.models.diagram.*
 object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
     private var contexts: MutableList<context> = mutableListOf()
 
-    fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "package"))) {
+    fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "rectangle"))) {
         contexts.add(this)
         context()
     }
