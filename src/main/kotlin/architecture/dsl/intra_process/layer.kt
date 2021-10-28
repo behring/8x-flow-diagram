@@ -5,7 +5,7 @@ import common.Element
 import common.DSL
 import common.ParentContainer
 
-class layer(override val element: Element) : DSL<layer>, ParentContainer {
+class layer(val element: Element) : DSL<layer>, ParentContainer {
     private val childComponents: MutableList<Element> = mutableListOf()
     val components: MutableList<component> = mutableListOf()
 

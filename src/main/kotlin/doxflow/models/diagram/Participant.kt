@@ -17,7 +17,7 @@ class Participant(val element: Element, val type: Type, val context: context) {
         THING
     }
 
-    infix fun <T> relate(genericEvidence: Evidence<out T>) {
+    infix fun relate(genericEvidence: Evidence<*>) {
         genericeEvidences.add(genericEvidence)
     }
 

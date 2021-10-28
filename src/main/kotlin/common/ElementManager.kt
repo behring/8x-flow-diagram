@@ -1,7 +1,6 @@
 package common
 
 interface ParentContainer {
-    val element: Element
     fun addElement(element: Element) {}
 
     fun StringBuilder.addElements(
@@ -38,14 +37,15 @@ interface ParentContainer {
  * */
 data class Element(
     var displayName: String,
-    val type: String,
+    var type: String,
     var backgroundColor: String? = null,
-    var name: String? = "<size:14><b>$displayName</b></size>"
+    var name: String? = "<size:16><b>$displayName"
 ) {
+    var stereoType: String? = null
     val childElements: MutableList<Element> = mutableListOf()
 
     override fun toString(): String {
-        return "$type \"$name\" as $displayName <<$type>> $backgroundColor"
+        return "$type \"$name\" as $displayName ${stereoType ?: ""} $backgroundColor"
     }
 }
 

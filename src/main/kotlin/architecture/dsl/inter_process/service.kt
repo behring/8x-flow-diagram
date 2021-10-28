@@ -4,7 +4,7 @@ import common.Element
 import common.DSL
 import common.ParentContainer
 
-class service(override val element: Element) : DSL<service>, ParentContainer {
+class service(val element: Element) : DSL<service>, ParentContainer {
     private val childComponents: MutableList<Element> = mutableListOf()
     val processes: MutableList<process> = mutableListOf()
 

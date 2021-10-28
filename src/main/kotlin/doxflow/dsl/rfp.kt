@@ -7,7 +7,7 @@ import doxflow.models.diagram.ONE_TO_ONE
 import doxflow.models.diagram.Role
 
 class rfp(element: Element, context: context, role: Role, note: String? = null) :
-    Evidence<rfp>(element, context, role, note) {
+    Evidence<rfp>(element, context, rfp::class, role, note) {
     private lateinit var proposal: proposal
 
     fun proposal(
@@ -27,9 +27,6 @@ class rfp(element: Element, context: context, role: Role, note: String? = null) 
     override fun invoke(function: rfp.() -> Unit): rfp {
         return apply { function() }
     }
-
-    override val type: String
-        get() = rfp::class.java.simpleName
 
     override fun toString(): String {
         return buildString {

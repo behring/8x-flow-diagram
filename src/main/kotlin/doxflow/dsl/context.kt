@@ -9,7 +9,7 @@ import doxflow.models.diagram.PLAY_TO
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Role
 
-class context(override val element: Element, override var resource: String = "") : BusinessAbility<context>,
+class context(val element: Element, override var resource: String = "") : BusinessAbility<context>,
     ParentContainer {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()

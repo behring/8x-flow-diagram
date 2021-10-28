@@ -5,7 +5,7 @@ import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.PLAY_TO
 
-class evidence(element: Element, context: context) : Evidence<evidence>(element, context) {
+class evidence(element: Element, context: context) : Evidence<evidence>(element, context, evidence::class) {
     private var roles: MutableList<confirmation> = mutableListOf()
     var detailAssociation: Pair<detail, RelationShipType>? = null
 
@@ -30,9 +30,6 @@ class evidence(element: Element, context: context) : Evidence<evidence>(element,
     override fun invoke(function: evidence.() -> Unit): evidence {
         return apply { function() }
     }
-
-    override val type: String
-        get() = evidence::class.java.simpleName
 
     override fun toString(): String {
         return buildString {

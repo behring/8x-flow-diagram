@@ -4,11 +4,13 @@ import common.Element
 import doxflow.models.diagram.*
 
 class proposal(element: Element, context: context, role: Role?, note: String? = null) :
-    Evidence<proposal>(element, context, role, note) {
+    Evidence<proposal>(element, context, proposal::class, role, note) {
+
+
     private lateinit var contract: contract
 
     init {
-        resource = type
+        resource = proposal::class.java.simpleName
     }
 
     // 当前proposal是否有对应的rfp
@@ -21,9 +23,6 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
             contract()
         }
     }
-
-    override val type: String
-        get() = proposal::class.java.simpleName
 
     override fun invoke(function: proposal.() -> Unit): proposal = apply { function() }
 

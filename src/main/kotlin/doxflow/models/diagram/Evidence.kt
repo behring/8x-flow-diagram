@@ -8,16 +8,20 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.ability.BusinessAbilityTable.Row
+import kotlin.reflect.KClass
 
-abstract class Evidence<T>(
+abstract class Evidence<T : Any>(
     val element: Element,
     val context: context,
+    type: KClass<out T>,
     val role: Role? = null,
     private val note: String? = null,
     override var resource: String = ""
 ) : BusinessAbility<T>, Diagram.KeyInfo<T>, Relationship {
+
     init {
         element.backgroundColor = PINK
+        element.stereoType = "<<${type.simpleName.toString()}>>"
         context.addElement(element)
     }
 
@@ -28,11 +32,6 @@ abstract class Evidence<T>(
         }
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
-
-    /**
-     * Evidence的类型：包括rfp，proposal，contract，request, confirmation
-     * */
-    abstract val type: String
 
     open fun getUriPrefix(): String = ""
 

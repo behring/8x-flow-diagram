@@ -4,7 +4,7 @@ import common.Element
 import doxflow.models.diagram.*
 
 class confirmation(element: Element, context: context, role: Role?, note: String? = null) :
-    Evidence<confirmation>(element, context, role, note) {
+    Evidence<confirmation>(element, context, confirmation::class, role, note) {
     /**
      * 当前confirmation是否存在一个evidence去扮演它
      * */
@@ -41,9 +41,6 @@ class confirmation(element: Element, context: context, role: Role?, note: String
 
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
-
-    override val type: String
-        get() = confirmation::class.java.simpleName
 
     override fun toString(): String {
         return buildString {

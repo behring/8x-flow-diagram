@@ -5,7 +5,7 @@ import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Role
 
 class request(element: Element, context: context, role: Role?, note: String? = null) :
-    Evidence<request>(element, context, role, note) {
+    Evidence<request>(element, context, request::class, role, note) {
 
     lateinit var contract: contract
 
@@ -14,7 +14,4 @@ class request(element: Element, context: context, role: Role?, note: String? = n
     override fun getUriPrefix(): String {
         return contract.getUri()
     }
-
-    override val type: String
-        get() = request::class.java.simpleName
 }

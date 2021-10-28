@@ -22,7 +22,7 @@ class Role(val element: Element, val type: Type, val context: context) {
 
     infix fun played(participant: Participant): Role = apply { this.participant = participant }
 
-    infix fun <T> relate(genericEvidence: Evidence<out T>) {
+    infix fun relate(genericEvidence: Evidence<*>) {
         genericEvidences.add(genericEvidence)
     }
 

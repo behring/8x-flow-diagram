@@ -3,7 +3,7 @@ package architecture.dsl.inter_process
 import architecture.dsl.component
 import common.*
 
-class process(override val element: Element, container: ParentContainer) :
+class process(val element: Element, container: ParentContainer) :
     ParentContainer, DSL<process>,Interactions {
     init {
         container.addElement(element)

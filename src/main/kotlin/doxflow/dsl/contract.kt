@@ -5,7 +5,7 @@ import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 
 class contract(element: Element, context: context, private vararg val roles: Role) :
-    Evidence<contract>(element, context) {
+    Evidence<contract>(element, context, contract::class) {
     var fulfillments: MutableList<fulfillment> = mutableListOf()
 
     fun fulfillment(
@@ -30,9 +30,6 @@ class contract(element: Element, context: context, private vararg val roles: Rol
     override fun invoke(function: contract.() -> Unit): contract {
         return apply { function() }
     }
-
-    override val type: String
-        get() = contract::class.java.simpleName
 
     override fun toString(): String {
         return buildString {
