@@ -22,7 +22,7 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
 
     fun generateRole(role: Role?): String? = role?.let {
         """
-            |<${role.element.color}> <size:14>${role.element.name}</size> |
+            |<${role.element.backgroundColor}> <size:14>${role.element.name}</size> |
             |..
             |
         """.trimIndent()

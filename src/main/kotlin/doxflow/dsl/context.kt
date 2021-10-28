@@ -41,7 +41,7 @@ class context(override val element: Element, override var resource: String = "")
         relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
         rfp: rfp.() -> Unit
     ) = with(
-        rfp(name, this, role)
+        rfp(Element(name, "class"), this, role)
     ) {
         this.relationship_type = relationShipType
         rfps.add(this)
@@ -54,7 +54,7 @@ class context(override val element: Element, override var resource: String = "")
         relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
         proposal: proposal.() -> Unit
     ) = with(
-        proposal(name, this, role)
+        proposal(Element(name, "class"), this, role)
     ) {
         this.relationship_type = relationShipType
         resource = this.javaClass.simpleName
@@ -63,7 +63,7 @@ class context(override val element: Element, override var resource: String = "")
     }
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) =
-        with(contract(name, this, *roles)) {
+        with(contract(Element(name, "class"), this, *roles)) {
             relationship_type = RelationShipType.ONE_TO_ONE
             contracts.add(this)
             contract()

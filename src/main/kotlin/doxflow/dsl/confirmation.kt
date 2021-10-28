@@ -1,10 +1,11 @@
 package doxflow.dsl
 
+import common.Element
 import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.diagram.*
 
-class confirmation(name: String, context: context, role: Role?, note: String? = null) :
-    Evidence<confirmation>(name, context, role, note) {
+class confirmation(element: Element, context: context, role: Role?, note: String? = null) :
+    Evidence<confirmation>(element, context, role, note) {
     /**
      * 当前confirmation是否存在一个evidence去扮演它
      * */
@@ -15,7 +16,7 @@ class confirmation(name: String, context: context, role: Role?, note: String? = 
      * */
     private var dependentConfirmation: confirmation? = null
     fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
-        this.evidence = evidence(name, context)
+        this.evidence = evidence(Element(name, "class"), context)
         return this.evidence!!.apply { evidence() }
     }
 
@@ -34,7 +35,7 @@ class confirmation(name: String, context: context, role: Role?, note: String? = 
     }
 
     fun confirmation(name: String, role: Role? = null, confirmation: confirmation.() -> Unit): confirmation =
-        confirmation("${name}确认", context, role).apply {
+        confirmation(Element("${name}确认", "class"), context, role).apply {
             role()
             confirmation()
         }
@@ -50,11 +51,11 @@ class confirmation(name: String, context: context, role: Role?, note: String? = 
             appendLine(super.toString())
             evidence?.let {
                 appendLine(evidence.toString())
-                appendLine("""${it.name} $RELATIONSHIP $name""")
+                appendLine("""${it.element.name} $RELATIONSHIP ${element.name}""")
             }
             dependentConfirmation?.let {
                 appendLine(dependentConfirmation.toString())
-                appendLine("""$name ${getRelationshipLine(relationship_type)} ${it.name}""")
+                appendLine("""${element.name} ${getRelationshipLine(relationship_type)} ${it.element.name}""")
             }
         }
     }

@@ -1,9 +1,10 @@
 package doxflow.dsl
 
+import common.Element
 import doxflow.models.diagram.*
 
-class proposal(name: String, context: context, role: Role?, note: String? = null) :
-    Evidence<proposal>(name, context, role, note) {
+class proposal(element: Element, context: context, role: Role?, note: String? = null) :
+    Evidence<proposal>(element, context, role, note) {
     private lateinit var contract: contract
 
     init {
@@ -14,7 +15,7 @@ class proposal(name: String, context: context, role: Role?, note: String? = null
     var rfp: rfp? = null
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
-        this.contract = contract(name, context, *roles).apply {
+        this.contract = contract(Element(name, "class"), context, *roles).apply {
             relationship_type = RelationShipType.ONE_TO_ONE
             context.contracts.add(this)
             contract()
@@ -36,7 +37,7 @@ class proposal(name: String, context: context, role: Role?, note: String? = null
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            appendLine("$name $ONE_TO_ONE ${contract.name}")
+            appendLine("${element.name} $ONE_TO_ONE ${contract.element.name}")
         }
     }
 }

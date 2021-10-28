@@ -1,11 +1,12 @@
 package doxflow.dsl
 
+import common.Element
 import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.PLAY_TO
 
-class evidence(name: String, context: context) : Evidence<evidence>(name, context) {
+class evidence(element: Element, context: context) : Evidence<evidence>(element, context) {
     private var roles: MutableList<confirmation> = mutableListOf()
     var detailAssociation: Pair<detail, RelationShipType>? = null
 
@@ -21,7 +22,7 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
         relationShipType: RelationShipType = RelationShipType.NONE,
         detail: detail.() -> Unit
     ): detail {
-        return detail(name, context).apply {
+        return detail(Element(name, "class"), context).apply {
             detailAssociation = Pair(this, relationShipType)
             detail()
         }
@@ -38,11 +39,11 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
         return buildString {
             appendLine(super.toString())
             roles.forEach {
-                appendLine("""$name $PLAY_TO ${it.name}""")
+                appendLine("""${element.name} $PLAY_TO ${it.element.name}""")
             }
             detailAssociation?.let {
                 appendLine(it.first.toString())
-                appendLine("""$name ${getRelationshipLine(it.second)} ${it.first.name}""")
+                appendLine("""${element.name} ${getRelationshipLine(it.second)} ${it.first.element.name}""")
             }
         }
     }

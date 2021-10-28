@@ -1,8 +1,9 @@
 package doxflow.dsl
 
+import common.Element
 import doxflow.models.diagram.Evidence
 
-class detail(name: String, context: context) : Evidence<detail>(name, context) {
+class detail(element: Element, context: context) : Evidence<detail>(element, context) {
 
     override fun invoke(function: detail.() -> Unit): detail {
         return apply { function() }

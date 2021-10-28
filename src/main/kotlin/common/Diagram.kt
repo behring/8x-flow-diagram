@@ -9,10 +9,14 @@ import java.io.FileOutputStream
 
 /**
  * 表示UML中的一个任意元素
- * type name color
+ * type <size:14><b>name</b></size> color
  * package A #yellow
  * */
-data class Element(val name: String, val type: String, var color: String? = "#transparent") {
+data class Element(
+    val name: String,
+    val type: String,
+    var backgroundColor: String? = "#transparent"
+) {
     val childElements: MutableList<Element> = mutableListOf()
 }
 
@@ -56,7 +60,7 @@ interface ParentContainer {
         if (mutableElement.isEmpty()) return
         do {
             val element = mutableElement.removeFirst()
-            elementsStr.append("${element.type} ${element.name} ${element.color ?: container.color ?: ""}")
+            elementsStr.append("${element.type} ${element.name} ${element.backgroundColor ?: container.backgroundColor ?: ""}")
             if (element.childElements.isNotEmpty()) {
                 elementsStr.appendLine("{")
                 generateElementsStr(element, element.childElements, elementsStr)
@@ -70,8 +74,6 @@ interface ParentContainer {
 }
 
 open class ChildElement(element: Element, container: ParentContainer) : Interactions {
-    constructor(name: String, type: String, container: ParentContainer) : this(Element(name, type), container)
-
     init {
         container.addElement(element)
     }

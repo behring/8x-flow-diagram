@@ -1,10 +1,12 @@
 package doxflow.dsl
 
+import common.Element
 import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 
-class contract(name: String, context: context, private vararg val roles: Role) : Evidence<contract>(name, context) {
+class contract(element: Element, context: context, private vararg val roles: Role) :
+    Evidence<contract>(element, context) {
     var fulfillments: MutableList<fulfillment> = mutableListOf()
 
     fun fulfillment(
@@ -38,11 +40,11 @@ class contract(name: String, context: context, private vararg val roles: Role) :
             appendLine(super.toString())
             roles.forEach { role ->
                 appendLine(role.toString())
-                appendLine("""$name $ONE_TO_ONE ${role.element.name}""")
+                appendLine("""${element.name} $ONE_TO_ONE ${role.element.name}""")
             }
 
             fulfillments.forEach {
-                appendLine("""$name ${getRelationshipLine(it.relationship_type)} ${it.request.name}""")
+                appendLine("""${element.name} ${getRelationshipLine(it.relationship_type)} ${it.request.element.name}""")
                 appendLine(it.request.toString())
                 appendLine(it.toString())
                 appendLine(it.confirmation.toString())

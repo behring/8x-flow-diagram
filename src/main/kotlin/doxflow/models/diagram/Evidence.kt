@@ -3,6 +3,7 @@ package doxflow.models.diagram
 import common.ChildElement
 import common.Color.PINK
 import common.Color.YELLOW
+import common.Element
 import doxflow.models.ability.BusinessAbility
 import common.KeyInfo
 import doxflow.diagram_8x_flow.generateRole
@@ -10,12 +11,12 @@ import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 
 abstract class Evidence<T>(
-    val name: String,
+    val element: Element,
     val context: context,
     val role: Role? = null,
     private val note: String? = null,
     override var resource: String = ""
-) : ChildElement(name, "class", context), BusinessAbility<T>, KeyInfo<T>, Relationship {
+) : ChildElement(element, context), BusinessAbility<T>, KeyInfo<T>, Relationship {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
@@ -43,19 +44,19 @@ abstract class Evidence<T>(
         when (relationship_type) {
             RelationShipType.ONE_TO_ONE -> {
                 singularUri = "${getUriPrefix()}/$resource"
-                table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建$name", serviceName, roleName))
+                table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建${element.name}", serviceName, roleName))
             }
             RelationShipType.ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
-                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建$name", serviceName, roleName))
-                table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${name}列表", serviceName))
+                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建${element.name}", serviceName, roleName))
+                table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${element.name}列表", serviceName))
             }
             else -> singularUri = "${getUriPrefix()}/$resource"
         }
-        table.addRow(BusinessAbilityTable.Row("GET", singularUri, "查看$name", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("PUT", singularUri, "更改$name", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("DELETE", singularUri, "取消$name", serviceName, roleName))
+        table.addRow(BusinessAbilityTable.Row("GET", singularUri, "查看${element.name}", serviceName, roleName))
+        table.addRow(BusinessAbilityTable.Row("PUT", singularUri, "更改${element.name}", serviceName, roleName))
+        table.addRow(BusinessAbilityTable.Row("DELETE", singularUri, "取消${element.name}", serviceName, roleName))
     }
 
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
@@ -65,7 +66,7 @@ abstract class Evidence<T>(
     override fun toString(): String {
         return """
             |${note ?: ""}
-            |class $name <<$type>> ${if (isRole) YELLOW else PINK}{
+            |${element.type} ${element.name} <<$type>> ${if (isRole) YELLOW else PINK}{
             |   ${if (!isRole) generateRole(role) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
             |   ${if (timestamps != null && data != null) ".." else ""}
             |   ${data?.joinToString() ?: ""}

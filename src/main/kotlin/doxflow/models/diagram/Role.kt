@@ -7,8 +7,9 @@ import doxflow.dsl.context
 
 class Role(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {
     init {
-        element.color = YELLOW
+        element.backgroundColor = YELLOW
     }
+
     private val genericEvidences: MutableList<Evidence<*>> = mutableListOf()
     var participant: Participant? = null
 
@@ -28,7 +29,7 @@ class Role(val element: Element, val type: Type, val context: context) : ChildEl
     override fun toString(): String = buildString {
         appendLine("class ${element.name} <<${type.name.lowercase()}>> $YELLOW")
         genericEvidences.forEach {
-            appendLine("${element.name} $RELATIONSHIP ${it.name}")
+            appendLine("${element.name} $RELATIONSHIP ${it.element.name}")
         }
     }
 }

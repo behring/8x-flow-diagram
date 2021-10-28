@@ -1,10 +1,11 @@
 package doxflow.dsl
 
+import common.Element
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Role
 
-class request(name: String, context: context, role: Role?, note: String? = null) :
-    Evidence<request>(name, context, role, note) {
+class request(element: Element, context: context, role: Role?, note: String? = null) :
+    Evidence<request>(element, context, role, note) {
 
     lateinit var contract: contract
 

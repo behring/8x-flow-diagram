@@ -1,7 +1,6 @@
 package architecture.dsl.intra_process
 
 import common.Element
-import common.DSL
 import common.Interactions
 
 class process(val element: Element) : Interactions {
@@ -12,7 +11,7 @@ class process(val element: Element) : Interactions {
     }
 
     override fun toString(): String = buildString {
-        with(element) { appendLine("$type $name $color") }
+        with(element) { appendLine("$type $name $backgroundColor") }
         appendLine(generateInteractions(element, componentInteractions))
     }
 }
