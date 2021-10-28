@@ -49,15 +49,7 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
      **/
     override fun buildPlantUmlString(): String = """
         |@startuml
-        |skinparam class {
-        |   BorderColor black
-        |   FontColor White
-        |   AttributeFontColor White
-        |   StereotypeFontColor White
-        |}
-        |skinparam defaultTextAlignment center
-        |skinparam style strictuml
-        |hide empty members
+        ${getClassStyle()}
         ${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()

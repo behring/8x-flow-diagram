@@ -28,10 +28,7 @@ object diagram_contract_analysis : DSL<diagram_contract_analysis>, Diagram {
 
     override fun buildPlantUmlString(): String = """
         |@startuml
-        |skinparam classFontColor White
-        |skinparam classAttributeFontColor White
-        |skinparam roundCorner 10
-        |hide circle
+        ${getClassStyle()}
         |${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()

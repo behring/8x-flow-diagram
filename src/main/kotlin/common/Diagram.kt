@@ -92,6 +92,21 @@ interface Diagram {
         generateDiagram(filePath)
     }
 
+    fun getClassStyle(): String {
+        return """
+        |skinparam class {
+        |   BorderColor black
+        |   FontColor White
+        |   AttributeFontColor White
+        |   StereotypeFontColor White
+        |}
+        |skinparam defaultTextAlignment center
+        |skinparam style strictuml
+        |skinparam roundCorner 10
+        |hide empty members
+        """.trimIndent()
+    }
+
     private fun generateDiagram(filePath: String): Boolean {
         val plantumlStr = buildPlantUmlString()
         println(
