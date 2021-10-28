@@ -40,13 +40,6 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         appendLine(buildApiDocContent())
     }
 
-    /**
-     * skinparam backgroundColor transparent
-     * skinparam defaultFontColor White
-     * skinparam arrowFontColor Black
-     * skinparam roundCorner 10
-     * hide circle equals skinparam style strictuml
-     **/
     override fun buildPlantUmlString(): String = """
         |@startuml
         ${getClassStyle()}

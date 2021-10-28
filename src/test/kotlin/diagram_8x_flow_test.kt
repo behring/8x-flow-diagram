@@ -4,6 +4,17 @@ import org.junit.Test
 
 internal class diagram_8x_flow_test {
     @Test
+    fun hello_word_diagram() {
+        diagram_8x_flow {
+            context("商品销售上下文") {
+                contract("商品订单合同") {
+                    key_timestamps("签订时间")
+                }
+            }
+        } export "./diagrams/hello_word_diagram.png"
+    }
+
+    @Test
     fun create_reader_subscription_diagram() {
         diagram_8x_flow {
             lateinit var paymentInReaderSubscriptionContext: fulfillment

@@ -92,6 +92,14 @@ interface Diagram {
         generateDiagram(filePath)
     }
 
+    /**
+     * skinparam backgroundColor transparent
+     * skinparam defaultFontColor White
+     * skinparam arrowFontColor Black
+     * skinparam roundCorner 10
+     * hide circle equals skinparam style strictuml
+     * skinparam roundCorner 10
+     **/
     fun getClassStyle(): String {
         return """
         |skinparam class {
@@ -102,7 +110,6 @@ interface Diagram {
         |}
         |skinparam defaultTextAlignment center
         |skinparam style strictuml
-        |skinparam roundCorner 10
         |hide empty members
         """.trimIndent()
     }
