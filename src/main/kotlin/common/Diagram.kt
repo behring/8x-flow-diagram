@@ -44,9 +44,6 @@ interface Interactions {
 
 interface ParentContainer {
     val element: Element
-    val backgroundColor: String?
-        get() = null
-
     fun addElement(element: Element) {}
 
     fun StringBuilder.addElements(

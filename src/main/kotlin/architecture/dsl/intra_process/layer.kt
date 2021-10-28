@@ -9,9 +9,6 @@ class layer(override val element: Element) : DSL<layer>, ParentContainer {
     private val childComponents: MutableList<Element> = mutableListOf()
     val components: MutableList<component> = mutableListOf()
 
-    override val backgroundColor: String?
-        get() = element.backgroundColor
-
     fun component(name: String, color: String? = null, function: (component.() -> Unit)? = null): component =
         component(Element(name, "rectangle", color), this).apply {
             components.add(this)
