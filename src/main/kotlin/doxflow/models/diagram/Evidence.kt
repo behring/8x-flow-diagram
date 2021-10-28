@@ -9,6 +9,7 @@ import common.Element
 import doxflow.models.ability.BusinessAbility
 import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
+import doxflow.models.ability.BusinessAbilityTable.Row
 
 abstract class Evidence<T>(
     val element: Element,
@@ -52,35 +53,19 @@ abstract class Evidence<T>(
         when (relationship_type) {
             RelationShipType.ONE_TO_ONE -> {
                 singularUri = "${getUriPrefix()}/$resource"
-                table.addRow(
-                    BusinessAbilityTable.Row(
-                        "POST",
-                        singularUri,
-                        "创建${element.displayName}",
-                        serviceName,
-                        roleName
-                    )
-                )
+                table.addRow(Row("POST", singularUri, "创建${element.displayName}", serviceName, roleName))
             }
             RelationShipType.ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
-                table.addRow(
-                    BusinessAbilityTable.Row(
-                        "POST",
-                        pluralUri,
-                        "创建${element.displayName}",
-                        serviceName,
-                        roleName
-                    )
-                )
-                table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${element.displayName}列表", serviceName))
+                table.addRow(Row("POST", pluralUri, "创建${element.displayName}", serviceName, roleName))
+                table.addRow(Row("GET", pluralUri, "查看${element.displayName}列表", serviceName))
             }
             else -> singularUri = "${getUriPrefix()}/$resource"
         }
-        table.addRow(BusinessAbilityTable.Row("GET", singularUri, "查看${element.displayName}", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("PUT", singularUri, "更改${element.displayName}", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("DELETE", singularUri, "取消${element.displayName}", serviceName, roleName))
+        table.addRow(Row("GET", singularUri, "查看${element.displayName}", serviceName, roleName))
+        table.addRow(Row("PUT", singularUri, "更改${element.displayName}", serviceName, roleName))
+        table.addRow(Row("DELETE", singularUri, "取消${element.displayName}", serviceName, roleName))
     }
 
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
