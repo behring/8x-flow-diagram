@@ -13,16 +13,18 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         context()
     }
 
-    fun getAssociateLink(type: AssociationType): String = when (type) {
-        AssociationType.ONE_TO_ONE -> ONE_TO_ONE
-        AssociationType.ONE_TO_N -> ONE_TO_N
-        AssociationType.N_TO_N -> N_TO_N
-        AssociationType.NONE -> ASSOCIATE
+    fun getRelationshipLine(type: RelationShipType): String = when (type) {
+        RelationShipType.ONE_TO_ONE -> ONE_TO_ONE
+        RelationShipType.ONE_TO_N -> ONE_TO_N
+        RelationShipType.N_TO_N -> N_TO_N
+        RelationShipType.NONE -> RELATIONSHIP
     }
 
-    fun generateGenerics(role: Role?): String? = role?.let {
+    fun generateRole(role: Role?): String? = role?.let {
         """
-            < <<${role.type.name.lowercase()}>> \n ${role.element.name} >
+            <size:16><back:${role.element.color}>${role.element.name}</back></size>
+            |..
+            |
         """.trimIndent()
     }
 
@@ -43,6 +45,7 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
      * skinparam defaultFontColor White
      * skinparam arrowFontColor Black
      * skinparam roundCorner 10
+     * hide circle equals skinparam style strictuml
      **/
     override fun buildPlantUmlString(): String = """
         |@startuml
@@ -52,7 +55,9 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         |   AttributeFontColor White
         |   StereotypeFontColor White
         |}
-        |hide circle
+        |skinparam defaultTextAlignment center
+        |skinparam style strictuml
+        |hide empty members
         ${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()

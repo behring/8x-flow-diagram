@@ -14,7 +14,7 @@ diagram_8x_flow {
                 key_timestamps("创建时间")
                 key_data("报价金额")
 
-                participant_thing("商品") associate this
+                participant_thing("商品") relate this
 
                 contract("商品订单合同", seller, buyer) {
                     key_timestamps("签订时间")

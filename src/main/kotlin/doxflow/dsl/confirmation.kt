@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.diagram.*
 
 class confirmation(name: String, context: context, role: Role?, note: String? = null) :
@@ -50,11 +50,11 @@ class confirmation(name: String, context: context, role: Role?, note: String? = 
             appendLine(super.toString())
             evidence?.let {
                 appendLine(evidence.toString())
-                appendLine("""${it.name} $ASSOCIATE $name""")
+                appendLine("""${it.name} $RELATIONSHIP $name""")
             }
             dependentConfirmation?.let {
                 appendLine(dependentConfirmation.toString())
-                appendLine("""$name ${getAssociateLink(association_type)} ${it.name}""")
+                appendLine("""$name ${getRelationshipLine(relationship_type)} ${it.name}""")
             }
         }
     }

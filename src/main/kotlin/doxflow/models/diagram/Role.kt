@@ -6,7 +6,7 @@ import common.Color.YELLOW
 import doxflow.dsl.context
 
 class Role(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {
-    private val associates: MutableList<Evidence<*>> = mutableListOf()
+    private val genericEvidences: MutableList<Evidence<*>> = mutableListOf()
     var participant: Participant? = null
 
     enum class Type {
@@ -18,14 +18,14 @@ class Role(val element: Element, val type: Type, val context: context) : ChildEl
 
     infix fun played(participant: Participant): Role = apply { this.participant = participant }
 
-    infix fun <T> associate(associate: Evidence<out T>) {
-        associates.add(associate)
+    infix fun <T> relate(genericEvidence: Evidence<out T>) {
+        genericEvidences.add(genericEvidence)
     }
 
     override fun toString(): String = buildString {
         appendLine("class ${element.name} <<${type.name.lowercase()}>> $YELLOW")
-        associates.forEach {
-            appendLine("${element.name} $ASSOCIATE ${it.name}")
+        genericEvidences.forEach {
+            appendLine("${element.name} $RELATIONSHIP ${it.name}")
         }
     }
 }

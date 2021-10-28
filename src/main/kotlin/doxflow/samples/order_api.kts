@@ -1,7 +1,7 @@
 package doxflow.samples
 
 import doxflow.diagram_8x_flow
-import doxflow.models.diagram.AssociationType.ONE_TO_N
+import doxflow.models.diagram.RelationShipType.ONE_TO_N
 
 diagram_8x_flow {
     context("商品销售上下文") {
@@ -16,11 +16,11 @@ diagram_8x_flow {
                 key_timestamps("创建时间")
                 key_data("报价金额")
 
-                participant_thing("商品") associate this
+                participant_thing("商品") relate this
 
                 contract("商品订单合同", seller, buyer) {
                     resource = "order"
-                    association_type = ONE_TO_N
+                    relationship_type = ONE_TO_N
                     key_timestamps("签订时间")
 
                     fulfillment("订单支付") {

@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.diagram_8x_flow.getAssociateLink
+import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 
@@ -9,12 +9,12 @@ class contract(name: String, context: context, private vararg val roles: Role) :
 
     fun fulfillment(
         name: String,
-        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
         fulfillment: fulfillment.() -> Unit
     ): fulfillment =
         fulfillment(name, context).apply {
             this.contract = this@contract
-            association_type = associationType
+            relationship_type = relationShipType
             fulfillments.add(this)
             fulfillment()
         }
@@ -42,7 +42,7 @@ class contract(name: String, context: context, private vararg val roles: Role) :
             }
 
             fulfillments.forEach {
-                appendLine("""$name ${getAssociateLink(it.association_type)} ${it.request.name}""")
+                appendLine("""$name ${getRelationshipLine(it.relationship_type)} ${it.request.name}""")
                 appendLine(it.request.toString())
                 appendLine(it.toString())
                 appendLine(it.confirmation.toString())

@@ -5,7 +5,7 @@ import common.Color.PINK
 import common.Color.YELLOW
 import doxflow.models.ability.BusinessAbility
 import common.KeyInfo
-import doxflow.diagram_8x_flow.generateGenerics
+import doxflow.diagram_8x_flow.generateRole
 import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 
@@ -15,7 +15,7 @@ abstract class Evidence<T>(
     val role: Role? = null,
     private val note: String? = null,
     override var resource: String = ""
-) : ChildElement(name, "class", context), BusinessAbility<T>, KeyInfo<T>, Association {
+) : ChildElement(name, "class", context), BusinessAbility<T>, KeyInfo<T>, Relationship {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
@@ -27,11 +27,11 @@ abstract class Evidence<T>(
 
     open fun getUriPrefix(): String = ""
 
-    override var association_type: AssociationType = AssociationType.ONE_TO_ONE
+    override var relationship_type: RelationShipType = RelationShipType.ONE_TO_ONE
 
-    open fun getUri(): String = when (association_type) {
-        AssociationType.ONE_TO_ONE -> "${getUriPrefix()}/$resource"
-        AssociationType.ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
+    open fun getUri(): String = when (relationship_type) {
+        RelationShipType.ONE_TO_ONE -> "${getUriPrefix()}/$resource"
+        RelationShipType.ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
         else -> "${getUriPrefix()}/$resource"
     }
 
@@ -40,12 +40,12 @@ abstract class Evidence<T>(
         val roleName = role?.element?.name ?: ""
         val serviceName = "${context.element.name}服务"
         val singularUri: String
-        when (association_type) {
-            AssociationType.ONE_TO_ONE -> {
+        when (relationship_type) {
+            RelationShipType.ONE_TO_ONE -> {
                 singularUri = "${getUriPrefix()}/$resource"
                 table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建$name", serviceName, roleName))
             }
-            AssociationType.ONE_TO_N -> {
+            RelationShipType.ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
                 table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建$name", serviceName, roleName))
@@ -64,11 +64,11 @@ abstract class Evidence<T>(
 
     override fun toString(): String {
         return """
-            ${note ?: ""}
-            class $name${generateGenerics(role) ?: ""}<<$type>> ${if (isRole) YELLOW else PINK}{
-                ${timestamps?.joinToString() ?: ""}
-                ${if (timestamps != null && data != null) ".." else ""}
-                ${data?.joinToString() ?: ""}
+            |${note ?: ""}
+            |class $name <<$type>> ${if (isRole) YELLOW else PINK}{
+            |   ${generateRole(role)?:""} ${timestamps?.joinToString() ?: ""}
+            |   ${if (timestamps != null && data != null) ".." else ""}
+            |   ${data?.joinToString() ?: ""}
             }
         """.trimIndent()
     }

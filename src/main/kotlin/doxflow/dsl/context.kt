@@ -4,7 +4,7 @@ import common.Element
 import common.ParentContainer
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityTable
-import doxflow.models.diagram.AssociationType
+import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.PLAY_TO
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Role
@@ -38,12 +38,12 @@ class context(override val element: Element, override var resource: String = "")
     fun rfp(
         name: String,
         role: Role,
-        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
         rfp: rfp.() -> Unit
     ) = with(
         rfp(name, this, role)
     ) {
-        this.association_type = associationType
+        this.relationship_type = relationShipType
         rfps.add(this)
         rfp()
     }
@@ -51,12 +51,12 @@ class context(override val element: Element, override var resource: String = "")
     fun proposal(
         name: String,
         role: Role,
-        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
         proposal: proposal.() -> Unit
     ) = with(
         proposal(name, this, role)
     ) {
-        this.association_type = associationType
+        this.relationship_type = relationShipType
         resource = this.javaClass.simpleName
         proposals.add(this)
         proposal()
@@ -64,7 +64,7 @@ class context(override val element: Element, override var resource: String = "")
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) =
         with(contract(name, this, *roles)) {
-            association_type = AssociationType.ONE_TO_ONE
+            relationship_type = RelationShipType.ONE_TO_ONE
             contracts.add(this)
             contract()
         }

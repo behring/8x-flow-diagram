@@ -153,8 +153,8 @@ diagram_8x_flow {
             proposal("商品报价方案", seller) {
                 key_timestamps("创建时间")
                 key_data("报价金额")
-								// 可以通过participant_thing来创建标的物，通过associate关键字让标的物连接到当前proposal
-                participant_thing("商品") associate this
+								// 可以通过participant_thing来创建标的物，通过relate关键字让标的物连接到当前proposal
+                participant_thing("商品") relate this
             }
         }
     }
@@ -179,7 +179,7 @@ diagram_8x_flow {
             proposal("商品报价方案", seller) {
                 key_timestamps("创建时间")
                 key_data("报价金额")
-                participant_thing("商品") associate this
+                participant_thing("商品") relate this
 								
               	// 合约可以设置0..N个合约签订者，推荐设置双方合约
                 contract("商品订单合同", seller, buyer) {
@@ -207,8 +207,8 @@ import doxflow.common.AssociationType.*
    ...
    contract("专栏订阅合同", reader, contentProvider) {
 		key_timestamps("订阅时间")
-    // 可以通过associate方法设置合同关联的participant
-    participant_place("专栏") associate this
+    // 可以通过relate方法设置合同关联的participant
+    participant_place("专栏") relate this
      
       fulfillment("专栏付款", ONE_TO_ONE) {
         // request可以指定或者忽略履约角色，但是不建议省略（三方合同可以省略）

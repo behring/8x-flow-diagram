@@ -1,7 +1,5 @@
 import doxflow.diagram_8x_flow
-import doxflow.dsl.detail
 import doxflow.dsl.fulfillment
-import doxflow.models.diagram.AssociationType.*
 import org.junit.Test
 
 internal class diagram_8x_flow_test {
@@ -16,7 +14,7 @@ internal class diagram_8x_flow_test {
 
                 contract("专栏订阅合同", reader, contentProvider) {
                     key_timestamps("订阅时间")
-                    participant_place("专栏") associate this
+                    participant_place("专栏") relate this
 
                     paymentInReaderSubscriptionContext = fulfillment("专栏付款") {
                         request(contentProvider) {
@@ -90,8 +88,8 @@ internal class diagram_8x_flow_test {
 
                 contract("绩效协议") {
                     key_timestamps("签订时间")
-                    editor associate this
-                    geekTimePlatform associate this
+                    editor relate this
+                    geekTimePlatform relate this
 
                     fulfillment("目标设定") {
                         request(editor) {
@@ -140,7 +138,7 @@ internal class diagram_8x_flow_test {
                         key_timestamps("创建时间")
                         key_data("报价金额")
 
-                        participant_thing("商品") associate this
+                        participant_thing("商品") relate this
 
                         contract("商品订单合同", seller, buyer) {
                             key_timestamps("签订时间")

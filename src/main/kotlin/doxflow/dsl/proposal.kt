@@ -15,7 +15,7 @@ class proposal(name: String, context: context, role: Role?, note: String? = null
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
         this.contract = contract(name, context, *roles).apply {
-            association_type = AssociationType.ONE_TO_ONE
+            relationship_type = RelationShipType.ONE_TO_ONE
             context.contracts.add(this)
             contract()
         }

@@ -12,7 +12,7 @@ import java.io.FileOutputStream
  * type name color
  * package A #yellow
  * */
-data class Element(val name: String, val type: String, val color: String? = null) {
+data class Element(val name: String, val type: String, val color: String? = "#transparent") {
     val childElements: MutableList<Element> = mutableListOf()
 }
 

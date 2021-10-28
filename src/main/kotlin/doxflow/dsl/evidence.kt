@@ -1,13 +1,13 @@
 package doxflow.dsl
 
-import doxflow.diagram_8x_flow.getAssociateLink
-import doxflow.models.diagram.AssociationType
+import doxflow.diagram_8x_flow.getRelationshipLine
+import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.PLAY_TO
 
 class evidence(name: String, context: context) : Evidence<evidence>(name, context) {
     private var roles: MutableList<confirmation> = mutableListOf()
-    var detailAssociation: Pair<detail, AssociationType>? = null
+    var detailAssociation: Pair<detail, RelationShipType>? = null
 
     /**
      * 凭证角色化，让当前凭证扮演confirmation(调用有confirmation变为橙色，当前evidence指向confirmation)
@@ -18,11 +18,11 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
 
     fun detail(
         name: String,
-        associationType: AssociationType = AssociationType.NONE,
+        relationShipType: RelationShipType = RelationShipType.NONE,
         detail: detail.() -> Unit
     ): detail {
         return detail(name, context).apply {
-            detailAssociation = Pair(this, associationType)
+            detailAssociation = Pair(this, relationShipType)
             detail()
         }
     }
@@ -42,7 +42,7 @@ class evidence(name: String, context: context) : Evidence<evidence>(name, contex
             }
             detailAssociation?.let {
                 appendLine(it.first.toString())
-                appendLine("""$name ${getAssociateLink(it.second)} ${it.first.name}""")
+                appendLine("""$name ${getRelationshipLine(it.second)} ${it.first.name}""")
             }
         }
     }

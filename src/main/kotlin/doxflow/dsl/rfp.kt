@@ -1,6 +1,6 @@
 package doxflow.dsl
 
-import doxflow.models.diagram.AssociationType
+import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.ONE_TO_ONE
 import doxflow.models.diagram.Role
@@ -12,13 +12,13 @@ class rfp(name: String, context: context, role: Role, note: String? = null) :
     fun proposal(
         name: String,
         role: Role,
-        associationType: AssociationType = AssociationType.ONE_TO_ONE,
+        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
         proposal: proposal.() -> Unit
     ) {
         this.proposal = proposal(name, context, role).apply {
             context.proposals.add(this)
             rfp = this@rfp
-            this.association_type = associationType
+            this.relationship_type = relationShipType
             proposal()
         }
     }
