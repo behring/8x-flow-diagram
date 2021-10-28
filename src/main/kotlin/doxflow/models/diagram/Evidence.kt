@@ -6,7 +6,6 @@ import common.Color.YELLOW
 import common.Element
 import doxflow.models.ability.BusinessAbility
 import common.KeyInfo
-import doxflow.diagram_8x_flow.generateRole
 import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 
@@ -68,9 +67,17 @@ abstract class Evidence<T>(
             |${note ?: ""}
             |${element.type} ${element.name} <<$type>> ${if (isRole) YELLOW else PINK}{
             |   ${if (!isRole) generateRole(role) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
-            |   ${if (timestamps != null && data != null) ".." else ""}
-            |   ${data?.joinToString() ?: ""}
-            }
+            |   ${if (timestamps != null && data != null) "..\n" else ""} ${data?.joinToString() ?: ""}
+            |}
+        """.trimIndent()
+    }
+
+
+    private fun generateRole(role: Role?): String? = role?.let {
+        """
+            |<${role.element.backgroundColor}> <size:14>${role.element.name}</size> |
+            |..
+            |
         """.trimIndent()
     }
 }

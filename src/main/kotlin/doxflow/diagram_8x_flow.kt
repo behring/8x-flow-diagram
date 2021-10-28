@@ -13,21 +13,6 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         context()
     }
 
-    fun getRelationshipLine(type: RelationShipType): String = when (type) {
-        RelationShipType.ONE_TO_ONE -> ONE_TO_ONE
-        RelationShipType.ONE_TO_N -> ONE_TO_N
-        RelationShipType.N_TO_N -> N_TO_N
-        RelationShipType.NONE -> RELATIONSHIP
-    }
-
-    fun generateRole(role: Role?): String? = role?.let {
-        """
-            |<${role.element.backgroundColor}> ${role.element.name.replace("\"", "")} |
-            |..
-            |
-        """.trimIndent()
-    }
-
     fun export_diagram_and_doc(diagram: String, doc: String) {
         export(diagram)
         export_doc(doc)
@@ -55,6 +40,10 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         contexts.forEach { context ->
             appendLine(context.toString())
         }
+    }
+
+    override fun exportDocCompleted() {
+        contexts.clear()
     }
 
     private fun buildApiDocContent(): String = buildString {

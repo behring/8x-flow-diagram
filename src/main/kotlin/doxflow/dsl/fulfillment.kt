@@ -2,7 +2,6 @@ package doxflow.dsl
 
 import common.Element
 import doxflow.models.ability.BusinessAbility
-import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.diagram.Relationship
 import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Role

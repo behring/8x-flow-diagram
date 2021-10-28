@@ -1,7 +1,6 @@
 package doxflow.dsl
 
 import common.Element
-import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.PLAY_TO

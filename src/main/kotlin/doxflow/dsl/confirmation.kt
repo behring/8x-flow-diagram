@@ -1,7 +1,6 @@
 package doxflow.dsl
 
 import common.Element
-import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.diagram.*
 
 class confirmation(element: Element, context: context, role: Role?, note: String? = null) :

@@ -6,6 +6,8 @@ import java.io.File
 interface Doc {
     fun buildDocContent(): String
 
+    fun exportDocCompleted() = run { }
+
     infix fun export_doc(filePath: String) {
         generateDoc(filePath)
     }
@@ -21,5 +23,6 @@ interface Doc {
         """.trimMargin()
         )
         File(filePath).apply { parentFile.mkdirs() }.writeText(content)
+        exportDocCompleted()
     }
 }

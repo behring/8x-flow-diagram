@@ -17,9 +17,9 @@ data class Element(
     val type: String,
     var backgroundColor: String? = "#transparent"
 ) {
-    init {
-        name = """"<size:14><b>$name</b></size>""""
-    }
+//    init {
+//        name = """"<size:14><b>$name</b></size>""""
+//    }
     val childElements: MutableList<Element> = mutableListOf()
 }
 

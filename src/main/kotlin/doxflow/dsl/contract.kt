@@ -1,7 +1,6 @@
 package doxflow.dsl
 
 import common.Element
-import doxflow.diagram_8x_flow.getRelationshipLine
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 
