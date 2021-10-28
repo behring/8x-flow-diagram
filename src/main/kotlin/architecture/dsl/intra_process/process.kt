@@ -11,7 +11,7 @@ class process(val element: Element) : Interactions {
     }
 
     override fun toString(): String = buildString {
-        with(element) { appendLine("$type $name $backgroundColor") }
+        with(element) { appendLine("$type $displayName $backgroundColor") }
         appendLine(generateInteractions(element, componentInteractions))
     }
 }

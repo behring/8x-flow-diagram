@@ -34,7 +34,7 @@ class rfp(element: Element, context: context, role: Role, note: String? = null) 
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            appendLine("${element.name}$ONE_TO_ONE${proposal.element.name}")
+            appendLine("${element.displayName}$ONE_TO_ONE${proposal.element.displayName}")
         }
     }
 }

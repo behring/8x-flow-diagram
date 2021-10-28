@@ -32,7 +32,7 @@ class fulfillment(
 
     override fun toString(): String {
         return buildString {
-            appendLine("""${request.element.name} ${getRelationshipLine(relationship_type)} ${confirmation.element.name}""")
+            appendLine("""${request.element.displayName} ${getRelationshipLine(relationship_type)} ${confirmation.element.displayName}""")
         }
     }
 }

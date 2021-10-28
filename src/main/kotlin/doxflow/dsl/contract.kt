@@ -39,11 +39,11 @@ class contract(element: Element, context: context, private vararg val roles: Rol
             appendLine(super.toString())
             roles.forEach { role ->
                 appendLine(role.toString())
-                appendLine("""${element.name} $ONE_TO_ONE ${role.element.name}""")
+                appendLine("""${element.displayName} $ONE_TO_ONE ${role.element.displayName}""")
             }
 
             fulfillments.forEach {
-                appendLine("""${element.name} ${getRelationshipLine(it.relationship_type)} ${it.request.element.name}""")
+                appendLine("""${element.displayName} ${getRelationshipLine(it.relationship_type)} ${it.request.element.displayName}""")
                 appendLine(it.request.toString())
                 appendLine(it.toString())
                 appendLine(it.confirmation.toString())

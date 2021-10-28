@@ -37,7 +37,7 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            appendLine("${element.name} $ONE_TO_ONE ${contract.element.name}")
+            appendLine("${element.displayName} $ONE_TO_ONE ${contract.element.displayName}")
         }
     }
 }

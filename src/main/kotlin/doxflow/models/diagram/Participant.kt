@@ -19,9 +19,9 @@ class Participant(val element: Element, val type: Type, val context: context) : 
     }
 
     override fun toString(): String = buildString {
-        appendLine("${element.type} ${element.name} <<${type.name.lowercase()}>> $GREEN")
+        appendLine("${element.type} ${element.displayName} <<${type.name.lowercase()}>> $GREEN")
         genericeEvidences.forEach {
-            appendLine("${element.name} $RELATIONSHIP ${it.element.name}")
+            appendLine("${element.displayName} $RELATIONSHIP ${it.element.displayName}")
         }
     }
 }

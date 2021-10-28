@@ -38,11 +38,11 @@ class evidence(element: Element, context: context) : Evidence<evidence>(element,
         return buildString {
             appendLine(super.toString())
             roles.forEach {
-                appendLine("""${element.name} $PLAY_TO ${it.element.name}""")
+                appendLine("""${element.displayName} $PLAY_TO ${it.element.displayName}""")
             }
             detailAssociation?.let {
                 appendLine(it.first.toString())
-                appendLine("""${element.name} ${getRelationshipLine(it.second)} ${it.first.element.name}""")
+                appendLine("""${element.displayName} ${getRelationshipLine(it.second)} ${it.first.element.displayName}""")
             }
         }
     }

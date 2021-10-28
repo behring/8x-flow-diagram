@@ -50,11 +50,11 @@ class confirmation(element: Element, context: context, role: Role?, note: String
             appendLine(super.toString())
             evidence?.let {
                 appendLine(evidence.toString())
-                appendLine("""${it.element.name} $RELATIONSHIP ${element.name}""")
+                appendLine("""${it.element.displayName} $RELATIONSHIP ${element.displayName}""")
             }
             dependentConfirmation?.let {
                 appendLine(dependentConfirmation.toString())
-                appendLine("""${element.name} ${getRelationshipLine(relationship_type)} ${it.element.name}""")
+                appendLine("""${element.displayName} ${getRelationshipLine(relationship_type)} ${it.element.displayName}""")
             }
         }
     }

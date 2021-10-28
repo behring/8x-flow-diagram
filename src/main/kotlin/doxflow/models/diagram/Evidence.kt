@@ -38,25 +38,25 @@ abstract class Evidence<T>(
 
     open fun addBusinessAbility(table: BusinessAbilityTable) {
         if (resource.isBlank()) return
-        val roleName = role?.element?.name ?: ""
-        val serviceName = "${context.element.name}服务"
+        val roleName = role?.element?.displayName ?: ""
+        val serviceName = "${context.element.displayName}服务"
         val singularUri: String
         when (relationship_type) {
             RelationShipType.ONE_TO_ONE -> {
                 singularUri = "${getUriPrefix()}/$resource"
-                table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建${element.name}", serviceName, roleName))
+                table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建${element.displayName}", serviceName, roleName))
             }
             RelationShipType.ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
-                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建${element.name}", serviceName, roleName))
-                table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${element.name}列表", serviceName))
+                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建${element.displayName}", serviceName, roleName))
+                table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${element.displayName}列表", serviceName))
             }
             else -> singularUri = "${getUriPrefix()}/$resource"
         }
-        table.addRow(BusinessAbilityTable.Row("GET", singularUri, "查看${element.name}", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("PUT", singularUri, "更改${element.name}", serviceName, roleName))
-        table.addRow(BusinessAbilityTable.Row("DELETE", singularUri, "取消${element.name}", serviceName, roleName))
+        table.addRow(BusinessAbilityTable.Row("GET", singularUri, "查看${element.displayName}", serviceName, roleName))
+        table.addRow(BusinessAbilityTable.Row("PUT", singularUri, "更改${element.displayName}", serviceName, roleName))
+        table.addRow(BusinessAbilityTable.Row("DELETE", singularUri, "取消${element.displayName}", serviceName, roleName))
     }
 
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
@@ -66,7 +66,7 @@ abstract class Evidence<T>(
     override fun toString(): String {
         return """
             |${note ?: ""}
-            |${element.type} ${element.name} <<$type>> ${if (isRole) YELLOW else PINK}{
+            |${element.type} ${element.displayName} <<$type>> ${if (isRole) YELLOW else PINK}{
             |   ${if (!isRole) generateRole(role) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
             |   ${if (timestamps != null && data != null) "..\n" else ""} ${data?.joinToString() ?: ""}
             |}
@@ -76,7 +76,7 @@ abstract class Evidence<T>(
 
     private fun generateRole(role: Role?): String? = role?.let {
         """
-            |<${role.element.backgroundColor}> <size:14>${role.element.name}</size> |
+            |<${role.element.backgroundColor}> <size:14>${role.element.displayName}</size> |
             |..
             |
         """.trimIndent()

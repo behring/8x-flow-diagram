@@ -70,7 +70,7 @@ class context(override val element: Element, override var resource: String = "")
         }
 
     fun toApiString(): String = buildString {
-        appendLine("## 业务能力表 - ${element.name}")
+        appendLine("## 业务能力表 - ${element.displayName}")
         addBusinessAbilities(BusinessAbilityTable())
     }
 
@@ -97,7 +97,7 @@ class context(override val element: Element, override var resource: String = "")
 
         roles.forEach { role ->
             role.participant?.let {
-                appendLine("""${it.element.name} $PLAY_TO ${role.element.name}""")
+                appendLine("""${it.element.displayName} $PLAY_TO ${role.element.displayName}""")
             }
         }
     }
