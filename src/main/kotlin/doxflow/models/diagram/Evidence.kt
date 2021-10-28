@@ -17,7 +17,15 @@ abstract class Evidence<T>(
     private val note: String? = null,
     override var resource: String = ""
 ) : ChildElement(element, context), BusinessAbility<T>, Diagram.KeyInfo<T>, Relationship {
+    init {
+        element.backgroundColor = PINK
+    }
+
     var isRole: Boolean = false
+        set(value) {
+            if (value) element.backgroundColor = YELLOW
+            field = value
+        }
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
 
@@ -44,12 +52,28 @@ abstract class Evidence<T>(
         when (relationship_type) {
             RelationShipType.ONE_TO_ONE -> {
                 singularUri = "${getUriPrefix()}/$resource"
-                table.addRow(BusinessAbilityTable.Row("POST", singularUri, "创建${element.displayName}", serviceName, roleName))
+                table.addRow(
+                    BusinessAbilityTable.Row(
+                        "POST",
+                        singularUri,
+                        "创建${element.displayName}",
+                        serviceName,
+                        roleName
+                    )
+                )
             }
             RelationShipType.ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
-                table.addRow(BusinessAbilityTable.Row("POST", pluralUri, "创建${element.displayName}", serviceName, roleName))
+                table.addRow(
+                    BusinessAbilityTable.Row(
+                        "POST",
+                        pluralUri,
+                        "创建${element.displayName}",
+                        serviceName,
+                        roleName
+                    )
+                )
                 table.addRow(BusinessAbilityTable.Row("GET", pluralUri, "查看${element.displayName}列表", serviceName))
             }
             else -> singularUri = "${getUriPrefix()}/$resource"
@@ -66,7 +90,7 @@ abstract class Evidence<T>(
     override fun toString(): String {
         return """
             |${note ?: ""}
-            |${element.type} ${element.displayName} <<$type>> ${if (isRole) YELLOW else PINK}{
+            |$element {
             |   ${if (!isRole) generateRole(role) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
             |   ${if (timestamps != null && data != null) "..\n" else ""} ${data?.joinToString() ?: ""}
             |}

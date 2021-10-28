@@ -45,19 +45,21 @@ open class ChildElement(element: Element, container: ParentContainer) : Interact
 data class Element(
     var displayName: String,
     val type: String,
-    var backgroundColor: String? = null
+    var backgroundColor: String? = null,
+    var name: String? = "<size:14><b>$displayName</b></size>"
 ) {
-    //    init {
-//        name = """"<size:14><b>$name</b></size>""""
-//    }
     val childElements: MutableList<Element> = mutableListOf()
+
+    override fun toString(): String {
+        return "$type \"$name\" as $displayName <<$type>> $backgroundColor"
+    }
 }
 
 interface Interactions {
     fun generateInteractions(element: Element, elementInteractions: List<Pair<String, String>>): String = buildString {
         elementInteractions.forEach {
             // class element指定关系时，不能使用[]括号
-            append("[${element.displayName}]-->[${it.first}]")
+            append("${element.displayName}-->${it.first}")
             appendLine(with(it.second) {
                 return@with if (!isNullOrBlank()) ":${it.second}" else ""
             })
