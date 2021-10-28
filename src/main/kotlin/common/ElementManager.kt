@@ -31,12 +31,6 @@ interface ParentContainer {
 
 }
 
-open class ChildElement(element: Element, container: ParentContainer) : Interactions {
-    init {
-        container.addElement(element)
-    }
-}
-
 /**
  * 表示UML中的一个任意元素
  * type <size:14><b>name</b></size> color

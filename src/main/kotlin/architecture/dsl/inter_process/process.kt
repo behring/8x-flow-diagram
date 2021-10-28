@@ -1,13 +1,14 @@
 package architecture.dsl.inter_process
 
 import architecture.dsl.component
-import common.ChildElement
-import common.DSL
-import common.Element
-import common.ParentContainer
+import common.*
 
-class process(override val element: Element, container: ParentContainer) : ChildElement(element, container),
-    ParentContainer, DSL<process> {
+class process(override val element: Element, container: ParentContainer) :
+    ParentContainer, DSL<process>,Interactions {
+    init {
+        container.addElement(element)
+    }
+
     private val components: MutableList<component> = mutableListOf()
     private val processInteractions: MutableList<Pair<String, String>> = mutableListOf()
 

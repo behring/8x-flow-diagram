@@ -1,7 +1,5 @@
 package doxflow.models.diagram
 
-import common.ChildElement
-
 import common.Diagram
 import common.Diagram.Color.PINK
 import common.Diagram.Color.YELLOW
@@ -17,9 +15,10 @@ abstract class Evidence<T>(
     val role: Role? = null,
     private val note: String? = null,
     override var resource: String = ""
-) : ChildElement(element, context), BusinessAbility<T>, Diagram.KeyInfo<T>, Relationship {
+) : BusinessAbility<T>, Diagram.KeyInfo<T>, Relationship {
     init {
         element.backgroundColor = PINK
+        context.addElement(element)
     }
 
     var isRole: Boolean = false

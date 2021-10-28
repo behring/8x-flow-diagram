@@ -1,12 +1,12 @@
 package architecture.dsl
 
-import common.ChildElement
-import common.DSL
-import common.Element
-import common.ParentContainer
+import common.*
 
-data class component(val element: Element, val container: ParentContainer) : ChildElement(element, container),
-    DSL<component> {
+data class component(val element: Element, val container: ParentContainer) : Interactions, DSL<component> {
+    init {
+        container.addElement(element)
+    }
+
     private val componentInteractions: MutableList<Pair<String, String>> = mutableListOf()
 
     fun call(componentName: String, command: String = "") {
