@@ -27,7 +27,7 @@ class Role(val element: Element, val type: Type, val context: context) : ChildEl
     }
 
     override fun toString(): String = buildString {
-        appendLine("class ${element.name} <<${type.name.lowercase()}>> $YELLOW")
+        appendLine("${element.type} ${element.name} <<${type.name.lowercase()}>> $YELLOW")
         genericEvidences.forEach {
             appendLine("${element.name} $RELATIONSHIP ${it.element.name}")
         }

@@ -13,10 +13,13 @@ import java.io.FileOutputStream
  * package A #yellow
  * */
 data class Element(
-    val name: String,
+    var name: String,
     val type: String,
     var backgroundColor: String? = "#transparent"
 ) {
+    init {
+        name = """"<size:14><b>$name</b></size>""""
+    }
     val childElements: MutableList<Element> = mutableListOf()
 }
 
