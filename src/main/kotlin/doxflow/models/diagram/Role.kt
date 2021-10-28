@@ -2,7 +2,7 @@ package doxflow.models.diagram
 
 import common.Element
 import common.ChildElement
-import common.Color.YELLOW
+import common.Diagram.Color.YELLOW
 import doxflow.dsl.context
 
 class Role(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {

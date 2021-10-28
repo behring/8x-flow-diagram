@@ -2,7 +2,7 @@ package doxflow.models.diagram
 
 import common.Element
 import common.ChildElement
-import common.Color.GREEN
+import common.Diagram.Color.GREEN
 import doxflow.dsl.context
 
 class Participant(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {

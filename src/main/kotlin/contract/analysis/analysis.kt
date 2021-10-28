@@ -1,7 +1,7 @@
 package contract.analysis.dsl
 
-import common.Color.PINK
-import common.KeyInfo
+import common.Diagram
+import common.Diagram.Color.PINK
 import contract.analysis.diagram_contract_analysis.contractToEvidences
 
 class contract(name: String) : evidence(name) {
@@ -14,7 +14,7 @@ class proposal(name: String) : evidence(name)
 
 class rfp(name: String) : evidence(name)
 
-open class evidence(val name: String) : KeyInfo<evidence> {
+open class evidence(val name: String) : Diagram.KeyInfo<evidence> {
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
     private var preorderEvidence: evidence? = null

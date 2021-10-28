@@ -1,11 +1,12 @@
 package doxflow.models.diagram
 
 import common.ChildElement
-import common.Color.PINK
-import common.Color.YELLOW
+
+import common.Diagram
+import common.Diagram.Color.PINK
+import common.Diagram.Color.YELLOW
 import common.Element
 import doxflow.models.ability.BusinessAbility
-import common.KeyInfo
 import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 
@@ -15,7 +16,7 @@ abstract class Evidence<T>(
     val role: Role? = null,
     private val note: String? = null,
     override var resource: String = ""
-) : ChildElement(element, context), BusinessAbility<T>, KeyInfo<T>, Relationship {
+) : ChildElement(element, context), BusinessAbility<T>, Diagram.KeyInfo<T>, Relationship {
     var isRole: Boolean = false
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
