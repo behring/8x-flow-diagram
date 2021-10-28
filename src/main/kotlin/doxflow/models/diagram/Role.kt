@@ -6,6 +6,9 @@ import common.Color.YELLOW
 import doxflow.dsl.context
 
 class Role(val element: Element, val type: Type, val context: context) : ChildElement(element, context) {
+    init {
+        element.color = YELLOW
+    }
     private val genericEvidences: MutableList<Evidence<*>> = mutableListOf()
     var participant: Participant? = null
 

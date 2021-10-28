@@ -66,7 +66,7 @@ abstract class Evidence<T>(
         return """
             |${note ?: ""}
             |class $name <<$type>> ${if (isRole) YELLOW else PINK}{
-            |   ${generateRole(role)?:""} ${timestamps?.joinToString() ?: ""}
+            |   ${if (!isRole) generateRole(role) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
             |   ${if (timestamps != null && data != null) ".." else ""}
             |   ${data?.joinToString() ?: ""}
             }
