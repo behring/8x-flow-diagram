@@ -6,7 +6,7 @@ interface Relationship {
         const val ONE_TO_ONE = """ "1" -- "1" """
         const val N_TO_N = """ "N" -- "N" """
         const val NONE = """ -- """
-        const val PLAY_TO = """ ..> """
+        const val PLAY_TO = """ ..|> """
         const val ASSOCIATE = """ --> """
     }
 }

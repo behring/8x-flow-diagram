@@ -20,8 +20,7 @@ class Role(val element: Element, type: Type, val context: context) {
     }
 
     infix fun played(participant: Participant): Role = apply {
-        // TODO: 2021/10/29 这里应该是 participant PLAY_TO role,重构时候优化
-        element.relate(participant.element, PLAY_TO)
+        participant.element.relate(element, PLAY_TO)
     }
 
     infix fun relate(genericEvidence: Evidence<*>) {

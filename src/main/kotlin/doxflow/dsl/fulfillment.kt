@@ -31,7 +31,6 @@ class fulfillment(
             appendLine(request.toString())
             appendLine(confirmation.toString())
             appendLine("""${request.element.displayName} $relationship ${confirmation.element.displayName}""")
-            appendLine(contract.element.generateRelationships())
         }
     }
 }

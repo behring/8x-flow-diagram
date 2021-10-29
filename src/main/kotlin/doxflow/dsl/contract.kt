@@ -24,7 +24,7 @@ class contract(element: Element) :
 
     private fun init(vararg roles: Role) {
         this.roles = roles.asList()
-        roles.forEach { element.relate(it.element, ONE_TO_ONE) }
+        roles.forEach { it.element.relate(element, ONE_TO_ONE) }
     }
 
     fun fulfillment(
@@ -53,12 +53,8 @@ class contract(element: Element) :
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            roles.forEach { appendLine(it.toString()) }
-            fulfillments.let { fulfillment ->
-                // 可能contract下面没有fulfillment
-                if (fulfillment.isNotEmpty()) fulfillment.forEach { appendLine(it.toString()) }
-                else appendLine(element.generateRelationships())
-            }
+            if (fulfillments.isNotEmpty()) fulfillments.forEach { appendLine(it.toString()) }
+            appendLine(element.generateRelationships())
             proposal?.let { appendLine(it.element.generateRelationships()) }
             context?.let { appendLine(it.element.generateRelationships()) }
         }
