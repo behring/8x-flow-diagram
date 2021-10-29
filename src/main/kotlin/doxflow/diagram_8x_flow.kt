@@ -18,7 +18,9 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         export_doc(doc)
     }
 
-    override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply { function() }
+    override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply {
+        function()
+    }
 
     override fun buildDocContent(): String = buildString {
         appendLine("# 服务与业务能力")
