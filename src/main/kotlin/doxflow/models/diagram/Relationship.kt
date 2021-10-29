@@ -7,5 +7,6 @@ interface Relationship {
         const val N_TO_N = """ "N" -- "N" """
         const val NONE = """ -- """
         const val PLAY_TO = """ ..> """
+        const val ASSOCIATE = """ --> """
     }
 }

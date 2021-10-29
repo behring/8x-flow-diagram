@@ -7,29 +7,30 @@ package common
  * */
 data class Element(
     var displayName: String,
-    var type: String,
+    var type: String = "rectangle",
     var backgroundColor: String? = null,
 ) {
     var name: String? = "<size:16><b>$displayName"
     var stereoType: String? = null
-    var relativeElement: Element? = null
+    var relativeElements: MutableList<RelationshipWrapper> = mutableListOf()
 
-    fun relate(relativeElement: Element) = relativeElement.let { this.relativeElement = it }
+    fun relate(relativeElementName: String, relationship: String, command: String? = null) {
+        relate(Element(relativeElementName), relationship, command)
+    }
+
+    fun relate(relativeElement: Element, relationship: String, command: String? = null) =
+        relativeElements.add(RelationshipWrapper(relativeElement, relationship, command))
+
+    fun generateRelationships(): String = buildString {
+        relativeElements.forEach {
+            append("${displayName}${it.relationship}${it.relativeElement.displayName}")
+            appendLine(with(it.command) { return@with if (!isNullOrBlank()) ":${it.command}" else "" })
+        }
+    }
 
     override fun toString(): String =
         "$type \"$name\" as $displayName ${if (stereoType != null) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
 
-}
-
-interface Interactions {
-    fun generateInteractions(element: Element, elementInteractions: List<Pair<String, String>>): String = buildString {
-        elementInteractions.forEach {
-            // class element指定关系时，不能使用[]括号
-            append("${element.displayName}-->${it.first}")
-            appendLine(with(it.second) {
-                return@with if (!isNullOrBlank()) ":${it.second}" else ""
-            })
-        }
-    }
+    data class RelationshipWrapper(val relativeElement: Element, val relationship: String, val command: String?)
 
 }

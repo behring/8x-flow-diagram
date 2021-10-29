@@ -1,17 +1,16 @@
 package architecture.dsl.intra_process
 
 import common.Element
-import common.Interactions
+import doxflow.models.diagram.Relationship.Companion.ASSOCIATE
 
-class process(val element: Element) : Interactions {
-    private val componentInteractions: MutableList<Pair<String, String>> = mutableListOf()
+class process(val element: Element) {
 
     fun call(componentName: String, command: String = "") {
-        componentInteractions.add(Pair(componentName, command))
+        element.relate(componentName, ASSOCIATE, command)
     }
 
     override fun toString(): String = buildString {
         appendLine(element)
-        appendLine(generateInteractions(element, componentInteractions))
+        appendLine(element.generateRelationships())
     }
 }

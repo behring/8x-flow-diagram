@@ -2,18 +2,18 @@ package architecture.dsl.inter_process
 
 import architecture.dsl.component
 import common.*
+import doxflow.models.diagram.Relationship.Companion.ASSOCIATE
 
-class process(val element: Element, service: service) : DSL<process>, Interactions {
+class process(val element: Element, val service: service) : DSL<process> {
     init {
         if (element.backgroundColor == null)
             element.backgroundColor = service.element.backgroundColor
     }
 
     private val components: MutableList<component> = mutableListOf()
-    private val processInteractions: MutableList<Pair<String, String>> = mutableListOf()
 
     fun call(processName: String, command: String = "") {
-        processInteractions.add(Pair(processName, command))
+        element.relate(processName, ASSOCIATE, command)
     }
 
     fun component(name: String, color: String? = null): component {
@@ -31,6 +31,7 @@ class process(val element: Element, service: service) : DSL<process>, Interactio
             appendLine(it.toString())
         }
         appendLine("}")
-        appendLine(generateInteractions(element, processInteractions))
+        appendLine(element.generateRelationships())
+        appendLine(service.element.generateRelationships())
     }
 }

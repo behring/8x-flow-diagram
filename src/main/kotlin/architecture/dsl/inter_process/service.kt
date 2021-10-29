@@ -4,7 +4,7 @@ import common.Element
 import common.DSL
 
 class service(val element: Element) : DSL<service> {
-    val processes: MutableList<process> = mutableListOf()
+    private val processes: MutableList<process> = mutableListOf()
 
     fun process(name: String, color: String? = null, function: (process.() -> Unit)? = null): process {
         val process = process(Element(name, "rectangle", color), this)
@@ -13,10 +13,7 @@ class service(val element: Element) : DSL<service> {
         return process
     }
 
-
     override fun invoke(function: service.() -> Unit): service = apply { function() }
-
-
 
     override fun toString(): String = buildString {
         appendLine("$element {")
