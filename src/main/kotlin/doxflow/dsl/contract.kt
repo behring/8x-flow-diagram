@@ -3,6 +3,7 @@ package doxflow.dsl
 import common.Element
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
 class contract(element: Element, context: context, private vararg val roles: Role) :
     Evidence<contract>(element, context, contract::class) {
@@ -10,12 +11,12 @@ class contract(element: Element, context: context, private vararg val roles: Rol
 
     fun fulfillment(
         name: String,
-        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
+        relationship: String = ONE_TO_ONE,
         fulfillment: fulfillment.() -> Unit
     ): fulfillment =
         fulfillment(name, context).apply {
             this.contract = this@contract
-            relationship_type = relationShipType
+            super.relationship = relationship
             fulfillments.add(this)
             fulfillment()
         }
@@ -41,7 +42,7 @@ class contract(element: Element, context: context, private vararg val roles: Rol
 
             fulfillments.forEach {
                 appendLine(it.toString())
-                appendLine("""${element.displayName} ${getRelationshipLine(it.relationship_type)} ${it.request.element.displayName}""")
+                appendLine("""${element.displayName} $relationship ${it.request.element.displayName}""")
             }
         }
     }

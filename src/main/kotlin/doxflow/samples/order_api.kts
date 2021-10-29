@@ -1,7 +1,7 @@
 package doxflow.samples
 
 import doxflow.diagram_8x_flow
-import doxflow.models.diagram.RelationShipType.ONE_TO_N
+import doxflow.models.diagram.Relationship
 
 diagram_8x_flow {
     context("商品销售上下文") {
@@ -12,7 +12,7 @@ diagram_8x_flow {
             resource = "order-request"
             key_timestamps("创建时间")
 
-            proposal("商品报价方案", seller, ONE_TO_N) {
+            proposal("商品报价方案", seller, Relationship.ONE_TO_N) {
                 key_timestamps("创建时间")
                 key_data("报价金额")
 
@@ -20,7 +20,7 @@ diagram_8x_flow {
 
                 contract("商品订单合同", seller, buyer) {
                     resource = "order"
-                    relationship_type = ONE_TO_N
+                    relationship = Relationship.ONE_TO_N
                     key_timestamps("签订时间")
 
                     fulfillment("订单支付") {

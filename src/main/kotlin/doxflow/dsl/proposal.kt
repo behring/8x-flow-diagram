@@ -2,6 +2,7 @@ package doxflow.dsl
 
 import common.Element
 import doxflow.models.diagram.*
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
 class proposal(element: Element, context: context, role: Role?, note: String? = null) :
     Evidence<proposal>(element, context, proposal::class, role, note) {
@@ -18,7 +19,7 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
         this.contract = contract(Element(name, "class"), context, *roles).apply {
-            relationship_type = RelationShipType.ONE_TO_ONE
+            relationship = ONE_TO_ONE
             contract()
         }
     }

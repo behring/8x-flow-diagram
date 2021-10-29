@@ -12,10 +12,13 @@ data class Element(
 ) {
     var name: String? = "<size:16><b>$displayName"
     var stereoType: String? = null
+    var relativeElement: Element? = null
 
-    override fun toString(): String {
-        return "$type \"$name\" as $displayName ${if (stereoType != null) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
-    }
+    fun relate(relativeElement: Element) = relativeElement.let { this.relativeElement = it }
+
+    override fun toString(): String =
+        "$type \"$name\" as $displayName ${if (stereoType != null) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
+
 }
 
 interface Interactions {

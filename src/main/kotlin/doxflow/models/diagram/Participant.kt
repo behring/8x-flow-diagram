@@ -3,6 +3,7 @@ package doxflow.models.diagram
 import common.Element
 import common.Diagram.Color.GREEN
 import doxflow.dsl.context
+import doxflow.models.diagram.Relationship.Companion.NONE
 
 class Participant(val element: Element, val type: Type, val context: context) {
     init {
@@ -26,7 +27,7 @@ class Participant(val element: Element, val type: Type, val context: context) {
         appendLine("$element")
 
         genericeEvidences.forEach {
-            appendLine("${element.displayName} $RELATIONSHIP ${it.element.displayName}")
+            appendLine("${element.displayName} $NONE ${it.element.displayName}")
         }
     }
 }

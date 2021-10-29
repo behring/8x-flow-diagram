@@ -2,6 +2,7 @@ package doxflow.dsl
 
 import common.Element
 import doxflow.models.diagram.*
+import doxflow.models.diagram.Relationship.Companion.NONE
 
 class confirmation(element: Element, context: context, role: Role?, note: String? = null) :
     Evidence<confirmation>(element, context, confirmation::class, role, note) {
@@ -47,11 +48,11 @@ class confirmation(element: Element, context: context, role: Role?, note: String
             appendLine(super.toString())
             evidence?.let {
                 appendLine(evidence.toString())
-                appendLine("""${it.element.displayName} $RELATIONSHIP ${element.displayName}""")
+                appendLine("""${it.element.displayName} $NONE ${element.displayName}""")
             }
             dependentConfirmation?.let {
                 appendLine(dependentConfirmation.toString())
-                appendLine("""${element.displayName} ${getRelationshipLine(relationship_type)} ${it.element.displayName}""")
+                appendLine("""${element.displayName} $relationship ${it.element.displayName}""")
             }
         }
     }

@@ -1,6 +1,6 @@
 import doxflow.diagram_8x_flow
 import doxflow.dsl.fulfillment
-import doxflow.models.diagram.RelationShipType
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
 import org.junit.Test
 
 internal class diagram_8x_flow_test {
@@ -172,7 +172,7 @@ internal class diagram_8x_flow_test {
                     resource = "order-request"
                     key_timestamps("创建时间")
 
-                    proposal("商品报价方案", seller, RelationShipType.ONE_TO_N) {
+                    proposal("商品报价方案", seller, ONE_TO_N) {
                         key_timestamps("创建时间")
                         key_data("报价金额")
 
@@ -180,7 +180,7 @@ internal class diagram_8x_flow_test {
 
                         contract("商品订单合同", seller, buyer) {
                             resource = "order"
-                            relationship_type = RelationShipType.ONE_TO_N
+                            relationship = ONE_TO_N
                             key_timestamps("签订时间")
 
                             fulfillment("订单支付") {

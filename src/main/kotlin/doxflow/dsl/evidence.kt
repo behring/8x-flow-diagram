@@ -1,13 +1,13 @@
 package doxflow.dsl
 
 import common.Element
-import doxflow.models.diagram.RelationShipType
 import doxflow.models.diagram.Evidence
-import doxflow.models.diagram.PLAY_TO
+import doxflow.models.diagram.Relationship.Companion.NONE
+import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 
 class evidence(element: Element, context: context) : Evidence<evidence>(element, context, evidence::class) {
     private var roles: MutableList<confirmation> = mutableListOf()
-    var detailAssociation: Pair<detail, RelationShipType>? = null
+    var detailRelationship: Pair<detail, String>? = null
 
     /**
      * 凭证角色化，让当前凭证扮演confirmation(调用有confirmation变为橙色，当前evidence指向confirmation)
@@ -18,11 +18,11 @@ class evidence(element: Element, context: context) : Evidence<evidence>(element,
 
     fun detail(
         name: String,
-        relationShipType: RelationShipType = RelationShipType.NONE,
+        relationship: String = NONE,
         detail: detail.() -> Unit
     ): detail {
         return detail(Element(name, "class"), context).apply {
-            detailAssociation = Pair(this, relationShipType)
+            detailRelationship = Pair(this, relationship)
             detail()
         }
     }
@@ -37,9 +37,9 @@ class evidence(element: Element, context: context) : Evidence<evidence>(element,
             roles.forEach {
                 appendLine("""${element.displayName} $PLAY_TO ${it.element.displayName}""")
             }
-            detailAssociation?.let {
+            detailRelationship?.let {
                 appendLine(it.first.toString())
-                appendLine("""${element.displayName} ${getRelationshipLine(it.second)} ${it.first.element.displayName}""")
+                appendLine("""${element.displayName} ${it.second} ${it.first.element.displayName}""")
             }
         }
     }

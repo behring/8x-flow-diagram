@@ -3,6 +3,7 @@ package doxflow.models.diagram
 import common.Element
 import common.Diagram.Color.YELLOW
 import doxflow.dsl.context
+import doxflow.models.diagram.Relationship.Companion.NONE
 
 class Role(val element: Element, val type: Type, val context: context) {
     init {
@@ -29,7 +30,7 @@ class Role(val element: Element, val type: Type, val context: context) {
     override fun toString(): String = buildString {
         appendLine("$element")
         genericEvidences.forEach {
-            appendLine("${element.displayName} $RELATIONSHIP ${it.element.displayName}")
+            appendLine("${element.displayName} $NONE ${it.element.displayName}")
         }
     }
 }

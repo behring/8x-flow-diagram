@@ -3,12 +3,12 @@ package doxflow.dsl
 import common.Element
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.diagram.Relationship
-import doxflow.models.diagram.RelationShipType
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 import doxflow.models.diagram.Role
 
 class fulfillment(
     val name: String, val context: context, override var resource: String = "",
-    override var relationship_type: RelationShipType = RelationShipType.ONE_TO_ONE
+    var relationship: String = ONE_TO_ONE
 ) :
     BusinessAbility<fulfillment>, Relationship {
     lateinit var contract: contract
@@ -19,7 +19,7 @@ class fulfillment(
         this.request = request(Element("${name}请求", "class"), context, role).apply { request() }
         this.request.resource = resource
         this.request.contract = contract
-        this.request.relationship_type = relationship_type
+        this.request.relationship = relationship
     }
 
     fun confirmation(role: Role? = null, confirmation: confirmation.() -> Unit) {
@@ -34,7 +34,7 @@ class fulfillment(
         return buildString {
             appendLine(request.toString())
             appendLine(confirmation.toString())
-            appendLine("""${request.element.displayName} ${getRelationshipLine(relationship_type)} ${confirmation.element.displayName}""")
+            appendLine("""${request.element.displayName} $relationship ${confirmation.element.displayName}""")
         }
     }
 }

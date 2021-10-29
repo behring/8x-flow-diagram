@@ -8,6 +8,8 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.ability.BusinessAbilityTable.Row
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
@@ -17,7 +19,7 @@ abstract class Evidence<T : Any>(
     val role: Role? = null,
     private val note: String? = null,
     override var resource: String = ""
-) : BusinessAbility<T>, Diagram.KeyInfo<T>, Relationship {
+) : BusinessAbility<T>, Diagram.KeyInfo<T> {
 
     init {
         element.backgroundColor = PINK
@@ -34,11 +36,11 @@ abstract class Evidence<T : Any>(
 
     open fun getUriPrefix(): String = ""
 
-    override var relationship_type: RelationShipType = RelationShipType.ONE_TO_ONE
+    var relationship: String = ONE_TO_ONE
 
-    open fun getUri(): String = when (relationship_type) {
-        RelationShipType.ONE_TO_ONE -> "${getUriPrefix()}/$resource"
-        RelationShipType.ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
+    open fun getUri(): String = when (relationship) {
+        ONE_TO_ONE -> "${getUriPrefix()}/$resource"
+        ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
         else -> "${getUriPrefix()}/$resource"
     }
 
@@ -47,12 +49,12 @@ abstract class Evidence<T : Any>(
         val roleName = role?.element?.displayName ?: ""
         val serviceName = "${context.element.displayName}服务"
         val singularUri: String
-        when (relationship_type) {
-            RelationShipType.ONE_TO_ONE -> {
+        when (relationship) {
+            ONE_TO_ONE -> {
                 singularUri = "${getUriPrefix()}/$resource"
                 table.addRow(Row("POST", singularUri, "创建${element.displayName}", serviceName, roleName))
             }
-            RelationShipType.ONE_TO_N -> {
+            ONE_TO_N -> {
                 val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
                 singularUri = "$pluralUri/{${resource[0]}id}"
                 table.addRow(Row("POST", pluralUri, "创建${element.displayName}", serviceName, roleName))

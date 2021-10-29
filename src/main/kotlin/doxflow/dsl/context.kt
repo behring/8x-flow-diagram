@@ -3,9 +3,9 @@ package doxflow.dsl
 import common.Element
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityTable
-import doxflow.models.diagram.RelationShipType
-import doxflow.models.diagram.PLAY_TO
 import doxflow.models.diagram.Participant
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
+import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 import doxflow.models.diagram.Role
 
 class context(val element: Element, override var resource: String = "") : BusinessAbility<context> {
@@ -35,12 +35,12 @@ class context(val element: Element, override var resource: String = "") : Busine
     fun rfp(
         name: String,
         role: Role,
-        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
+        relationship: String = ONE_TO_ONE,
         rfp: rfp.() -> Unit
     ) = with(
         rfp(Element(name, "class"), this, role)
     ) {
-        this.relationship_type = relationShipType
+        this.relationship = relationship
         rfps.add(this)
         rfp()
     }
@@ -48,12 +48,12 @@ class context(val element: Element, override var resource: String = "") : Busine
     fun proposal(
         name: String,
         role: Role,
-        relationShipType: RelationShipType = RelationShipType.ONE_TO_ONE,
+        relationship: String = ONE_TO_ONE,
         proposal: proposal.() -> Unit
     ) = with(
         proposal(Element(name, "class"), this, role)
     ) {
-        this.relationship_type = relationShipType
+        this.relationship = relationship
         resource = this.javaClass.simpleName
         proposals.add(this)
         proposal()
@@ -61,7 +61,7 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) =
         with(contract(Element(name, "class"), this, *roles)) {
-            relationship_type = RelationShipType.ONE_TO_ONE
+            this.relationship = ONE_TO_ONE
             contracts.add(this)
             contract()
         }
