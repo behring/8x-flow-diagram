@@ -78,5 +78,6 @@ interface Diagram {
         const val PINK = "#F0637C"
         const val GREEN = "#6D9D79"
         const val YELLOW = "#CA8422"
+        const val TRANSPARENT = "#transparent"
     }
 }

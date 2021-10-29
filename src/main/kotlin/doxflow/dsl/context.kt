@@ -1,7 +1,6 @@
 package doxflow.dsl
 
 import common.Element
-import common.ParentContainer
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.RelationShipType
@@ -9,11 +8,9 @@ import doxflow.models.diagram.PLAY_TO
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Role
 
-class context(val element: Element, override var resource: String = "") : BusinessAbility<context>,
-    ParentContainer {
+class context(val element: Element, override var resource: String = "") : BusinessAbility<context> {
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
-    private val childClasses: MutableList<Element> = mutableListOf()
     private val rfps: MutableList<rfp> = mutableListOf()
     private val participants: MutableList<Participant> = mutableListOf()
     private var roles: MutableList<Role> = mutableListOf()
@@ -76,13 +73,17 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     override fun invoke(function: context.() -> Unit): context = apply { function() }
 
-    override fun addElement(element: Element) {
-        childClasses.add(element)
-    }
-
     override fun toString(): String = buildString {
-        addElements(childClasses, element)
-        generateClasses()
+        appendLine("$element {")
+        arrayOf(participants, roles, rfps, proposals, contracts)
+            .flatMap { it }.forEach { appendLine(it.toString()) }
+        appendLine("}")
+
+        roles.forEach { role ->
+            role.participant?.let {
+                appendLine("""${it.element.displayName} $PLAY_TO ${role.element.displayName}""")
+            }
+        }
     }
 
     private fun StringBuilder.addBusinessAbilities(table: BusinessAbilityTable) {
@@ -91,14 +92,5 @@ class context(val element: Element, override var resource: String = "") : Busine
         appendLine(table.toString())
     }
 
-    private fun StringBuilder.generateClasses() {
-        arrayOf(participants, roles, rfps, proposals, contracts)
-            .flatMap { it }.forEach { appendLine(it.toString()) }
 
-        roles.forEach { role ->
-            role.participant?.let {
-                appendLine("""${it.element.displayName} $PLAY_TO ${role.element.displayName}""")
-            }
-        }
-    }
 }

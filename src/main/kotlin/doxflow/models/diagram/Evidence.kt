@@ -21,8 +21,7 @@ abstract class Evidence<T : Any>(
 
     init {
         element.backgroundColor = PINK
-        element.stereoType = "<<${type.simpleName.toString()}>>"
-        context.addElement(element)
+        element.stereoType = type.simpleName.toString()
     }
 
     var isRole: Boolean = false

@@ -45,12 +45,5 @@ object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
         processes.forEach {
             appendLine(it.toString())
         }
-        /**
-         * 注意：此方法不能再layers.forEach中继续对component进行forEach调用，
-         * 必须在所有的layer构建完成后再构建component，否则生成图中，component会脱离layer
-         * */
-        layers.flatMap { it.components }.forEach {
-            appendLine(it.toString())
-        }
     }
 }

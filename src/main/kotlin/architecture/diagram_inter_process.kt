@@ -3,12 +3,13 @@ package architecture
 import architecture.dsl.inter_process.service
 import common.DSL
 import common.Diagram
+import common.Diagram.Color.TRANSPARENT
 import common.Element
 
 object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     var services: MutableList<service> = mutableListOf()
 
-    fun service(name: String, color: String? = null, function: service.() -> Unit): service =
+    fun service(name: String, color: String = TRANSPARENT, function: service.() -> Unit): service =
         service(Element(name, "rectangle", color)).apply {
             services.add(this)
             function()
@@ -30,13 +31,6 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     private fun buildPlantUmlContent(): String = buildString {
         services.forEach { service ->
             appendLine(service.toString())
-        }
-        /**
-         * 注意：此方法不能再services.forEach中继续对process进行forEach调用，
-         * 必须在所有的service构建完成后再构建process，否则生成图中，process会脱离service
-         * */
-        services.flatMap { it.processes }.forEach {
-            appendLine(it.toString())
         }
     }
 }

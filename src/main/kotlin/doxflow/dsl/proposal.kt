@@ -19,7 +19,6 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
     fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
         this.contract = contract(Element(name, "class"), context, *roles).apply {
             relationship_type = RelationShipType.ONE_TO_ONE
-            context.contracts.add(this)
             contract()
         }
     }
@@ -36,6 +35,7 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
+            appendLine(contract.toString())
             appendLine("${element.displayName} $ONE_TO_ONE ${contract.element.displayName}")
         }
     }

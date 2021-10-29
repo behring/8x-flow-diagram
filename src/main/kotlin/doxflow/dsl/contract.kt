@@ -40,10 +40,8 @@ class contract(element: Element, context: context, private vararg val roles: Rol
             }
 
             fulfillments.forEach {
-                appendLine("""${element.displayName} ${getRelationshipLine(it.relationship_type)} ${it.request.element.displayName}""")
-                appendLine(it.request.toString())
                 appendLine(it.toString())
-                appendLine(it.confirmation.toString())
+                appendLine("""${element.displayName} ${getRelationshipLine(it.relationship_type)} ${it.request.element.displayName}""")
             }
         }
     }

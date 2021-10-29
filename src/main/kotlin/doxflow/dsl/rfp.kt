@@ -17,7 +17,6 @@ class rfp(element: Element, context: context, role: Role, note: String? = null) 
         proposal: proposal.() -> Unit
     ) {
         this.proposal = proposal(Element(name, "class"), context, role).apply {
-            context.proposals.add(this)
             rfp = this@rfp
             this.relationship_type = relationShipType
             proposal()
@@ -31,6 +30,7 @@ class rfp(element: Element, context: context, role: Role, note: String? = null) 
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
+            appendLine(proposal.toString())
             appendLine("${element.displayName}$ONE_TO_ONE${proposal.element.displayName}")
         }
     }

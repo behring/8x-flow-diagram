@@ -3,10 +3,10 @@ package architecture.dsl.inter_process
 import architecture.dsl.component
 import common.*
 
-class process(val element: Element, container: ParentContainer) :
-    ParentContainer, DSL<process>,Interactions {
+class process(val element: Element, service: service) : DSL<process>, Interactions {
     init {
-        container.addElement(element)
+        if (element.backgroundColor == null)
+            element.backgroundColor = service.element.backgroundColor
     }
 
     private val components: MutableList<component> = mutableListOf()
@@ -19,15 +19,18 @@ class process(val element: Element, container: ParentContainer) :
     fun component(name: String, color: String? = null): component {
         val component = component(Element(name, "rectangle", color), this)
         components.add(component)
-        element.childElements.add(component.element)
         return component
     }
 
     override fun invoke(function: process.() -> Unit): process = apply { function() }
 
 
-
     override fun toString(): String = buildString {
+        appendLine("$element {")
+        components.forEach {
+            appendLine(it.toString())
+        }
+        appendLine("}")
         appendLine(generateInteractions(element, processInteractions))
     }
 }
