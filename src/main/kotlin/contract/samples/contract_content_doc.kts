@@ -34,4 +34,4 @@ doc_contract_content {
             confirm(twPlatform)
         }
     }
-} export_doc "./docs/contract_analysis_doc.md"
+} export_doc "./docs/contract_content_doc.md"
