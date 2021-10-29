@@ -1,25 +1,18 @@
 
-import doxflow.models.ability.BusinessAbility
+import doxflow.models.ability.BusinessAbilityCreator
 import org.junit.Test
 import kotlin.test.assertEquals
 
 internal class BusinessAbilityTest {
     @Test
     fun should_can_pluralize_word() {
-        var actual = contract("class").pluralize()
+        var actual = BusinessAbilityCreator.pluralize("class")
         assertEquals("classes", actual)
-        actual = contract("city").pluralize()
+        actual = BusinessAbilityCreator.pluralize("city")
         assertEquals("cities", actual)
-        actual = contract("book").pluralize()
+        actual = BusinessAbilityCreator.pluralize("book")
         assertEquals("books", actual)
-        actual = contract("person").pluralize()
+        actual = BusinessAbilityCreator.pluralize("person")
         assertEquals("people", actual)
-    }
-
-    class contract(override var resource: String = "") : BusinessAbility<contract> {
-        override fun invoke(function: contract.() -> Unit): contract = this
-        fun pluralize(): String {
-            return resource.pluralize()
-        }
     }
 }

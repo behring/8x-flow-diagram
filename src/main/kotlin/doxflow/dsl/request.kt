@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Role
 
@@ -14,6 +15,8 @@ class request(element: Element, private val fulfillment: fulfillment, role: Role
     override fun invoke(function: request.() -> Unit): request = apply { function() }
 
     override fun getUriPrefix(): String {
-        return fulfillment.contract.getUri()
+        fulfillment.contract.let {
+            return BusinessAbilityCreator.getUri(it.resource, it.relationship, it.getUriPrefix())
+        }
     }
 }

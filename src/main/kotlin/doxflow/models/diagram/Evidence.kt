@@ -5,6 +5,7 @@ import common.Diagram.Color.PINK
 import common.Diagram.Color.YELLOW
 import common.Element
 import doxflow.models.ability.BusinessAbility
+import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.ability.BusinessAbilityTable.Row
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
@@ -36,35 +37,14 @@ abstract class Evidence<T : Any>(
 
     var relationship: String = ONE_TO_ONE
 
-    open fun getUri(): String = when (relationship) {
-        ONE_TO_ONE -> "${getUriPrefix()}/$resource"
-        ONE_TO_N -> "${getUriPrefix()}/${resource.pluralize()}/{${resource[0]}id}"
-        else -> "${getUriPrefix()}/$resource"
-    }
-
-    open fun addBusinessAbility(table: BusinessAbilityTable) {
-        if (resource.isBlank()) return
-        val roleName = role?.element?.displayName ?: ""
-        //todo 这里考虑如何获取服务名
-//        val serviceName = "${context.element.displayName}服务"
-        val serviceName = "服务"
-        val singularUri: String
-        when (relationship) {
-            ONE_TO_ONE -> {
-                singularUri = "${getUriPrefix()}/$resource"
-                table.addRow(Row("POST", singularUri, "创建${element.displayName}", serviceName, roleName))
-            }
-            ONE_TO_N -> {
-                val pluralUri = "${getUriPrefix()}/${resource.pluralize()}"
-                singularUri = "$pluralUri/{${resource[0]}id}"
-                table.addRow(Row("POST", pluralUri, "创建${element.displayName}", serviceName, roleName))
-                table.addRow(Row("GET", pluralUri, "查看${element.displayName}列表", serviceName))
-            }
-            else -> singularUri = "${getUriPrefix()}/$resource"
-        }
-        table.addRow(Row("GET", singularUri, "查看${element.displayName}", serviceName, roleName))
-        table.addRow(Row("PUT", singularUri, "更改${element.displayName}", serviceName, roleName))
-        table.addRow(Row("DELETE", singularUri, "取消${element.displayName}", serviceName, roleName))
+    open fun addBusinessAbility(abilityCreator: BusinessAbilityCreator) {
+        abilityCreator.appendBusinessAbility(
+            resource,
+            relationship,
+            getUriPrefix(),
+            element.displayName,
+            role?.element?.displayName ?: ""
+        )
     }
 
     override fun key_timestamps(vararg timestamps: String) = timestamps.let { this.timestamps = it }
@@ -80,7 +60,6 @@ abstract class Evidence<T : Any>(
             |}
         """.trimIndent()
     }
-
 
     private fun generateRole(role: Role?): String? = role?.let {
         """

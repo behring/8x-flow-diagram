@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
@@ -37,7 +38,7 @@ class proposal(element: Element, role: Role?, note: String? = null) :
 
     override fun getUriPrefix(): String {
         rfp?.let {
-            return it.getUri()
+            return BusinessAbilityCreator.getUri(it.resource, it.relationship, it.getUriPrefix())
         }
         return super.getUriPrefix()
     }

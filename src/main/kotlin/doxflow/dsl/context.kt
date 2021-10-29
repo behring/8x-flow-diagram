@@ -2,6 +2,7 @@ package doxflow.dsl
 
 import common.Element
 import doxflow.models.ability.BusinessAbility
+import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
@@ -67,7 +68,7 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     fun toApiString(): String = buildString {
         appendLine("## 业务能力表 - ${element.displayName}")
-        addBusinessAbilities(BusinessAbilityTable())
+        addBusinessAbilities(BusinessAbilityCreator(element.displayName))
     }
 
     override fun invoke(function: context.() -> Unit): context = apply { function() }
@@ -81,9 +82,9 @@ class context(val element: Element, override var resource: String = "") : Busine
         appendLine("}")
     }
 
-    private fun StringBuilder.addBusinessAbilities(table: BusinessAbilityTable) {
-        arrayOf(rfps, proposals, contracts).flatMap { it }.forEach { it.addBusinessAbility(table) }
-        appendLine(table.toString())
+    private fun StringBuilder.addBusinessAbilities(abilityCreator: BusinessAbilityCreator) {
+        arrayOf(rfps, proposals, contracts).flatMap { it }.forEach { it.addBusinessAbility(abilityCreator) }
+        appendLine(abilityCreator.create())
     }
 
 

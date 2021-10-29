@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
@@ -39,10 +40,10 @@ class contract(element: Element) :
             this@contract.element.relate(request.element, relationship)
         }
 
-    override fun addBusinessAbility(table: BusinessAbilityTable) {
-        super.addBusinessAbility(table)
+    override fun addBusinessAbility(abilityCreator: BusinessAbilityCreator) {
+        super.addBusinessAbility(abilityCreator)
         fulfillments.forEach {
-            it.request.addBusinessAbility(table)
+            it.request.addBusinessAbility(abilityCreator)
         }
     }
 
