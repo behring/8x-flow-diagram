@@ -5,20 +5,38 @@ import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
-class contract(element: Element, context: context, private vararg val roles: Role) :
-    Evidence<contract>(element, context, contract::class) {
-    var fulfillments: MutableList<fulfillment> = mutableListOf()
+class contract(element: Element) :
+    Evidence<contract>(element, contract::class) {
+    private var context: context? = null
+    private var proposal: proposal? = null
+    private var roles: List<Role> = listOf()
+    private var fulfillments: MutableList<fulfillment> = mutableListOf()
+
+    constructor(element: Element, context: context, vararg roles: Role) : this(element) {
+        this.context = context
+        init(*roles)
+    }
+
+    constructor(element: Element, proposal: proposal, vararg roles: Role) : this(element) {
+        this.proposal = proposal
+        init(*roles)
+    }
+
+    private fun init(vararg roles: Role) {
+        this.roles = roles.asList()
+        roles.forEach { element.relate(it.element, ONE_TO_ONE) }
+    }
 
     fun fulfillment(
         name: String,
         relationship: String = ONE_TO_ONE,
         fulfillment: fulfillment.() -> Unit
     ): fulfillment =
-        fulfillment(name, context).apply {
-            this.contract = this@contract
-            super.relationship = relationship
+        fulfillment(name, this).apply {
             fulfillments.add(this)
             fulfillment()
+            this@contract.relationship = relationship
+            this@contract.element.relate(request.element, relationship)
         }
 
     override fun addBusinessAbility(table: BusinessAbilityTable) {
@@ -35,15 +53,14 @@ class contract(element: Element, context: context, private vararg val roles: Rol
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            roles.forEach { role ->
-                appendLine(role.toString())
-                appendLine("""${element.displayName} $ONE_TO_ONE ${role.element.displayName}""")
+            roles.forEach { appendLine(it.toString()) }
+            fulfillments.let { fulfillment ->
+                // 可能contract下面没有fulfillment
+                if (fulfillment.isNotEmpty()) fulfillment.forEach { appendLine(it.toString()) }
+                else appendLine(element.generateRelationships())
             }
-
-            fulfillments.forEach {
-                appendLine(it.toString())
-                appendLine("""${element.displayName} $relationship ${it.request.element.displayName}""")
-            }
+            proposal?.let { appendLine(it.element.generateRelationships()) }
+            context?.let { appendLine(it.element.generateRelationships()) }
         }
     }
 }

@@ -5,7 +5,6 @@ import common.Diagram.Color.PINK
 import common.Diagram.Color.YELLOW
 import common.Element
 import doxflow.models.ability.BusinessAbility
-import doxflow.dsl.context
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.ability.BusinessAbilityTable.Row
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
@@ -14,7 +13,6 @@ import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
     val element: Element,
-    val context: context,
     type: KClass<out T>,
     val role: Role? = null,
     private val note: String? = null,
@@ -47,7 +45,9 @@ abstract class Evidence<T : Any>(
     open fun addBusinessAbility(table: BusinessAbilityTable) {
         if (resource.isBlank()) return
         val roleName = role?.element?.displayName ?: ""
-        val serviceName = "${context.element.displayName}服务"
+        //todo 这里考虑如何获取服务名
+//        val serviceName = "${context.element.displayName}服务"
+        val serviceName = "服务"
         val singularUri: String
         when (relationship) {
             ONE_TO_ONE -> {

@@ -5,13 +5,11 @@ import common.Diagram.Color.GREEN
 import doxflow.dsl.context
 import doxflow.models.diagram.Relationship.Companion.NONE
 
-class Participant(val element: Element, val type: Type, val context: context) {
+class Participant(val element: Element, type: Type, val context: context) {
     init {
         element.stereoType = type.name.lowercase()
         element.backgroundColor = GREEN
     }
-
-    private val genericeEvidences: MutableList<Evidence<*>> = mutableListOf()
 
     enum class Type {
         PARTY,
@@ -20,14 +18,11 @@ class Participant(val element: Element, val type: Type, val context: context) {
     }
 
     infix fun relate(genericEvidence: Evidence<*>) {
-        genericeEvidences.add(genericEvidence)
+        element.relate(genericEvidence.element, NONE)
     }
 
     override fun toString(): String = buildString {
-        appendLine("$element")
-
-        genericeEvidences.forEach {
-            appendLine("${element.displayName} $NONE ${it.element.displayName}")
-        }
+        appendLine(element)
+        appendLine(element.generateRelationships())
     }
 }

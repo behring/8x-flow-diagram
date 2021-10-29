@@ -4,9 +4,18 @@ import common.Element
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
-class proposal(element: Element, context: context, role: Role?, note: String? = null) :
-    Evidence<proposal>(element, context, proposal::class, role, note) {
+class proposal(element: Element, role: Role?, note: String? = null) :
+    Evidence<proposal>(element, proposal::class, role, note) {
+    private var context: context? = null
+    private var rfp: rfp? = null
 
+    constructor(element: Element, context: context, role: Role?, note: String? = null) : this(element, role, note) {
+        this.context = context
+    }
+
+    constructor(element: Element, rfp: rfp, role: Role?, note: String? = null) : this(element, role, note) {
+        this.rfp = rfp
+    }
 
     private lateinit var contract: contract
 
@@ -14,14 +23,12 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
         resource = proposal::class.java.simpleName
     }
 
-    // 当前proposal是否有对应的rfp
-    var rfp: rfp? = null
-
-    fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) {
-        this.contract = contract(Element(name, "class"), context, *roles).apply {
+    fun contract(name: String, vararg roles: Role, function: contract.() -> Unit) {
+        this.contract = contract(Element(name, "class"), this, *roles).apply {
             relationship = ONE_TO_ONE
-            contract()
+            function()
         }
+        element.relate(this.contract.element, ONE_TO_ONE)
     }
 
     override fun invoke(function: proposal.() -> Unit): proposal = apply { function() }
@@ -37,7 +44,7 @@ class proposal(element: Element, context: context, role: Role?, note: String? = 
         return buildString {
             appendLine(super.toString())
             appendLine(contract.toString())
-            appendLine("${element.displayName} $ONE_TO_ONE ${contract.element.displayName}")
+            rfp?.let { appendLine(it.element.generateRelationships()) }
         }
     }
 }

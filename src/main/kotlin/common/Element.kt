@@ -26,6 +26,7 @@ data class Element(
             append("${displayName}${it.relationship}${it.relativeElement.displayName}")
             appendLine(with(it.command) { return@with if (!isNullOrBlank()) ":${it.command}" else "" })
         }
+        relativeElements.clear()
     }
 
     override fun toString(): String =

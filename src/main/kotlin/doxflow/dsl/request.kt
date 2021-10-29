@@ -4,14 +4,16 @@ import common.Element
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Role
 
-class request(element: Element, context: context, role: Role?, note: String? = null) :
-    Evidence<request>(element, context, request::class, role, note) {
-
-    lateinit var contract: contract
+class request(element: Element, private val fulfillment: fulfillment, role: Role?, note: String? = null) :
+    Evidence<request>(element, request::class, role, note) {
+    init {
+        resource = fulfillment.resource
+        relationship = fulfillment.relationship
+    }
 
     override fun invoke(function: request.() -> Unit): request = apply { function() }
 
     override fun getUriPrefix(): String {
-        return contract.getUri()
+        return fulfillment.contract.getUri()
     }
 }

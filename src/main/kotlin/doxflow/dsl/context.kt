@@ -5,7 +5,6 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
-import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 import doxflow.models.diagram.Role
 
 class context(val element: Element, override var resource: String = "") : BusinessAbility<context> {
@@ -78,17 +77,10 @@ class context(val element: Element, override var resource: String = "") : Busine
         arrayOf(participants, roles, rfps, proposals, contracts)
             .flatMap { it }.forEach { appendLine(it.toString()) }
         appendLine("}")
-
-        roles.forEach { role ->
-            role.participant?.let {
-                appendLine("""${it.element.displayName} $PLAY_TO ${role.element.displayName}""")
-            }
-        }
     }
 
     private fun StringBuilder.addBusinessAbilities(table: BusinessAbilityTable) {
-        arrayOf(rfps, proposals, contracts)
-            .flatMap { it }.forEach { it.addBusinessAbility(table) }
+        arrayOf(rfps, proposals, contracts).flatMap { it }.forEach { it.addBusinessAbility(table) }
         appendLine(table.toString())
     }
 

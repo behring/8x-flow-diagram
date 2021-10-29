@@ -4,8 +4,8 @@ import common.Element
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.NONE
 
-class confirmation(element: Element, context: context, role: Role?, note: String? = null) :
-    Evidence<confirmation>(element, context, confirmation::class, role, note) {
+class confirmation(element: Element, private val fulfillment: fulfillment, role: Role?, note: String? = null) :
+    Evidence<confirmation>(element, confirmation::class, role, note) {
     /**
      * 当前confirmation是否存在一个evidence去扮演它
      * */
@@ -16,7 +16,7 @@ class confirmation(element: Element, context: context, role: Role?, note: String
      * */
     private var dependentConfirmation: confirmation? = null
     fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
-        this.evidence = evidence(Element(name, "class"), context)
+        this.evidence = evidence(Element(name, "class"))
         return this.evidence!!.apply { evidence() }
     }
 
@@ -35,7 +35,7 @@ class confirmation(element: Element, context: context, role: Role?, note: String
     }
 
     fun confirmation(name: String, role: Role? = null, confirmation: confirmation.() -> Unit): confirmation =
-        confirmation(Element("${name}确认", "class"), context, role).apply {
+        confirmation(Element("${name}确认", "class"), fulfillment, role).apply {
             role()
             confirmation()
         }
@@ -43,17 +43,15 @@ class confirmation(element: Element, context: context, role: Role?, note: String
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
 
-    override fun toString(): String {
-        return buildString {
-            appendLine(super.toString())
-            evidence?.let {
-                appendLine(evidence.toString())
-                appendLine("""${it.element.displayName} $NONE ${element.displayName}""")
-            }
-            dependentConfirmation?.let {
-                appendLine(dependentConfirmation.toString())
-                appendLine("""${element.displayName} $relationship ${it.element.displayName}""")
-            }
+    override fun toString(): String = buildString {
+        appendLine(super.toString())
+        evidence?.let {
+            appendLine(evidence.toString())
+            appendLine("""${it.element.displayName} $NONE ${element.displayName}""")
+        }
+        dependentConfirmation?.let {
+            appendLine(dependentConfirmation.toString())
+            appendLine("""${element.displayName} $relationship ${it.element.displayName}""")
         }
     }
 }

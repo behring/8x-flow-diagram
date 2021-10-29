@@ -5,7 +5,7 @@ import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Relationship.Companion.NONE
 import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 
-class evidence(element: Element, context: context) : Evidence<evidence>(element, context, evidence::class) {
+class evidence(element: Element) : Evidence<evidence>(element, evidence::class) {
     private var roles: MutableList<confirmation> = mutableListOf()
     var detailRelationship: Pair<detail, String>? = null
 
@@ -21,7 +21,7 @@ class evidence(element: Element, context: context) : Evidence<evidence>(element,
         relationship: String = NONE,
         detail: detail.() -> Unit
     ): detail {
-        return detail(Element(name, "class"), context).apply {
+        return detail(Element(name, "class")).apply {
             detailRelationship = Pair(this, relationship)
             detail()
         }
