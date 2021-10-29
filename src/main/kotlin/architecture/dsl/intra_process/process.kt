@@ -11,6 +11,5 @@ class process(val element: Element) {
 
     override fun toString(): String = buildString {
         appendLine(element)
-        appendLine(element.generateRelationships())
     }
 }

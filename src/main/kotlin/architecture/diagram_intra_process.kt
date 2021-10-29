@@ -39,11 +39,18 @@ object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
     }
 
     private fun buildPlantUmlContent(): String = buildString {
+        processes.forEach {
+            appendLine(it.toString())
+        }
         layers.forEach {
             appendLine(it.toString())
         }
+        // 最后生成关联关系
         processes.forEach {
-            appendLine(it.toString())
+            appendLine(it.element.generateRelationships())
+        }
+        layers.forEach {
+            appendLine(it.generateComponentRelationships())
         }
     }
 }

@@ -29,7 +29,6 @@ data class component(val element: Element) : DSL<component> {
 
     override fun toString(): String = buildString {
         appendLine(element)
-        appendLine(element.generateRelationships())
         process?.let { appendLine(it.element.generateRelationships()) }
         layer?.let { appendLine(it.element.generateRelationships()) }
     }
