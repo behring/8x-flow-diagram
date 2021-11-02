@@ -10,6 +10,9 @@ import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 import doxflow.models.diagram.Role
 
 class context(val element: Element, override var resource: String = "") : BusinessAbility<context> {
+    // bold, plain, dotted and dashed
+    private val borderStyle:String = "dotted"
+
     val proposals: MutableList<proposal> = mutableListOf()
     val contracts: MutableList<contract> = mutableListOf()
     private val rfps: MutableList<rfp> = mutableListOf()
@@ -75,7 +78,7 @@ class context(val element: Element, override var resource: String = "") : Busine
     override fun invoke(function: context.() -> Unit): context = apply { function() }
 
     override fun toString(): String = buildString {
-        appendLine("$element {")
+        appendLine("$element #line.${borderStyle} {")
         //participants和roles必须放最后toString，因为内部有设置关联关系，关联关系必须最后设置，否则会影响之后element的name样式
         // role必须在participants之前调用toString，因为role内部设置了和participants关联关系，否则会影响之后element的name样式
         arrayOf(rfps, proposals, contracts, roles, participants)
