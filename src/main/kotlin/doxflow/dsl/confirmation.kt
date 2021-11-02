@@ -7,18 +7,10 @@ import doxflow.models.diagram.Relationship.Companion.NONE
 class confirmation(element: Element, private val fulfillment: fulfillment, party: Party?, note: String? = null) :
     Evidence<confirmation>(element, confirmation::class, party, note) {
     /**
-     * 当前confirmation是否存在一个evidence去扮演它
-     * */
-    private var evidence: evidence? = null
-
-    /**
      * 当前confirmation是否存在另一个confirmation来扮演它
      * */
     private var dependentConfirmation: confirmation? = null
-    fun evidence(name: String, evidence: evidence.() -> Unit): evidence {
-        this.evidence = evidence(Element(name, "class"))
-        return this.evidence!!.apply { evidence() }
-    }
+
 
     /**
      * confirmation角色化
@@ -45,10 +37,6 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
 
     override fun toString(): String = buildString {
         appendLine(super.toString())
-        evidence?.let {
-            appendLine(evidence.toString())
-            appendLine("""${it.element.displayName} $NONE ${element.displayName}""")
-        }
         dependentConfirmation?.let {
             appendLine(dependentConfirmation.toString())
             appendLine("""${element.displayName} $relationship ${it.element.displayName}""")

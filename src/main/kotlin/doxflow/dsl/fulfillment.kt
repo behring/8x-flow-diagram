@@ -10,8 +10,7 @@ import doxflow.models.diagram.Role
 class fulfillment(
     val name: String, val contract: contract, override var resource: String = "",
     var relationship: String = ONE_TO_ONE
-) :
-    BusinessAbility<fulfillment>, Relationship {
+) : BusinessAbility<fulfillment>, Relationship {
     lateinit var request: request
     lateinit var confirmation: confirmation
 

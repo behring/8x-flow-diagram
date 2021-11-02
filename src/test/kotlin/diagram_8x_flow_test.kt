@@ -16,13 +16,40 @@ internal class diagram_8x_flow_test {
     }
 
     @Test
+    fun create_relation_evidence_diagram() {
+        diagram_8x_flow {
+            context("商品销售上下文") {
+                val partyA = role_party("partyA")
+                val partyB = role_party("partyB")
+                rfp("RFP", partyA) {
+                    evidence("EvidenceA")
+                    proposal("Proposal", partyB) {
+                        evidence("EvidenceB")
+                        contract("Contract",partyA, partyB) {
+                            evidence("EvidenceC")
+                            fulfillment("Fulfillment") {
+                                request {
+                                    evidence("EvidenceD")
+                                }
+                                confirmation {
+                                    evidence("EvidenceE")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } export "./diagrams/relation_evidence_diagram.png"
+    }
+
+    @Test
     fun create_reader_subscription_diagram() {
         diagram_8x_flow {
             lateinit var paymentInReaderSubscriptionContext: fulfillment
 
             context("读者订阅上下文") {
-                val reader =  participant_party("极客时间注册用户")
-                val contentProvider = participant_party("极客时间平台")
+                val reader = role_party("读者") played participant_party("极客时间注册用户")
+                val contentProvider = role_party("内容提供商") played participant_party("极客时间平台")
 
                 contract("专栏订阅合同", reader, contentProvider) {
                     key_timestamps("订阅时间")

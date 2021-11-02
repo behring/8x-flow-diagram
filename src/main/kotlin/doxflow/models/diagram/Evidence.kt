@@ -4,11 +4,9 @@ import common.Diagram
 import common.Diagram.Color.PINK
 import common.Diagram.Color.YELLOW
 import common.Element
+import doxflow.dsl.evidence
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
-import doxflow.models.ability.BusinessAbilityTable
-import doxflow.models.ability.BusinessAbilityTable.Row
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 import kotlin.reflect.KClass
 
@@ -33,9 +31,15 @@ abstract class Evidence<T : Any>(
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
 
-    open fun getUriPrefix(): String = ""
-
     var relationship: String = ONE_TO_ONE
+    private var evidence: evidence? = null
+
+    fun evidence(name: String, evidence: (evidence.() -> Unit)? = null): evidence {
+        this.evidence = evidence(Element(name, "class"))
+        return this.evidence!!.apply { evidence?.let { it() } }
+    }
+
+    open fun getUriPrefix(): String = ""
 
     open fun addBusinessAbility(abilityCreator: BusinessAbilityCreator) {
         abilityCreator.appendBusinessAbility(
@@ -51,21 +55,27 @@ abstract class Evidence<T : Any>(
 
     override fun key_data(vararg data: String) = data.let { this.data = it }
 
-    override fun toString(): String {
-        return """
+    override fun toString(): String = buildString {
+        val party = generateParty(party)
+        appendLine(
+            """
             |${note ?: ""}
             |$element {
-            |   ${if (!isRole) generateRole(party) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
-            |   ${if (timestamps != null && data != null) "..\n" else ""} ${data?.joinToString() ?: ""}
+            | ${if (!isRole) party ?: "" else ""} 
+            | ${if (party != null && timestamps != null) "..\n" else ""} 
+            | ${timestamps?.joinToString() ?: ""}
+            | ${if (timestamps != null && data != null) "..\n" else ""} 
+            | ${data?.joinToString() ?: ""}
             |}
         """.trimIndent()
+        )
+        evidence?.let {
+            appendLine(evidence.toString())
+            appendLine("""${it.element.displayName} ${Relationship.NONE} ${element.displayName}""")
+        }
     }
 
-    private fun generateRole(party: Party?): String? = party?.let {
-        """
-            |<${party.element.backgroundColor}> <size:14>${party.element.displayName}</size> |
-            |..
-            |
-        """.trimIndent()
+    private fun generateParty(party: Party?): String? = party?.let {
+        "|<${party.element.backgroundColor}> <size:14>${party.element.displayName}</size> |"
     }
 }
