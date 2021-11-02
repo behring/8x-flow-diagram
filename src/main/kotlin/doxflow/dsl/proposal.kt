@@ -3,7 +3,7 @@ package doxflow.dsl
 import common.Element
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.*
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 
 class proposal(element: Element, party: Party?, note: String? = null) :
     Evidence<proposal>(element, proposal::class, party, note) {
@@ -26,10 +26,10 @@ class proposal(element: Element, party: Party?, note: String? = null) :
 
     fun contract(name: String, vararg parties: Party, function: contract.() -> Unit) {
         this.contract = contract(Element(name, "class"), this, *parties).apply {
-            relationship = ONE_TO_ONE
+            relationship = DEFAULT
             function()
         }
-        element.relate(this.contract.element, ONE_TO_ONE)
+        element.relate(this.contract.element, DEFAULT)
     }
 
     override fun invoke(function: proposal.() -> Unit): proposal = apply { function() }

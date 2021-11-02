@@ -4,12 +4,11 @@ import common.Element
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.diagram.Party
 import doxflow.models.diagram.Relationship
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
-import doxflow.models.diagram.Role
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 
 class fulfillment(
     val name: String, val contract: contract, override var resource: String = "",
-    var relationship: String = ONE_TO_ONE
+    var relationship: String = DEFAULT
 ) : BusinessAbility<fulfillment>, Relationship {
     lateinit var request: request
     lateinit var confirmation: confirmation

@@ -2,9 +2,8 @@ package doxflow.dsl
 
 import common.Element
 import doxflow.models.ability.BusinessAbilityCreator
-import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.*
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 
 class contract(element: Element) :
     Evidence<contract>(element, contract::class) {
@@ -25,12 +24,12 @@ class contract(element: Element) :
 
     private fun init(vararg parties: Party) {
         this.parties = parties.asList()
-        parties.forEach { it.element.relate(element, ONE_TO_ONE) }
+        parties.forEach { it.element.relate(element, DEFAULT) }
     }
 
     fun fulfillment(
         name: String,
-        relationship: String = ONE_TO_ONE,
+        relationship: String = DEFAULT,
         fulfillment: fulfillment.() -> Unit
     ): fulfillment =
         fulfillment(name, this).apply {

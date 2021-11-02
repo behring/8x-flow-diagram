@@ -3,8 +3,7 @@ package doxflow.dsl
 import common.Element
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Party
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
-import doxflow.models.diagram.Role
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 
 class rfp(element: Element, val context: context, party: Party, note: String? = null) :
     Evidence<rfp>(element, rfp::class, party, note) {
@@ -13,14 +12,14 @@ class rfp(element: Element, val context: context, party: Party, note: String? = 
     fun proposal(
         name: String,
         party: Party,
-        relationship: String = ONE_TO_ONE,
+        relationship: String = DEFAULT,
         proposal: proposal.() -> Unit
     ) {
         this.proposal = proposal(Element(name, "class"), this, party).apply {
             super.relationship = relationship
             proposal()
         }
-        element.relate(this.proposal.element, ONE_TO_ONE)
+        element.relate(this.proposal.element, DEFAULT)
     }
 
     override fun invoke(function: rfp.() -> Unit): rfp {

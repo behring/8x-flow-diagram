@@ -3,18 +3,17 @@ package doxflow.dsl
 import common.Element
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
-import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Party
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Role
 
 class context(val element: Element, override var resource: String = "") : BusinessAbility<context> {
     // bold, plain, dotted and dashed
     private val borderStyle:String = "dotted"
 
-    val proposals: MutableList<proposal> = mutableListOf()
-    val contracts: MutableList<contract> = mutableListOf()
+    private val proposals: MutableList<proposal> = mutableListOf()
+    private val contracts: MutableList<contract> = mutableListOf()
     private val rfps: MutableList<rfp> = mutableListOf()
     private val participants: MutableList<Participant> = mutableListOf()
     private var roles: MutableList<Role> = mutableListOf()
@@ -39,7 +38,7 @@ class context(val element: Element, override var resource: String = "") : Busine
     fun rfp(
         name: String,
         party: Party,
-        relationship: String = ONE_TO_ONE,
+        relationship: String = DEFAULT,
         rfp: rfp.() -> Unit
     ) = with(
         rfp(Element(name, "class"), this, party)
@@ -52,7 +51,7 @@ class context(val element: Element, override var resource: String = "") : Busine
     fun proposal(
         name: String,
         role: Role,
-        relationship: String = ONE_TO_ONE,
+        relationship: String = DEFAULT,
         proposal: proposal.() -> Unit
     ) = with(
         proposal(Element(name, "class"), this, role)
@@ -65,7 +64,7 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     fun contract(name: String, vararg parties: Party, contract: contract.() -> Unit) =
         with(contract(Element(name, "class"), this, *parties)) {
-            this.relationship = ONE_TO_ONE
+            this.relationship = DEFAULT
             contracts.add(this)
             contract()
         }

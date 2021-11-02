@@ -7,7 +7,7 @@ import common.Element
 import doxflow.dsl.evidence
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
-import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
@@ -31,7 +31,7 @@ abstract class Evidence<T : Any>(
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
 
-    var relationship: String = ONE_TO_ONE
+    var relationship: String = DEFAULT
     private var evidence: evidence? = null
 
     fun evidence(name: String, evidence: (evidence.() -> Unit)? = null): evidence {
@@ -61,11 +61,8 @@ abstract class Evidence<T : Any>(
             """
             |${note ?: ""}
             |$element {
-            | ${if (!isRole) party ?: "" else ""} 
-            | ${if (party != null && timestamps != null) "..\n" else ""} 
-            | ${timestamps?.joinToString() ?: ""}
-            | ${if (timestamps != null && data != null) "..\n" else ""} 
-            | ${data?.joinToString() ?: ""}
+            |${if (!isRole) party ?: "" else ""}${if (!isRole && timestamps != null && party != null) "\n..\n" else ""}${timestamps?.joinToString() ?: ""}
+            |${if (timestamps != null && data != null) "..\n" else ""}${data?.joinToString() ?: ""}
             |}
         """.trimIndent()
         )
@@ -76,6 +73,8 @@ abstract class Evidence<T : Any>(
     }
 
     private fun generateParty(party: Party?): String? = party?.let {
-        "|<${party.element.backgroundColor}> <size:14>${party.element.displayName}</size> |"
+        """
+            ||<${party.element.backgroundColor}> <size:14>${party.element.displayName}</size>|
+        """.trimIndent()
     }
 }

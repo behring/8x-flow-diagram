@@ -1,7 +1,9 @@
 import doxflow.diagram_8x_flow
+import doxflow.diagram_8x_flow.LegendType.*
 import doxflow.dsl.fulfillment
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
 import org.junit.Test
+import kotlin.test.BeforeTest
 
 internal class diagram_8x_flow_test {
     @Test
@@ -18,6 +20,7 @@ internal class diagram_8x_flow_test {
     @Test
     fun create_relation_evidence_diagram() {
         diagram_8x_flow {
+            currentLegend = StrategicLegend
             context("商品销售上下文") {
                 val partyA = role_party("partyA")
                 val partyB = role_party("partyB")

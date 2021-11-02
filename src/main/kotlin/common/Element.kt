@@ -1,5 +1,8 @@
 package common
 
+import doxflow.diagram_8x_flow.LegendType.*
+import doxflow.diagram_8x_flow.currentLegend
+
 /**
  * 表示UML中的一个任意元素
  * type <size:14><b>name</b></size> color
@@ -10,7 +13,7 @@ data class Element(
     var type: String = "rectangle",
     var backgroundColor: String? = null,
 ) {
-    var name: String? = "<size:16><b>$displayName"
+    var name: String? = "<size:14><b>$displayName"
     var stereoType: String? = null
     var relativeElements: MutableList<RelationshipWrapper> = mutableListOf()
 
@@ -30,7 +33,7 @@ data class Element(
     }
 
     override fun toString(): String =
-        "$type \"$name\" as $displayName ${if (stereoType != null) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
+        "$type \"$name\" as $displayName ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
 
     data class RelationshipWrapper(val relativeElement: Element, val relationship: String, val command: String?)
 

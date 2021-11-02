@@ -32,6 +32,7 @@ interface Diagram {
         |   AttributeFontColor White
         |   StereotypeFontColor White
         |}
+        |left to right direction
         |skinparam defaultTextAlignment center
         |skinparam style strictuml
         |hide empty members

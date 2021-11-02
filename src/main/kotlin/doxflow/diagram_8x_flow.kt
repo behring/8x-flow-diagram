@@ -6,6 +6,12 @@ import doxflow.dsl.context
 import doxflow.models.diagram.*
 
 object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
+    var currentLegend = LegendType.TacticalLegend
+    enum class LegendType {
+        StrategicLegend,
+        TacticalLegend
+    }
+
     private var contexts: MutableList<context> = mutableListOf()
 
     fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "rectangle"))) {
