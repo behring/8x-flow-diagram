@@ -18,7 +18,6 @@ class rfp(element: Element, val context: context, party: Party, note: String? = 
     ) {
         this.proposal = proposal(Element(name, "class"), this, party).apply {
             super.relationship = relationship
-            context.proposals.add(this)
             proposal()
         }
         element.relate(this.proposal.element, ONE_TO_ONE)

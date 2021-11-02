@@ -27,8 +27,6 @@ class proposal(element: Element, party: Party?, note: String? = null) :
     fun contract(name: String, vararg parties: Party, function: contract.() -> Unit) {
         this.contract = contract(Element(name, "class"), this, *parties).apply {
             relationship = ONE_TO_ONE
-            context?.contracts?.add(this)
-            rfp?.context?.contracts?.add(this)
             function()
         }
         element.relate(this.contract.element, ONE_TO_ONE)
