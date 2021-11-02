@@ -5,16 +5,16 @@ import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
-class proposal(element: Element, role: Role?, note: String? = null) :
-    Evidence<proposal>(element, proposal::class, role, note) {
+class proposal(element: Element, party: Party?, note: String? = null) :
+    Evidence<proposal>(element, proposal::class, party, note) {
     private var context: context? = null
     private var rfp: rfp? = null
 
-    constructor(element: Element, context: context, role: Role?, note: String? = null) : this(element, role, note) {
+    constructor(element: Element, context: context, party: Party?, note: String? = null) : this(element, party, note) {
         this.context = context
     }
 
-    constructor(element: Element, rfp: rfp, role: Role?, note: String? = null) : this(element, role, note) {
+    constructor(element: Element, rfp: rfp, party: Party?, note: String? = null) : this(element, party, note) {
         this.rfp = rfp
     }
 
@@ -24,8 +24,8 @@ class proposal(element: Element, role: Role?, note: String? = null) :
         resource = proposal::class.java.simpleName
     }
 
-    fun contract(name: String, vararg roles: Role, function: contract.() -> Unit) {
-        this.contract = contract(Element(name, "class"), this, *roles).apply {
+    fun contract(name: String, vararg parties: Party, function: contract.() -> Unit) {
+        this.contract = contract(Element(name, "class"), this, *parties).apply {
             relationship = ONE_TO_ONE
             context?.contracts?.add(this)
             rfp?.context?.contracts?.add(this)

@@ -4,7 +4,7 @@ import doxflow.diagram_8x_flow
 
 diagram_8x_flow {
     context("商品销售上下文") {
-        val seller = role_party("卖家")
+        val seller = participant_party("卖家")
         val buyer = role_party("买家")
 
         rfp("询问商品价格", buyer) {

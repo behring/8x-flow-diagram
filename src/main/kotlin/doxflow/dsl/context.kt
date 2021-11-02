@@ -5,6 +5,7 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.ability.BusinessAbilityTable
 import doxflow.models.diagram.Participant
+import doxflow.models.diagram.Party
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 import doxflow.models.diagram.Role
 
@@ -34,11 +35,11 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     fun rfp(
         name: String,
-        role: Role,
+        party: Party,
         relationship: String = ONE_TO_ONE,
         rfp: rfp.() -> Unit
     ) = with(
-        rfp(Element(name, "class"), this, role)
+        rfp(Element(name, "class"), this, party)
     ) {
         this.relationship = relationship
         rfps.add(this)
@@ -59,8 +60,8 @@ class context(val element: Element, override var resource: String = "") : Busine
         proposal()
     }
 
-    fun contract(name: String, vararg roles: Role, contract: contract.() -> Unit) =
-        with(contract(Element(name, "class"), this, *roles)) {
+    fun contract(name: String, vararg parties: Party, contract: contract.() -> Unit) =
+        with(contract(Element(name, "class"), this, *parties)) {
             this.relationship = ONE_TO_ONE
             contracts.add(this)
             contract()

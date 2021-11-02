@@ -4,8 +4,8 @@ import common.Element
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.NONE
 
-class confirmation(element: Element, private val fulfillment: fulfillment, role: Role?, note: String? = null) :
-    Evidence<confirmation>(element, confirmation::class, role, note) {
+class confirmation(element: Element, private val fulfillment: fulfillment, party: Party?, note: String? = null) :
+    Evidence<confirmation>(element, confirmation::class, party, note) {
     /**
      * 当前confirmation是否存在一个evidence去扮演它
      * */

@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 abstract class Evidence<T : Any>(
     val element: Element,
     type: KClass<out T>,
-    val role: Role? = null,
+    val party: Party? = null,
     private val note: String? = null,
     override var resource: String = ""
 ) : BusinessAbility<T>, Diagram.KeyInfo<T> {
@@ -43,7 +43,7 @@ abstract class Evidence<T : Any>(
             relationship,
             getUriPrefix(),
             element.displayName,
-            role?.element?.displayName ?: ""
+            party?.element?.displayName ?: ""
         )
     }
 
@@ -55,15 +55,15 @@ abstract class Evidence<T : Any>(
         return """
             |${note ?: ""}
             |$element {
-            |   ${if (!isRole) generateRole(role) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
+            |   ${if (!isRole) generateRole(party) ?: "" else ""} ${timestamps?.joinToString() ?: ""}
             |   ${if (timestamps != null && data != null) "..\n" else ""} ${data?.joinToString() ?: ""}
             |}
         """.trimIndent()
     }
 
-    private fun generateRole(role: Role?): String? = role?.let {
+    private fun generateRole(party: Party?): String? = party?.let {
         """
-            |<${role.element.backgroundColor}> <size:14>${role.element.displayName}</size> |
+            |<${party.element.backgroundColor}> <size:14>${party.element.displayName}</size> |
             |..
             |
         """.trimIndent()

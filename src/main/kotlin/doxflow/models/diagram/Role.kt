@@ -6,7 +6,7 @@ import doxflow.dsl.context
 import doxflow.models.diagram.Relationship.Companion.NONE
 import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 
-class Role(val element: Element, type: Type, val context: context) {
+class Role(override val element: Element, type: Type, val context: context) : Party {
     init {
         element.backgroundColor = YELLOW
         element.stereoType = type.name.lowercase()

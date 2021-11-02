@@ -10,22 +10,22 @@ class contract(element: Element) :
     Evidence<contract>(element, contract::class) {
     private var context: context? = null
     private var proposal: proposal? = null
-    private var roles: List<Role> = listOf()
+    private var parties: List<Party> = listOf()
     private var fulfillments: MutableList<fulfillment> = mutableListOf()
 
-    constructor(element: Element, context: context, vararg roles: Role) : this(element) {
+    constructor(element: Element, context: context, vararg parties: Party) : this(element) {
         this.context = context
-        init(*roles)
+        init(*parties)
     }
 
-    constructor(element: Element, proposal: proposal, vararg roles: Role) : this(element) {
+    constructor(element: Element, proposal: proposal, vararg parties: Party) : this(element) {
         this.proposal = proposal
-        init(*roles)
+        init(*parties)
     }
 
-    private fun init(vararg roles: Role) {
-        this.roles = roles.asList()
-        roles.forEach { it.element.relate(element, ONE_TO_ONE) }
+    private fun init(vararg parties: Party) {
+        this.parties = parties.asList()
+        parties.forEach { it.element.relate(element, ONE_TO_ONE) }
     }
 
     fun fulfillment(
