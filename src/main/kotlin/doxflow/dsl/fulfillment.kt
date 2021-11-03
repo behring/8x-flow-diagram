@@ -14,7 +14,7 @@ class fulfillment(
     lateinit var confirmation: confirmation
 
     fun request(party: Party? = null, request: request.() -> Unit) {
-        this.request = request(Element("${name}请求", "class"), this, party).apply { request() }
+        this.request = request(Element("${name}申请", "class"), this, party).apply { request() }
     }
 
     fun confirmation(party: Party? = null, confirmation: confirmation.() -> Unit) {

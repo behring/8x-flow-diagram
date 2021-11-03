@@ -16,7 +16,7 @@ internal class docs_contract_content_test {
 
                 // 定义履约项并提供证明履约完成的凭证
                 fulfillment("预充值", "预充值支付凭证", "10分钟内") {
-                    // 甲方请求(乙方)履约
+                    // 甲方产生履约申请凭证
                     request(twPlatform)
                     // 乙方必须在10分钟内完成履约
                     confirm(realtor)

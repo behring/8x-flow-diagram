@@ -32,7 +32,7 @@ class fulfillment(
 
     override fun toString(): String = buildString {
         if (isExistParties()) {
-            append(" **${requestPerson!!.party}**请求**${name}**，")
+            append(" **${requestPerson!!.party}**申请**${name}**，")
             append("**${confirmPerson!!.party}**必须在**${periodOfFulfil}**完成**${name}**")
             append("并提供**$evidence**。")
         }
