@@ -45,7 +45,7 @@ class diagram_intra_process(val name: String = "", function: diagram_intra_proce
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        appendLine("$RECTANGLE <size:20>$name {")
+        appendLine("$RECTANGLE <size:20><color:black>$name {")
         layers.forEach {
             appendLine(it.toString())
         }

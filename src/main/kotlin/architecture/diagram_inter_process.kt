@@ -3,6 +3,7 @@ package architecture
 import architecture.dsl.inter_process.service
 import common.DSL
 import common.Diagram
+import common.Diagram.Color.BLACK
 import common.Diagram.Color.TRANSPARENT
 import common.Element
 import common.Element.Type.RECTANGLE
@@ -24,7 +25,7 @@ class diagram_inter_process(val name: String = "", function: diagram_inter_proce
     override fun buildPlantUmlString(): String = """
         |@startuml
         |skinparam rectangleFontColor white
-        |$RECTANGLE <size:20>$name {
+        |$RECTANGLE <size:20><color:black>$name {
         ${buildPlantUmlContent()}
         |}
         |@enduml
