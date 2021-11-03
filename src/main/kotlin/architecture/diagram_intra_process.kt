@@ -4,7 +4,10 @@ import architecture.dsl.intra_process.layer
 import architecture.dsl.intra_process.process
 import common.DSL
 import common.Diagram
+import common.Diagram.Color.GREY
 import common.Element
+import common.Element.Type.CLOUD
+import common.Element.Type.RECTANGLE
 
 class diagram_intra_process(val name: String = "", function: diagram_intra_process.() -> Unit) : DSL<diagram_intra_process>, Diagram {
     private var layers: MutableList<layer> = mutableListOf()
@@ -14,13 +17,13 @@ class diagram_intra_process(val name: String = "", function: diagram_intra_proce
     }
 
     fun layer(name: String, color: String? = null, function: layer.() -> Unit): layer =
-        layer(Element(name, "rectangle", color)).apply {
+        layer(Element(name, RECTANGLE, color)).apply {
             layers.add(this)
             function()
         }
 
-    fun process(name: String, color: String? = "#Gray", function: (process.() -> Unit)? = null): process =
-        process(Element(name, "cloud", color)).apply {
+    fun process(name: String, color: String? = GREY, function: (process.() -> Unit)? = null): process =
+        process(Element(name, CLOUD, color)).apply {
             processes.add(this)
             function?.let { it() }
         }
@@ -29,7 +32,7 @@ class diagram_intra_process(val name: String = "", function: diagram_intra_proce
 
     override fun buildPlantUmlString(): String = """
         |@startuml
-        |skinparam rectangleFontColor black
+        |skinparam ${RECTANGLE}FontColor white
         ${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()
@@ -42,7 +45,7 @@ class diagram_intra_process(val name: String = "", function: diagram_intra_proce
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        appendLine("rectangle <size:20>$name {")
+        appendLine("$RECTANGLE <size:20>$name {")
         layers.forEach {
             appendLine(it.toString())
         }

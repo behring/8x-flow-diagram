@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Party
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
@@ -15,7 +16,7 @@ class rfp(element: Element, val context: context, party: Party, note: String? = 
         relationship: String = DEFAULT,
         proposal: proposal.() -> Unit
     ) {
-        this.proposal = proposal(Element(name, "class"), this, party).apply {
+        this.proposal = proposal(Element(name, CLASS), this, party).apply {
             super.relationship = relationship
             proposal()
         }

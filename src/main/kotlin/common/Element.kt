@@ -12,9 +12,15 @@ import doxflow.models.diagram.Relationship
  * */
 data class Element(
     var displayName: String,
-    var type: String = "rectangle",
+    var type: String = RECTANGLE,
     var backgroundColor: String? = null,
 ) {
+    companion object Type {
+            const val RECTANGLE = "rectangle"
+            const val CLASS = "class"
+            const val CLOUD = "cloud"
+    }
+
     var name: String? = "<size:14><b>$displayName"
     var stereoType: String? = null
     var relativeElements: MutableList<RelationshipWrapper> = mutableListOf()

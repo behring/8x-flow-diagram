@@ -4,6 +4,7 @@ import common.Diagram
 import common.Diagram.Color.PINK
 import common.Diagram.Color.YELLOW
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.dsl.evidence
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
@@ -32,7 +33,7 @@ abstract class Evidence<T : Any>(
     private var evidenceAndRelationship: Pair<evidence, String>? = null
 
     fun evidence(name: String, relationship: String = NONE, function: (evidence.() -> Unit)? = null): evidence =
-        evidence(Element(name, "class")).apply {
+        evidence(Element(name, CLASS)).apply {
             function?.let { it() }
             evidenceAndRelationship = Pair(this, relationship)
         }

@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.diagram.Party
 import doxflow.models.diagram.Relationship
@@ -14,11 +15,11 @@ class fulfillment(
     lateinit var confirmation: confirmation
 
     fun request(party: Party? = null, request: request.() -> Unit) {
-        this.request = request(Element("${name}申请", "class"), this, party).apply { request() }
+        this.request = request(Element("${name}申请", CLASS), this, party).apply { request() }
     }
 
     fun confirmation(party: Party? = null, confirmation: confirmation.() -> Unit) {
-        this.confirmation = confirmation(Element("${name}确认", "class"), this, party).apply { confirmation() }
+        this.confirmation = confirmation(Element("${name}确认", CLASS), this, party).apply { confirmation() }
     }
 
     override fun invoke(function: fulfillment.() -> Unit): fulfillment = apply {

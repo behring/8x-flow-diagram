@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.Participant
@@ -18,23 +19,23 @@ class context(val element: Element, override var resource: String = "") : Busine
     private val participants: MutableList<Participant> = mutableListOf()
     private var roles: MutableList<Role> = mutableListOf()
 
-    fun role_party(name: String): Role = Role(Element(name, "class"), Role.Type.PARTY, this).apply { roles.add(this) }
+    fun role_party(name: String): Role = Role(Element(name, CLASS), Role.Type.PARTY, this).apply { roles.add(this) }
 
-    fun role_domain(name: String): Role = Role(Element(name, "class"), Role.Type.DOMAIN, this).apply { roles.add(this) }
+    fun role_domain(name: String): Role = Role(Element(name, CLASS), Role.Type.DOMAIN, this).apply { roles.add(this) }
 
-    fun role_context(name: String): Role = Role(Element(name, "class"), Role.Type.CONTEXT, this).apply { roles.add(this) }
+    fun role_context(name: String): Role = Role(Element(name, CLASS), Role.Type.CONTEXT, this).apply { roles.add(this) }
 
     fun role_3rd_system(name: String): Role =
-        Role(Element(name, "class"), Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
+        Role(Element(name, CLASS), Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
 
     fun participant_party(name: String): Participant =
-        Participant(Element(name, "class"), Participant.Type.PARTY, this).apply { participants.add(this) }
+        Participant(Element(name, CLASS), Participant.Type.PARTY, this).apply { participants.add(this) }
 
     fun participant_place(name: String): Participant =
-        Participant(Element(name, "class"), Participant.Type.PLACE, this).apply { participants.add(this) }
+        Participant(Element(name, CLASS), Participant.Type.PLACE, this).apply { participants.add(this) }
 
     fun participant_thing(name: String): Participant =
-        Participant(Element(name, "class"), Participant.Type.THING, this).apply { participants.add(this) }
+        Participant(Element(name, CLASS), Participant.Type.THING, this).apply { participants.add(this) }
 
 
     fun rfp(
@@ -43,7 +44,7 @@ class context(val element: Element, override var resource: String = "") : Busine
         relationship: String = DEFAULT,
         rfp: rfp.() -> Unit
     ) = with(
-        rfp(Element(name, "class"), this, party)
+        rfp(Element(name, CLASS), this, party)
     ) {
         this.relationship = relationship
         rfps.add(this)
@@ -56,7 +57,7 @@ class context(val element: Element, override var resource: String = "") : Busine
         relationship: String = DEFAULT,
         proposal: proposal.() -> Unit
     ) = with(
-        proposal(Element(name, "class"), this, role)
+        proposal(Element(name, CLASS), this, role)
     ) {
         this.relationship = relationship
         resource = this.javaClass.simpleName
@@ -65,7 +66,7 @@ class context(val element: Element, override var resource: String = "") : Busine
     }
 
     fun contract(name: String, vararg parties: Party, contract: contract.() -> Unit) =
-        with(contract(Element(name, "class"), this, *parties)) {
+        with(contract(Element(name, CLASS), this, *parties)) {
             this.relationship = DEFAULT
             contracts.add(this)
             contract()

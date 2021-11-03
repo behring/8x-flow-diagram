@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.models.diagram.Evidence
 import doxflow.models.diagram.Relationship
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
@@ -22,7 +23,7 @@ class evidence(element: Element) : Evidence<evidence>(element, evidence::class) 
         relationship: String = DEFAULT,
         detail: detail.() -> Unit
     ): detail {
-        return detail(Element(name, "class")).apply {
+        return detail(Element(name, CLASS)).apply {
             this@evidence.detail = this
             detail()
             element.relate(this.element, relationship)

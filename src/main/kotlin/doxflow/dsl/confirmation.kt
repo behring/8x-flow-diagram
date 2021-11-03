@@ -2,6 +2,7 @@ package doxflow.dsl
 
 import common.Diagram.Color.YELLOW
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.NONE
 
@@ -32,7 +33,7 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
     }
 
     fun confirmation(name: String, role: Role? = null, confirmation: confirmation.() -> Unit): confirmation =
-        confirmation(Element("${name}确认", "class"), fulfillment, role).apply {
+        confirmation(Element("${name}确认", CLASS), fulfillment, role).apply {
             role()
             confirmation()
         }

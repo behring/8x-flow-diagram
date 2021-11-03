@@ -1,6 +1,7 @@
 package doxflow.dsl
 
 import common.Element
+import common.Element.Type.CLASS
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
@@ -25,7 +26,7 @@ class proposal(element: Element, party: Party?, note: String? = null) :
     }
 
     fun contract(name: String, vararg parties: Party, function: contract.() -> Unit) {
-        this.contract = contract(Element(name, "class"), this, *parties).apply {
+        this.contract = contract(Element(name, CLASS), this, *parties).apply {
             relationship = DEFAULT
             function()
         }

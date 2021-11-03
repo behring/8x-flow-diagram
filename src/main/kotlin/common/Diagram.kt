@@ -83,9 +83,15 @@ interface Diagram {
 
     object Color {
         const val PINK = "#F0637C"
-        const val BLACK = "#000000"
         const val GREEN = "#6D9D79"
-        const val YELLOW = "#CA8422"
+        const val YELLOW = "#CA8522"
+        const val PURPLE = "#63507C"
+        const val BLUE = "#4BA1AC"
+        const val WAVE_BLUE = "#043D4E"
+        const val GREY = "#EDF1F3"
+        const val DARK_GREY = "#Gray"
+        const val BLACK = "#000000"
+        const val WHITE = "#FFFFFF"
         const val TRANSPARENT = "#transparent"
     }
 }

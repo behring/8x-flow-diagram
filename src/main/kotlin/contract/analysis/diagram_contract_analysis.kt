@@ -1,6 +1,7 @@
 package contract.analysis
 
 import common.*
+import common.Element.Type.RECTANGLE
 import contract.analysis.dsl.contract
 import contract.analysis.dsl.evidence
 import contract.analysis.dsl.proposal
@@ -40,7 +41,7 @@ object diagram_contract_analysis : DSL<diagram_contract_analysis>, Diagram {
 
     private fun createContracts(sb: StringBuilder) {
         contractToEvidences.forEach { (contract, evidences) ->
-            sb.appendLine("package $contract {")
+            sb.appendLine("$RECTANGLE $contract {")
             evidences.forEach { evidence ->
                 sb.appendLine("class ${evidence.name}")
             }

@@ -2,6 +2,7 @@ package contract.analysis.dsl
 
 import common.Diagram
 import common.Diagram.Color.PINK
+import common.Diagram.Companion.ASSOCIATE
 import contract.analysis.diagram_contract_analysis.contractToEvidences
 
 class contract(name: String) : evidence(name) {
@@ -59,10 +60,10 @@ open class evidence(val name: String) : Diagram.KeyInfo<evidence> {
         """.trimIndent()
         )
         preorderEvidence?.let {
-            appendLine("${name}-->${it.name}:前序凭证")
+            appendLine("${name}$ASSOCIATE${it.name}:前序凭证")
         }
         postorderEvidences.forEach {
-            appendLine("${name}-->${it.name}:后序凭证")
+            appendLine("${name}$ASSOCIATE${it.name}:后序凭证")
         }
     }
 }
