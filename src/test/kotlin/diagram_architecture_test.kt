@@ -91,7 +91,7 @@ internal class diagram_architecture_test {
     fun create_lianjia_inter_process_communication_diagram() {
         diagram_inter_process {
             service("前端", "#Cyan") {
-                process("链家租房通用版Web端").call("链家租房WebBFF", "1. GET /web-bff/ads")
+                process("链家租房通用版Web端").call("链家租房Web BFF", "1. GET /web-bff/ads")
                 process("链家租房通用版Web端").call("ADX数据监测系统", "5. GET /adx/xxx")
             }
 
