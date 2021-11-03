@@ -11,6 +11,7 @@ import java.io.FileOutputStream
 interface Diagram {
     companion object {
         const val ASSOCIATE: String = """ -[${BLACK}]-> """
+        const val POSITION: String = """ -[hidden]- """
     }
 
     fun buildPlantUmlString(): String

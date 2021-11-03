@@ -29,8 +29,7 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        services.forEach { service ->
-            appendLine(service.toString())
-        }
+        services.forEach { appendLine(it.toString()) }
+        services.forEach { appendLine(it.element.generateRelationships()) }
     }
 }

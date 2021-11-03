@@ -2,6 +2,7 @@ package architecture.dsl.inter_process
 
 import common.Element
 import common.DSL
+import common.Diagram.Companion.POSITION
 
 class service(val element: Element) : DSL<service> {
     private val processes: MutableList<process> = mutableListOf()
@@ -11,6 +12,14 @@ class service(val element: Element) : DSL<service> {
         processes.add(process)
         function?.let { process.it() }
         return process
+    }
+
+    infix fun above(service: service) {
+        element.relate(service.element, POSITION)
+    }
+
+    infix fun below(service: service) {
+        service.element.relate(element, POSITION)
     }
 
     override fun invoke(function: service.() -> Unit): service = apply { function() }
