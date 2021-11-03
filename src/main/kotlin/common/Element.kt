@@ -35,7 +35,7 @@ data class Element(
     }
 
     override fun toString(): String =
-        "$type \"$name\" as $displayName ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
+        "$type \"$name\" as ${displayName.replace(" ","_")} ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
 
     inner class RelationshipWrapper(val relativeElement: Element, var relationship: String, val command: String?) {
         init {
