@@ -1,5 +1,6 @@
 package common
 
+import common.Diagram.Color.BLACK
 import net.sourceforge.plantuml.FileFormat
 import net.sourceforge.plantuml.FileFormatOption
 import net.sourceforge.plantuml.SourceStringReader
@@ -8,6 +9,10 @@ import java.io.File
 import java.io.FileOutputStream
 
 interface Diagram {
+    companion object {
+        const val ASSOCIATE: String = """ -[${BLACK}]-> """
+    }
+
     fun buildPlantUmlString(): String
 
     fun exportResult(isSuccess: Boolean) = run { }
@@ -77,6 +82,7 @@ interface Diagram {
 
     object Color {
         const val PINK = "#F0637C"
+        const val BLACK = "#000000"
         const val GREEN = "#6D9D79"
         const val YELLOW = "#CA8422"
         const val TRANSPARENT = "#transparent"

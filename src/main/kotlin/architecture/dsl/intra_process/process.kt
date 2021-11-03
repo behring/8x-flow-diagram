@@ -1,7 +1,7 @@
 package architecture.dsl.intra_process
 
+import common.Diagram.Companion.ASSOCIATE
 import common.Element
-import doxflow.models.diagram.Relationship.Companion.ASSOCIATE
 
 class process(val element: Element) {
 

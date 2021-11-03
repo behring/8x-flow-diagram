@@ -3,7 +3,7 @@ package architecture.dsl
 import architecture.dsl.inter_process.process
 import architecture.dsl.intra_process.layer
 import common.*
-import doxflow.models.diagram.Relationship.Companion.ASSOCIATE
+import common.Diagram.Companion.ASSOCIATE
 
 data class component(val element: Element) : DSL<component> {
     private var process: process? = null

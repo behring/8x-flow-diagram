@@ -2,7 +2,7 @@ package architecture.dsl.inter_process
 
 import architecture.dsl.component
 import common.*
-import doxflow.models.diagram.Relationship.Companion.ASSOCIATE
+import common.Diagram.Companion.ASSOCIATE
 
 class process(val element: Element, val service: service) : DSL<process> {
     init {
