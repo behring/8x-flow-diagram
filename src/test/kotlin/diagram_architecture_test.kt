@@ -5,7 +5,7 @@ import org.junit.Test
 internal class diagram_architecture_test {
     @Test
     fun create_inter_process_diagram() {
-        diagram_inter_process {
+        diagram_inter_process("链家系统架构图") {
             val applicationService = service("应用服务", "#LightSeaGreen") {
                 process("租赁信息应用服务")
                 process("推广服务应用服务")

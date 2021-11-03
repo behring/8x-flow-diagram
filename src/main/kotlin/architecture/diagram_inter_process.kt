@@ -6,8 +6,11 @@ import common.Diagram
 import common.Diagram.Color.TRANSPARENT
 import common.Element
 
-object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
+class diagram_inter_process(val name: String = "", function: diagram_inter_process.() -> Unit) : DSL<diagram_inter_process>, Diagram {
     var services: MutableList<service> = mutableListOf()
+    init {
+        function()
+    }
 
     fun service(name: String, color: String = TRANSPARENT, function: service.() -> Unit): service =
         service(Element(name, "rectangle", color)).apply {
@@ -20,7 +23,9 @@ object diagram_inter_process : DSL<diagram_inter_process>, Diagram {
     override fun buildPlantUmlString(): String = """
         |@startuml
         |skinparam rectangleFontColor black
+        |rectangle $name {
         ${buildPlantUmlContent()}
+        |}
         |@enduml
         """.trimMargin()
 
