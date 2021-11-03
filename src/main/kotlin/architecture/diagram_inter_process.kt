@@ -23,7 +23,7 @@ class diagram_inter_process(val name: String = "", function: diagram_inter_proce
     override fun buildPlantUmlString(): String = """
         |@startuml
         |skinparam rectangleFontColor black
-        |rectangle $name {
+        |rectangle <size:20>$name {
         ${buildPlantUmlContent()}
         |}
         |@enduml
