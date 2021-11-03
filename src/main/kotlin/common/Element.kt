@@ -15,9 +15,6 @@ data class Element(
     var type: String = "rectangle",
     var backgroundColor: String? = null,
 ) {
-    init {
-        displayName = displayName.replace(" ","_")
-    }
     var name: String? = "<size:14><b>$displayName"
     var stereoType: String? = null
     var relativeElements: MutableList<RelationshipWrapper> = mutableListOf()
@@ -31,19 +28,23 @@ data class Element(
 
     fun generateRelationships(): String = buildString {
         relativeElements.forEach {
-            append("${displayName}${it.relationship}${it.relativeElement.displayName}")
+            append("${displayName.fixBlank()}${it.relationship}${it.relativeElement.displayName.fixBlank()}")
             appendLine(with(it.command) { return@with if (!isNullOrBlank()) ":${it.command}" else "" })
         }
         relativeElements.clear()
     }
 
     override fun toString(): String =
-        "$type \"$name\" as $displayName ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
+        "$type \"$name\" as ${displayName.fixBlank()} ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
 
     inner class RelationshipWrapper(val relativeElement: Element, var relationship: String, val command: String?) {
         init {
             relationship = if (currentLegend == StrategicLegend) Relationship.NONE else relationship
         }
+    }
+
+    private fun String.fixBlank():String {
+        return this.replace(" ", "_")
     }
 
 }

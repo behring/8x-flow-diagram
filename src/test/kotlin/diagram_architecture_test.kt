@@ -39,12 +39,12 @@ internal class diagram_architecture_test {
     fun create_lianjia_inter_process_diagram() {
         diagram_inter_process {
             service("前端", "#Cyan") {
-                process("链家租房通用版Web端")
-                process("链家租房App个人版Android端")
-                process("链家租房App个人版IOS端")
-                process("链家租房App经纪人版Android端")
-                process("链家租房App经纪人版IOS端")
-                process("后台管理系统Web端")
+                process("链家租房通用版 Web端")
+                process("链家租房App个人版 Android端")
+                process("链家租房App个人版 IOS端")
+                process("链家租房App经纪人版 Android端")
+                process("链家租房App经纪人版 IOS端")
+                process("后台管理系统 Web端")
             }
 
             service("BFF", "#RoyalBlue") {
@@ -91,12 +91,12 @@ internal class diagram_architecture_test {
     fun create_lianjia_inter_process_communication_diagram() {
         diagram_inter_process {
             service("前端", "#Cyan") {
-                process("链家租房通用版Web端").call("链家租房Web BFF", "1. GET /web-bff/ads")
-                process("链家租房通用版Web端").call("ADX数据监测系统", "5. GET /adx/xxx")
+                process("链家租房通用版 Web端").call("链家租房Web BFF", "1. GET /web-bff/ads")
+                process("链家租房通用版 Web端").call("ADX数据监测系统", "5. GET /adx/xxx")
             }
 
             service("BFF", "#RoyalBlue") {
-                process("链家租房WebBFF").call("租赁信息应用服务", "2. GET /rental/ads")
+                process("链家租房Web BFF").call("租赁信息应用服务", "2. GET /rental/ads")
             }
 
             service("应用服务", "#LightSeaGreen") {
