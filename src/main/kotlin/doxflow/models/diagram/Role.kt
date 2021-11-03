@@ -16,7 +16,8 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
         PARTY,
         DOMAIN,
         THIRD_SYSTEM,
-        EVIDENCE
+        EVIDENCE,
+        CONTEXT
     }
 
     infix fun played(participant: Participant): Role = apply {

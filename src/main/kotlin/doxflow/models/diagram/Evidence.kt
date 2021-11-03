@@ -25,10 +25,6 @@ abstract class Evidence<T : Any>(
     }
 
     var isRole: Boolean = false
-        set(value) {
-            if (value) element.backgroundColor = YELLOW
-            field = value
-        }
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
 

@@ -7,7 +7,7 @@ interface Relationship {
         const val ONE_TO_ONE = """ "1" -$lineColor- "1" """
         const val N_TO_N = """ "N" -$lineColor- "N" """
         const val NONE = """ -$lineColor- """
-        const val PLAY_TO = """ .$lineColor.|> """
+        const val PLAY_TO = """ .$lineColor.> """
         const val ASSOCIATE = """ -$lineColor-> """
         const val DEFAULT = ONE_TO_ONE
     }

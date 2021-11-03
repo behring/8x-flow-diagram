@@ -8,14 +8,13 @@ import doxflow.models.diagram.Relationship.Companion.NONE
 import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 
 class evidence(element: Element) : Evidence<evidence>(element, evidence::class) {
-    private var roles: MutableList<confirmation> = mutableListOf()
-    var detailRelationship: Pair<detail, String>? = null
+    var detail: detail? = null
 
     /**
      * 凭证角色化，让当前凭证扮演confirmation(调用有confirmation变为橙色，当前evidence指向confirmation)
      * */
-    infix fun role(confirmation: confirmation) {
-        roles.add(confirmation.role())
+    infix fun play(confirmation: confirmation) {
+        element.relate(confirmation.role().element, PLAY_TO)
     }
 
     fun detail(
@@ -24,8 +23,9 @@ class evidence(element: Element) : Evidence<evidence>(element, evidence::class) 
         detail: detail.() -> Unit
     ): detail {
         return detail(Element(name, "class")).apply {
-            detailRelationship = Pair(this, relationship)
+            this@evidence.detail = this
             detail()
+            element.relate(this.element, relationship)
         }
     }
 
@@ -36,13 +36,8 @@ class evidence(element: Element) : Evidence<evidence>(element, evidence::class) 
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            roles.forEach {
-                appendLine("""${element.displayName} $PLAY_TO ${it.element.displayName}""")
-            }
-            detailRelationship?.let {
-                appendLine(it.first.toString())
-                appendLine("""${element.displayName} ${it.second} ${it.first.element.displayName}""")
-            }
+            detail?.let { appendLine(detail.toString()) }
+            appendLine(element.generateRelationships())
         }
     }
 }

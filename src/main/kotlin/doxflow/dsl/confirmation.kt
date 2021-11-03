@@ -1,5 +1,6 @@
 package doxflow.dsl
 
+import common.Diagram.Color.YELLOW
 import common.Element
 import doxflow.models.diagram.*
 import doxflow.models.diagram.Relationship.Companion.NONE
@@ -15,7 +16,11 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
     /**
      * confirmation角色化
      * */
-    fun role(): confirmation = apply { isRole = true }
+    fun role(): confirmation = apply {
+        element.stereoType = "evidence"
+        element.backgroundColor = YELLOW
+        isRole = true
+    }
 
     /**
      * 当前confirmation需要依赖其他confirmation确认

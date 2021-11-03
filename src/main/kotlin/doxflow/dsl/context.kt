@@ -22,6 +22,8 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     fun role_domain(name: String): Role = Role(Element(name, "class"), Role.Type.DOMAIN, this).apply { roles.add(this) }
 
+    fun role_context(name: String): Role = Role(Element(name, "class"), Role.Type.CONTEXT, this).apply { roles.add(this) }
+
     fun role_3rd_system(name: String): Role =
         Role(Element(name, "class"), Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
 
