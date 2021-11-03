@@ -241,6 +241,7 @@ participant_xxx可以用来创建角色，包括如下DSL：
 - role_party
 - role_domain
 - role_3rd_system
+- role_context
 
 
 
@@ -526,10 +527,10 @@ diagram_intra_process {
 
 ## 后续开发计划
 - 生成合约分析中的凭证。DONE
-- 通过合约分析中的凭证生成合约文本。TODO
+- 通过合约分析中的凭证生成合约文本。DONE
 - 通过合约文本中的权责关系(request,confirmation)生成基础8xflow建模图DSL。TODO
 - 通过8xflow建模图DSL修改添加参与方、三方系统、凭证角色化等信息生成最终8xflow建模图。 DONE
-- 通过8xFlow建模图的履约项生成API文档。TODO
+- 通过8xFlow建模图的履约项生成API文档。DONE
 - 生成进程间架构图。DONE
 - 生成进程内架构图。DONE
 - 集成内架构测试策略。TODO
