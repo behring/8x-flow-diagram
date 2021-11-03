@@ -8,6 +8,7 @@ import doxflow.dsl.evidence
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
+import doxflow.models.diagram.Relationship.Companion.NONE
 import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
@@ -32,12 +33,14 @@ abstract class Evidence<T : Any>(
     private var data: Array<out String>? = null
 
     var relationship: String = DEFAULT
-    private var evidence: evidence? = null
+    private var evidenceAndRelationship: Pair<evidence, String>? = null
 
-    fun evidence(name: String, evidence: (evidence.() -> Unit)? = null): evidence {
-        this.evidence = evidence(Element(name, "class"))
-        return this.evidence!!.apply { evidence?.let { it() } }
-    }
+    fun evidence(name: String, relationship: String = NONE, function: (evidence.() -> Unit)? = null): evidence =
+        evidence(Element(name, "class")).apply {
+            function?.let { it() }
+            evidenceAndRelationship = Pair(this, relationship)
+        }
+
 
     open fun getUriPrefix(): String = ""
 
@@ -66,9 +69,10 @@ abstract class Evidence<T : Any>(
             |}
         """.trimIndent()
         )
-        evidence?.let {
-            appendLine(evidence.toString())
-            appendLine("""${it.element.displayName} ${Relationship.NONE} ${element.displayName}""")
+        evidenceAndRelationship?.let {
+            appendLine(it.first.toString())
+            it.first.element.relate(element, it.second)
+            appendLine(it.first.element.generateRelationships())
         }
     }
 

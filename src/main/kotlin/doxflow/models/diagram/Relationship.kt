@@ -1,8 +1,5 @@
 package doxflow.models.diagram
 
-import doxflow.diagram_8x_flow.LegendType.*
-import doxflow.diagram_8x_flow.currentLegend
-
 interface Relationship {
     companion object {
         private const val lineColor = "[#000000]"
@@ -12,6 +9,6 @@ interface Relationship {
         const val NONE = """ -$lineColor- """
         const val PLAY_TO = """ .$lineColor.|> """
         const val ASSOCIATE = """ -$lineColor-> """
-        var DEFAULT = if (currentLegend == StrategicLegend)  NONE else ONE_TO_ONE
+        const val DEFAULT = ONE_TO_ONE
     }
 }

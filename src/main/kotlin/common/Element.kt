@@ -1,7 +1,9 @@
 package common
 
+import doxflow.diagram_8x_flow.Companion.currentLegend
 import doxflow.diagram_8x_flow.LegendType.*
-import doxflow.diagram_8x_flow.currentLegend
+import doxflow.models.diagram.Relationship
+
 
 /**
  * 表示UML中的一个任意元素
@@ -35,6 +37,10 @@ data class Element(
     override fun toString(): String =
         "$type \"$name\" as $displayName ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
 
-    data class RelationshipWrapper(val relativeElement: Element, val relationship: String, val command: String?)
+    inner class RelationshipWrapper(val relativeElement: Element, var relationship: String, val command: String?) {
+        init {
+            relationship = if (currentLegend == StrategicLegend) Relationship.NONE else relationship
+        }
+    }
 
 }

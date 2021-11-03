@@ -1,9 +1,9 @@
 import doxflow.diagram_8x_flow
+import doxflow.diagram_8x_flow.Companion.currentLegend
 import doxflow.diagram_8x_flow.LegendType.*
 import doxflow.dsl.fulfillment
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
 import org.junit.Test
-import kotlin.test.BeforeTest
 
 internal class diagram_8x_flow_test {
     @Test
@@ -35,7 +35,7 @@ internal class diagram_8x_flow_test {
                                     evidence("EvidenceD")
                                 }
                                 confirmation {
-                                    evidence("EvidenceE")
+                                    evidence("EvidenceE", ONE_TO_N)
                                 }
                             }
                         }

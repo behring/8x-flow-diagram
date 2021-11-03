@@ -21,15 +21,16 @@ class fulfillment(
         this.confirmation = confirmation(Element("${name}确认", "class"), this, party).apply { confirmation() }
     }
 
-    override fun invoke(function: fulfillment.() -> Unit): fulfillment {
-        return apply { function() }
+    override fun invoke(function: fulfillment.() -> Unit): fulfillment = apply {
+        function()
     }
 
     override fun toString(): String {
         return buildString {
             appendLine(request.toString())
             appendLine(confirmation.toString())
-            appendLine("""${request.element.displayName} $relationship ${confirmation.element.displayName}""")
+            request.element.relate(confirmation.element, relationship)
+            appendLine(request.element.generateRelationships())
         }
     }
 }

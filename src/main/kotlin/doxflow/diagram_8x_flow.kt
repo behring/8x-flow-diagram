@@ -3,16 +3,21 @@ package doxflow
 import common.Element
 import common.*
 import doxflow.dsl.context
-import doxflow.models.diagram.*
 
-object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
-    var currentLegend = LegendType.TacticalLegend
+data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, Doc {
+
+    private var contexts: MutableList<context> = mutableListOf()
+    init {
+        this.function()
+    }
+    companion object {
+        var currentLegend = LegendType.TacticalLegend
+    }
+
     enum class LegendType {
         StrategicLegend,
         TacticalLegend
     }
-
-    private var contexts: MutableList<context> = mutableListOf()
 
     fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "rectangle"))) {
         contexts.add(this)
@@ -24,9 +29,6 @@ object diagram_8x_flow : DSL<diagram_8x_flow>, Diagram, Doc {
         export_doc(doc)
     }
 
-    override fun invoke(function: diagram_8x_flow.() -> Unit): diagram_8x_flow = apply {
-        function()
-    }
 
     override fun buildDocContent(): String = buildString {
         appendLine("# 服务与业务能力")
