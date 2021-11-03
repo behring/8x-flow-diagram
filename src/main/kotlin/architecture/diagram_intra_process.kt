@@ -6,9 +6,12 @@ import common.DSL
 import common.Diagram
 import common.Element
 
-object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
+class diagram_intra_process(val name: String = "", function: diagram_intra_process.() -> Unit) : DSL<diagram_intra_process>, Diagram {
     private var layers: MutableList<layer> = mutableListOf()
     private val processes: MutableList<process> = mutableListOf()
+    init {
+        function()
+    }
 
     fun layer(name: String, color: String? = null, function: layer.() -> Unit): layer =
         layer(Element(name, "rectangle", color)).apply {
@@ -39,10 +42,12 @@ object diagram_intra_process : DSL<diagram_intra_process>, Diagram {
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        processes.forEach {
+        appendLine("rectangle <size:20>$name {")
+        layers.forEach {
             appendLine(it.toString())
         }
-        layers.forEach {
+        appendLine("}")
+        processes.forEach {
             appendLine(it.toString())
         }
         // 最后生成关联关系

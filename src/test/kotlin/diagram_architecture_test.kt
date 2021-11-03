@@ -130,7 +130,7 @@ internal class diagram_architecture_test {
 
     @Test
     fun create_intra_process_diagram_diagram() {
-        diagram_intra_process {
+        diagram_intra_process("链家Android应用进程内架构图") {
             layer("应用层", "#HotPink") {
                 component("Activity").call("ViewModel", "方法调用")
                 component("ViewModel").call("Presenter", "方法调用")
