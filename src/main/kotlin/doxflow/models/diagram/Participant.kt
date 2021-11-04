@@ -17,6 +17,10 @@ class Participant(override val element: Element, type: Type, val context: contex
         THING
     }
 
+    infix fun play(role: Role): Role = role.apply {
+        this@Participant.element.relate(role.element, Relationship.PLAY_TO)
+    }
+
     infix fun relate(genericEvidence: Evidence<*>) {
         element.relate(genericEvidence.element, NONE)
     }

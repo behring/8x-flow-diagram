@@ -20,10 +20,6 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
         CONTEXT
     }
 
-    infix fun played(participant: Participant): Role = apply {
-        participant.element.relate(element, PLAY_TO)
-    }
-
     infix fun relate(genericEvidence: Evidence<*>) {
         element.relate(genericEvidence.element, NONE)
     }

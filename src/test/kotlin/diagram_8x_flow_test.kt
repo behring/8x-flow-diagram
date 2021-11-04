@@ -51,8 +51,8 @@ internal class diagram_8x_flow_test {
             lateinit var paymentInReaderSubscriptionContext: fulfillment
 
             context("读者订阅上下文") {
-                val reader = role_party("读者") played participant_party("极客时间注册用户")
-                val contentProvider = role_party("内容提供商") played participant_party("极客时间平台")
+                val reader =  participant_party("极客时间注册用户") play role_party("读者")
+                val contentProvider = participant_party("极客时间平台") play role_party("内容提供商")
 
                 contract("专栏订阅合同", reader, contentProvider) {
                     key_timestamps("订阅时间")
