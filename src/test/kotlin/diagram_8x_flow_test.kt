@@ -18,11 +18,11 @@ internal class diagram_8x_flow_test {
     }
 
     @Test
-    fun test_context_role() {
+    fun test_relationship() {
         diagram_8x_flow {
+            lateinit var fulfillment:fulfillment
+            lateinit var fulfillment2:fulfillment
             context("context2") {
-                lateinit var fulfillment:fulfillment
-
                 val role = role_party("roleA").relate(role_domain("domainA"))
                 val party = participant_party("partyB").relate(role_domain("domainB"))
 
@@ -31,10 +31,30 @@ internal class diagram_8x_flow_test {
                         request{}
                         confirmation {}
                     }
+
+                    fulfillment2 = fulfillment("fulfillment2") {
+                        request{}
+                        confirmation {}
+                    }
                 }
                 role_context("xxxContext") play fulfillment.confirmation
             }
-        } export "./diagrams/test_context_role.png"
+
+            context("context1") {
+                val role = role_party("roleA")
+                val party = participant_party("partyB")
+
+                contract("contract1", role, party) {
+                    fulfillment("fulfillmentA") {
+                        request{}
+                        confirmation {
+                            this play fulfillment2.confirmation
+                        }
+                    }
+                }
+            }
+
+        } export "./diagrams/test_relationship.png"
     }
 
     @Test

@@ -37,11 +37,18 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
             confirmation()
         }
 
+    /**
+     * 凭证角色化，让当前凭证扮演confirmation(调用有confirmation变为橙色，当前evidence指向confirmation)
+     * */
+    infix fun play(confirmation: confirmation) {
+        element.relate(confirmation.role().element, Relationship.PLAY_TO)
+    }
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
 
     override fun toString(): String = buildString {
         appendLine(super.toString())
+        appendLine(element.generateRelationships())
         dependentConfirmation?.let {
             appendLine(dependentConfirmation.toString())
             appendLine("""${element.name} $relationship ${it.element.name}""")
