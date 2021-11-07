@@ -3,6 +3,7 @@ package doxflow.models.diagram
 import common.Element
 import common.Diagram.Color.GREEN
 import doxflow.dsl.context
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Relationship.Companion.NONE
 
 class Participant(override val element: Element, type: Type, val context: context) : Party {
@@ -22,8 +23,8 @@ class Participant(override val element: Element, type: Type, val context: contex
         this@Participant.element.relate(role.element, Relationship.PLAY_TO)
     }
 
-    infix fun relate(genericEvidence: Evidence<*>) {
-        element.relate(genericEvidence.element, NONE)
+    fun relate(genericEvidence: Evidence<*>, relationship: String = DEFAULT) {
+        element.relate(genericEvidence.element, relationship)
     }
 
     override fun toString(): String = buildString {

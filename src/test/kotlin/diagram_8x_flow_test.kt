@@ -56,7 +56,7 @@ internal class diagram_8x_flow_test {
 
                 contract("专栏订阅合同", reader, contentProvider) {
                     key_timestamps("订阅时间")
-                    participant_place("专栏") relate this
+                    participant_place("专栏").relate(this)
 
                     paymentInReaderSubscriptionContext = fulfillment("专栏付款") {
                         request(contentProvider) {
@@ -180,7 +180,7 @@ internal class diagram_8x_flow_test {
                         key_timestamps("创建时间")
                         key_data("报价金额")
 
-                        participant_thing("商品") relate this
+                        participant_thing("商品").relate(this)
 
                         contract("商品订单合同", seller, buyer) {
                             key_timestamps("签订时间")
@@ -206,7 +206,7 @@ internal class diagram_8x_flow_test {
                         key_timestamps("创建时间")
                         key_data("报价金额")
 
-                        participant_thing("商品") relate this
+                        participant_thing("商品").relate(this)
 
                         contract("商品订单合同", seller, buyer) {
                             resource = "order"
