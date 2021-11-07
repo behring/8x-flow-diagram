@@ -4,7 +4,9 @@ import doxflow.diagram_8x_flow.Companion.currentLegend
 import doxflow.diagram_8x_flow.LegendType.*
 import doxflow.models.diagram.Relationship
 
-
+interface IElement {
+    val element: Element
+}
 /**
  * 表示UML中的一个任意元素
  * type <size:14><b>name</b></size> color

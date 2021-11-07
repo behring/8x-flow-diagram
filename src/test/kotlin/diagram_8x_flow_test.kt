@@ -22,7 +22,11 @@ internal class diagram_8x_flow_test {
         diagram_8x_flow {
             context("context2") {
                 lateinit var fulfillment:fulfillment
-                contract("contract") {
+
+                val role = role_party("roleA").relate(role_domain("domainA"))
+                val party = participant_party("partyB").relate(role_domain("domainB"))
+
+                contract("contract", role, party) {
                     fulfillment = fulfillment("fulfillment") {
                         request{}
                         confirmation {}

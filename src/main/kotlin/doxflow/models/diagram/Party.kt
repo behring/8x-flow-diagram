@@ -1,7 +1,5 @@
 package doxflow.models.diagram
 
-import common.Element
+import common.IElement
 
-interface Party {
-    val element: Element
-}
+interface Party: IElement

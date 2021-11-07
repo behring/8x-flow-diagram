@@ -4,6 +4,7 @@ import common.Diagram
 import common.Diagram.Color.PINK
 import common.Element
 import common.Element.Type.CLASS
+import common.IElement
 import doxflow.dsl.evidence
 import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
@@ -12,12 +13,12 @@ import doxflow.models.diagram.Relationship.Companion.NONE
 import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
-    val element: Element,
+    override val element: Element,
     type: KClass<out T>,
     val party: Party? = null,
     private val note: String? = null,
     override var resource: String = ""
-) : BusinessAbility<T>, Diagram.KeyInfo<T> {
+) : BusinessAbility<T>, Diagram.KeyInfo<T>, IElement {
 
     init {
         element.backgroundColor = PINK
