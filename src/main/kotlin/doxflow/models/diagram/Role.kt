@@ -2,6 +2,7 @@ package doxflow.models.diagram
 
 import common.Element
 import common.Diagram.Color.YELLOW
+import doxflow.dsl.confirmation
 import doxflow.dsl.context
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Relationship.Companion.NONE
@@ -26,8 +27,8 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
         element.relate(genericEvidence.element, relationship)
     }
 
-    infix fun play(genericEvidence: Evidence<*>) {
-        element.relate(genericEvidence.element, PLAY_TO)
+    infix fun play(confirmation: confirmation) {
+        element.relate(confirmation.role().element, PLAY_TO)
     }
 
     override fun toString(): String = buildString {
