@@ -7,9 +7,11 @@ import doxflow.dsl.context
 data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, Doc {
 
     private var contexts: MutableList<context> = mutableListOf()
+
     init {
         this.function()
     }
+
     companion object {
         var currentLegend = LegendType.TacticalLegend
     }
@@ -19,10 +21,11 @@ data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, 
         TacticalLegend
     }
 
-    fun context(name: String, context: context.() -> Unit) = with(context(Element(name, "rectangle"))) {
-        contexts.add(this)
-        context()
-    }
+    fun context(name: String, context: (context.() -> Unit)? = null): context =
+        context(Element(name, "rectangle")).apply {
+            contexts.add(this)
+            context?.let { it() }
+        }
 
     fun export_diagram_and_doc(diagram: String, doc: String) {
         export(diagram)

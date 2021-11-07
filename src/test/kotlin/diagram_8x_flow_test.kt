@@ -18,6 +18,22 @@ internal class diagram_8x_flow_test {
     }
 
     @Test
+    fun test_context_role() {
+        diagram_8x_flow {
+            context("context2") {
+                lateinit var fulfillment:fulfillment
+                contract("contract") {
+                    fulfillment = fulfillment("fulfillment") {
+                        request{}
+                        confirmation {}
+                    }
+                }
+                role_context("xxxContext") play fulfillment.confirmation
+            }
+        } export "./diagrams/test_context_role.png"
+    }
+
+    @Test
     fun create_relation_evidence_diagram() {
         diagram_8x_flow {
             currentLegend = StrategicLegend

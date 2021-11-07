@@ -26,6 +26,10 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
         element.relate(genericEvidence.element, relationship)
     }
 
+    infix fun play(genericEvidence: Evidence<*>) {
+        element.relate(genericEvidence.element, PLAY_TO)
+    }
+
     override fun toString(): String = buildString {
         appendLine(element)
         appendLine(element.generateRelationships())
