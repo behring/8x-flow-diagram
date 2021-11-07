@@ -73,8 +73,8 @@ class context(val element: Element, override var resource: String = "") : Busine
         }
 
     fun toApiString(): String = buildString {
-        appendLine("## 业务能力表 - ${element.displayName}")
-        addBusinessAbilities(BusinessAbilityCreator(element.displayName))
+        appendLine("## 业务能力表 - ${element.name}")
+        addBusinessAbilities(BusinessAbilityCreator(element.name))
     }
 
     override fun invoke(function: context.() -> Unit): context = apply { function() }

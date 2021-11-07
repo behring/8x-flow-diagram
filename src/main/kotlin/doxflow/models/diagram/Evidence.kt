@@ -2,7 +2,6 @@ package doxflow.models.diagram
 
 import common.Diagram
 import common.Diagram.Color.PINK
-import common.Diagram.Color.YELLOW
 import common.Element
 import common.Element.Type.CLASS
 import doxflow.dsl.evidence
@@ -46,8 +45,8 @@ abstract class Evidence<T : Any>(
             resource,
             relationship,
             getUriPrefix(),
-            element.displayName,
-            party?.element?.displayName ?: ""
+            element.name,
+            party?.element?.name ?: ""
         )
     }
 
@@ -75,7 +74,7 @@ abstract class Evidence<T : Any>(
 
     private fun generateParty(party: Party?): String? = party?.let {
         """
-            ||<${party.element.backgroundColor}> <size:14>${party.element.displayName}</size>|
+            ||<${party.element.backgroundColor}> <size:14>${party.element.name}</size>|
         """.trimIndent()
     }
 }

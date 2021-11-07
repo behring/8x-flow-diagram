@@ -4,7 +4,6 @@ import common.Diagram.Color.YELLOW
 import common.Element
 import common.Element.Type.CLASS
 import doxflow.models.diagram.*
-import doxflow.models.diagram.Relationship.Companion.NONE
 
 class confirmation(element: Element, private val fulfillment: fulfillment, party: Party?, note: String? = null) :
     Evidence<confirmation>(element, confirmation::class, party, note) {
@@ -45,7 +44,7 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
         appendLine(super.toString())
         dependentConfirmation?.let {
             appendLine(dependentConfirmation.toString())
-            appendLine("""${element.displayName} $relationship ${it.element.displayName}""")
+            appendLine("""${element.name} $relationship ${it.element.name}""")
         }
     }
 }

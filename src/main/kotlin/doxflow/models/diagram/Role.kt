@@ -11,6 +11,7 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
     init {
         element.backgroundColor = YELLOW
         element.stereoType = type.name.lowercase()
+        element.name = context.element.name + element.name
     }
 
     enum class Type {

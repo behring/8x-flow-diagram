@@ -11,7 +11,7 @@ import doxflow.models.diagram.Relationship
  * package A #yellow
  * */
 data class Element(
-    var displayName: String,
+    var name: String,
     var type: String = RECTANGLE,
     var backgroundColor: String? = null,
 ) {
@@ -21,7 +21,7 @@ data class Element(
             const val CLOUD = "cloud"
     }
 
-    var name: String? = "<size:14><b>$displayName"
+    var showName: String? = "<size:14><b>$name"
     var stereoType: String? = null
     var relativeElements: MutableList<RelationshipWrapper> = mutableListOf()
 
@@ -34,14 +34,14 @@ data class Element(
 
     fun generateRelationships(): String = buildString {
         relativeElements.forEach {
-            append("${displayName.fixBlank()}${it.relationship}${it.relativeElement.displayName.fixBlank()}")
+            append("${name.fixBlank()}${it.relationship}${it.relativeElement.name.fixBlank()}")
             appendLine(with(it.command) { return@with if (!isNullOrBlank()) ":${it.command}" else "" })
         }
         relativeElements.clear()
     }
 
     override fun toString(): String =
-        "$type \"$name\" as ${displayName.fixBlank()} ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
+        "$type \"$showName\" as ${name.fixBlank()} ${if (stereoType != null && currentLegend == TacticalLegend) "<<$stereoType>>" else ""} ${backgroundColor ?: ""}"
 
     inner class RelationshipWrapper(val relativeElement: Element, var relationship: String, val command: String?) {
         init {

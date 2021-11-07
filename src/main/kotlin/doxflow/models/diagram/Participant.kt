@@ -9,6 +9,7 @@ class Participant(override val element: Element, type: Type, val context: contex
     init {
         element.stereoType = type.name.lowercase()
         element.backgroundColor = GREEN
+        element.name = context.element.name + element.name
     }
 
     enum class Type {
