@@ -30,6 +30,5 @@ class Participant(override val element: Element, type: Type, val context: contex
 
     override fun toString(): String = buildString {
         appendLine(element)
-        appendLine(element.generateRelationships())
     }
 }

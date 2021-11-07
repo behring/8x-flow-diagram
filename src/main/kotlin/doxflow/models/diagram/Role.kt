@@ -34,6 +34,5 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
 
     override fun toString(): String = buildString {
         appendLine(element)
-        appendLine(element.generateRelationships())
     }
 }

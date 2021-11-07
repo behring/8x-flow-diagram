@@ -81,11 +81,11 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     override fun toString(): String = buildString {
         appendLine("$element #line.${borderStyle} {")
-        //participants和roles必须放最后toString，因为内部有设置关联关系，关联关系必须最后设置，否则会影响之后element的name样式
-        // role必须在participants之前调用toString，因为role内部设置了和participants关联关系，否则会影响之后element的name样式
         arrayOf(rfps, proposals, contracts, roles, participants)
             .flatMap { it }.forEach { appendLine(it.toString()) }
         appendLine("}")
+        arrayOf(roles, participants)
+            .flatMap { it }.forEach { appendLine(it.element.generateRelationships()) }
     }
 
     private fun StringBuilder.addBusinessAbilities(abilityCreator: BusinessAbilityCreator) {
