@@ -3,6 +3,7 @@ package doxflow.models.diagram
 import common.Element
 import common.Diagram.Color.YELLOW
 import doxflow.dsl.context
+import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Relationship.Companion.NONE
 import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 
@@ -20,8 +21,8 @@ class Role(override val element: Element, type: Type, val context: context) : Pa
         CONTEXT
     }
 
-    infix fun relate(genericEvidence: Evidence<*>) {
-        element.relate(genericEvidence.element, NONE)
+    fun relate(genericEvidence: Evidence<*>, relationship: String = DEFAULT) {
+        element.relate(genericEvidence.element, relationship)
     }
 
     override fun toString(): String = buildString {

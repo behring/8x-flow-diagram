@@ -130,8 +130,8 @@ internal class diagram_8x_flow_test {
 
                 contract("绩效协议") {
                     key_timestamps("签订时间")
-                    editor relate this
-                    geekTimePlatform relate this
+                    editor.relate(this, ONE_TO_N)
+                    geekTimePlatform.relate(this)
 
                     fulfillment("目标设定") {
                         request(editor) {
