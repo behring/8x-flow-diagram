@@ -66,6 +66,10 @@ abstract class Evidence<T : Any>(
             |}
         """.trimIndent()
         )
+        appendLine(createRelationshipOtherEvidences())
+    }
+
+    private fun createRelationshipOtherEvidences(): String = buildString {
         evidenceAndRelationship?.let {
             appendLine(it.first.toString())
             it.first.element.relate(element, it.second)

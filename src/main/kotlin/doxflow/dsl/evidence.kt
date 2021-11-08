@@ -38,7 +38,6 @@ class evidence(element: Element) : Evidence<evidence>(element, evidence::class) 
         return buildString {
             appendLine(super.toString())
             detail?.let { appendLine(detail.toString()) }
-            appendLine(element.generateRelationships())
         }
     }
 }
