@@ -1,6 +1,5 @@
 package doxflow.dsl
 
-import common.Diagram.Companion.getClassStyle
 import common.Element
 import common.Element.Type.CLASS
 import doxflow.models.ability.BusinessAbility
@@ -81,14 +80,10 @@ class context(val element: Element, override var resource: String = "") : Busine
     override fun invoke(function: context.() -> Unit): context = apply { function() }
 
     override fun toString(): String = buildString {
-        appendLine("${element.type} ${element.name} #line.${borderStyle} [")
-        appendLine("== ${element.showName}")
-        appendLine("{{")
-        appendLine(getClassStyle())
+        appendLine("$element #line.${borderStyle} {")
         arrayOf(rfps, proposals, contracts, roles, participants)
             .flatMap { it }.forEach { appendLine(it.toString()) }
-        appendLine("}}")
-        appendLine("]")
+        appendLine("}")
         arrayOf(roles, participants)
             .flatMap { it }.forEach { appendLine(it.element.generateRelationships()) }
     }

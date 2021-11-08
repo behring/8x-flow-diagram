@@ -12,17 +12,26 @@ interface Diagram {
     companion object {
         const val ASSOCIATE: String = """ -[${BLACK}]-> """
         const val POSITION: String = """ -[hidden]- """
+    }
 
-        /**
-         * skinparam backgroundColor transparent
-         * skinparam defaultFontColor White
-         * skinparam arrowFontColor Black
-         * skinparam roundCorner 10
-         * hide circle equals skinparam style strictuml
-         * skinparam roundCorner 10
-         **/
-        fun getClassStyle(): String {
-            return """
+    fun buildPlantUmlString(): String
+
+    fun exportResult(isSuccess: Boolean) = run { }
+
+    infix fun export(filePath: String) {
+        generateDiagram(filePath)
+    }
+
+    /**
+     * skinparam backgroundColor transparent
+     * skinparam defaultFontColor White
+     * skinparam arrowFontColor Black
+     * skinparam roundCorner 10
+     * hide circle equals skinparam style strictuml
+     * skinparam roundCorner 10
+     **/
+    fun getClassStyle(): String {
+        return """
         |skinparam class {
         |   BorderColor black
         |   FontColor White
@@ -34,10 +43,10 @@ interface Diagram {
         |skinparam style strictuml
         |hide empty members
         """.trimIndent()
-        }
+    }
 
-        fun getRectangleStyle(): String {
-            return """
+    fun getRectangleStyle(): String {
+        return """
         |skinparam rectangle {
         |   BorderColor black
         |   FontColor White
@@ -45,15 +54,6 @@ interface Diagram {
         |}
         |skinparam defaultTextAlignment center
         """.trimIndent()
-        }
-    }
-
-    fun buildPlantUmlString(): String
-
-    fun exportResult(isSuccess: Boolean) = run { }
-
-    infix fun export(filePath: String) {
-        generateDiagram(filePath)
     }
 
     private fun generateDiagram(filePath: String): Boolean {
