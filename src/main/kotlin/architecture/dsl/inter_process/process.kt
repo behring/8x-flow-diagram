@@ -32,6 +32,5 @@ class process(val element: Element, val service: service) : DSL<process> {
         }
         appendLine("}")
         appendLine(element.generateRelationships())
-        appendLine(service.element.generateRelationships())
     }
 }
