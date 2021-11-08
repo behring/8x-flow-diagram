@@ -36,7 +36,7 @@ class diagram_inter_process(val name: String = "", function: diagram_inter_proce
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        services.forEach { appendLine(it.toString()) }
+        services.reversed().forEach { appendLine(it.toString()) }
         services.forEach { appendLine(it.element.generateRelationships()) }
     }
 }
