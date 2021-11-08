@@ -53,7 +53,7 @@ class contract(element: Element) :
     override fun toString(): String {
         return buildString {
             appendLine(super.toString())
-            if (fulfillments.isNotEmpty()) fulfillments.forEach { appendLine(it.toString()) }
+            if (fulfillments.isNotEmpty()) fulfillments.reversed().forEach { appendLine(it.toString()) }
             appendLine(element.generateRelationships())
             proposal?.let { appendLine(it.element.generateRelationships()) }
             context?.let { appendLine(it.element.generateRelationships()) }

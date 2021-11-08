@@ -12,6 +12,16 @@ internal class diagram_8x_flow_test {
             context("商品销售上下文") {
                 contract("商品订单合同") {
                     key_timestamps("签订时间")
+
+                    fulfillment("fulfillment1") {
+                        request{}
+                        confirmation {}
+                    }
+
+                    fulfillment("fulfillment2") {
+                        request{}
+                        confirmation {}
+                    }
                 }
             }
         } export "./diagrams/hello_word_diagram.png"
@@ -22,12 +32,12 @@ internal class diagram_8x_flow_test {
         diagram_8x_flow {
             lateinit var fulfillment:fulfillment
             lateinit var fulfillment2:fulfillment
-            context("context2") {
+            context("context1") {
                 val role = role_party("roleA").relate(role_domain("domainA"))
                 val party = participant_party("partyB").relate(role_domain("domainB"))
 
-                contract("contract", role, party) {
-                    fulfillment = fulfillment("fulfillment") {
+                contract("contract1", role, party) {
+                    fulfillment = fulfillment("fulfillment1") {
                         request{}
                         confirmation {}
                     }
@@ -40,11 +50,11 @@ internal class diagram_8x_flow_test {
                 role_context("xxxContext") play fulfillment.confirmation
             }
 
-            context("context1") {
+            context("context2") {
                 val role = role_party("roleA")
                 val party = participant_party("partyB")
 
-                contract("contract1", role, party) {
+                contract("contract2", role, party) {
                     fulfillment("fulfillmentA") {
                         request{}
                         confirmation {

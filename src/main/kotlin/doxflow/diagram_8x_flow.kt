@@ -50,8 +50,8 @@ data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, 
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        contexts.forEach { context ->
-            appendLine(context.toString())
+        contexts.reversed().forEach {
+            appendLine(it.toString())
         }
     }
 
@@ -60,8 +60,8 @@ data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, 
     }
 
     private fun buildApiDocContent(): String = buildString {
-        contexts.forEach { context ->
-            appendLine(context.toApiString())
+        contexts.forEach {
+            appendLine(it.toApiString())
         }
     }
 }
