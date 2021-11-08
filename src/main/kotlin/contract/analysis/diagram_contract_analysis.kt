@@ -1,6 +1,7 @@
 package contract.analysis
 
 import common.*
+import common.Diagram.Companion.getClassStyle
 import common.Element.Type.RECTANGLE
 import contract.analysis.dsl.contract
 import contract.analysis.dsl.evidence

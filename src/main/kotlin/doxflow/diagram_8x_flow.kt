@@ -2,6 +2,7 @@ package doxflow
 
 import common.Element
 import common.*
+import common.Diagram.Companion.getRectangleStyle
 import doxflow.dsl.context
 
 data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, Doc {
@@ -40,7 +41,7 @@ data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, 
 
     override fun buildPlantUmlString(): String = """
         |@startuml
-        ${getClassStyle()}
+        ${getRectangleStyle()}
         ${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()

@@ -4,6 +4,7 @@ import architecture.dsl.inter_process.service
 import common.DSL
 import common.Diagram
 import common.Diagram.Color.TRANSPARENT
+import common.Diagram.Companion.getRectangleStyle
 import common.Element
 import common.Element.Type.RECTANGLE
 import kotlin.random.Random
