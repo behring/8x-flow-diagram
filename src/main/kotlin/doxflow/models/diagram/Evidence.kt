@@ -13,7 +13,7 @@ import doxflow.models.diagram.Relationship.Companion.NONE
 import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
-    override val element: Element,
+    final override val element: Element,
     type: KClass<out T>,
     val party: Party? = null,
     private val note: String? = null,
@@ -75,7 +75,7 @@ abstract class Evidence<T : Any>(
 
     private fun generateParty(party: Party?): String? = party?.let {
         """
-            ||<${party.element.backgroundColor}> <size:14>${party.element.name}</size>|
+            ||<${party.element.backgroundColor}> <size:14>${party.element.showName}</size>|
         """.trimIndent()
     }
 }
