@@ -3,12 +3,12 @@ package architecture
 import architecture.dsl.inter_process.service
 import common.DSL
 import common.Diagram
-import common.Diagram.Color.BLACK
 import common.Diagram.Color.TRANSPARENT
 import common.Element
 import common.Element.Type.RECTANGLE
+import kotlin.random.Random
 
-class diagram_inter_process(val name: String = "", function: diagram_inter_process.() -> Unit) : DSL<diagram_inter_process>, Diagram {
+class diagram_inter_process(val name: String? = null, function: diagram_inter_process.() -> Unit) : DSL<diagram_inter_process>, Diagram {
     var services: MutableList<service> = mutableListOf()
     init {
         function()
@@ -24,10 +24,13 @@ class diagram_inter_process(val name: String = "", function: diagram_inter_proce
 
     override fun buildPlantUmlString(): String = """
         |@startuml
-        |skinparam rectangleFontColor white
-        |$RECTANGLE <size:20><color:black>$name {
+        ${getRectangleStyle()}
+        |$RECTANGLE ${Random(1000).nextInt()}[
+        |== <size:20><color:black>${name?:"架构图"}
+        |{{
         ${buildPlantUmlContent()}
-        |}
+        |}}
+        |]
         |@enduml
         """.trimMargin()
 
@@ -36,7 +39,7 @@ class diagram_inter_process(val name: String = "", function: diagram_inter_proce
     }
 
     private fun buildPlantUmlContent(): String = buildString {
-        services.reversed().forEach { appendLine(it.toString()) }
+        services.forEach { appendLine(it.toString()) }
         services.forEach { appendLine(it.element.generateRelationships()) }
     }
 }

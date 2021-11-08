@@ -45,6 +45,17 @@ interface Diagram {
         """.trimIndent()
     }
 
+    fun getRectangleStyle(): String {
+        return """
+        |skinparam rectangle {
+        |   BorderColor black
+        |   FontColor White
+        |   BackgroundColor White
+        |}
+        |skinparam defaultTextAlignment center
+        """.trimIndent()
+    }
+
     private fun generateDiagram(filePath: String): Boolean {
         val plantumlStr = buildPlantUmlString()
         println(
