@@ -33,6 +33,11 @@ class proposal(element: Element, party: Party?, note: String? = null) :
         element.relate(this.contract.element, DEFAULT)
     }
 
+    override fun addBusinessAbility(abilityCreator: BusinessAbilityCreator) {
+        super.addBusinessAbility(abilityCreator)
+        contract.addBusinessAbility(abilityCreator)
+    }
+
     override fun invoke(function: proposal.() -> Unit): proposal = apply { function() }
 
     override fun getUriPrefix(): String {

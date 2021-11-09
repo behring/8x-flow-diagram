@@ -3,10 +3,17 @@ package doxflow.dsl
 import common.Diagram.Color.YELLOW
 import common.Element
 import common.Element.Type.CLASS
+import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.*
+import doxflow.models.diagram.Relationship.Companion.ONE_TO_ONE
 
 class confirmation(element: Element, private val fulfillment: fulfillment, party: Party?, note: String? = null) :
     Evidence<confirmation>(element, confirmation::class, party, note) {
+    init {
+        resource = confirmation::class.java.simpleName
+        relationship = ONE_TO_ONE
+    }
+
     /**
      * 当前confirmation是否存在另一个confirmation来扮演它
      * */
@@ -45,6 +52,12 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
     }
 
     override fun invoke(function: confirmation.() -> Unit): confirmation = apply { function() }
+
+    override fun getUriPrefix(): String {
+        fulfillment.request.let {
+            return BusinessAbilityCreator.getUri(it.resource, it.relationship, it.getUriPrefix())
+        }
+    }
 
     override fun toString(): String = buildString {
         appendLine(super.toString())

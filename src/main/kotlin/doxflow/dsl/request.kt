@@ -15,6 +15,11 @@ class request(element: Element, private val fulfillment: fulfillment, party: Par
 
     override fun invoke(function: request.() -> Unit): request = apply { function() }
 
+    override fun addBusinessAbility(abilityCreator: BusinessAbilityCreator) {
+        super.addBusinessAbility(abilityCreator)
+        fulfillment.confirmation.addBusinessAbility(abilityCreator)
+    }
+
     override fun getUriPrefix(): String {
         fulfillment.contract.let {
             return BusinessAbilityCreator.getUri(it.resource, it.relationship, it.getUriPrefix())
