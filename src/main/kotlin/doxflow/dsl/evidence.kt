@@ -3,9 +3,7 @@ package doxflow.dsl
 import common.Element
 import common.Element.Type.CLASS
 import doxflow.models.diagram.Evidence
-import doxflow.models.diagram.Relationship
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
-import doxflow.models.diagram.Relationship.Companion.NONE
 import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 
 class evidence(element: Element) : Evidence<evidence>(element, evidence::class) {

@@ -10,6 +10,7 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Relationship.Companion.NONE
+import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 import kotlin.reflect.KClass
 
 abstract class Evidence<T : Any>(
@@ -38,6 +39,13 @@ abstract class Evidence<T : Any>(
             evidenceAndRelationship = Pair(this, relationship)
         }
 
+    fun relate(iElement: IElement, relationship: String = NONE) = apply {
+        element.relate(iElement.element, relationship)
+    }
+
+    infix fun play(iElement: IElement) = apply {
+        element.relate(iElement.element, PLAY_TO)
+    }
 
     open fun getUriPrefix(): String = ""
 

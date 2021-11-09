@@ -5,7 +5,6 @@ import common.Diagram.Color.YELLOW
 import common.IElement
 import doxflow.dsl.confirmation
 import doxflow.dsl.context
-import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Relationship.Companion.NONE
 import doxflow.models.diagram.Relationship.Companion.PLAY_TO
 

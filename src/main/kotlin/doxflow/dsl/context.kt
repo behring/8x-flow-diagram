@@ -6,13 +6,15 @@ import doxflow.models.ability.BusinessAbility
 import doxflow.models.ability.BusinessAbilityCreator
 import doxflow.models.diagram.Participant
 import doxflow.models.diagram.Party
+import doxflow.models.diagram.Relationship
 import doxflow.models.diagram.Relationship.Companion.DEFAULT
 import doxflow.models.diagram.Role
 
 class context(val element: Element, override var resource: String = "") : BusinessAbility<context> {
     // bold, plain, dotted and dashed
-    private val borderStyle:String = "dotted"
+    private val borderStyle: String = "dotted"
 
+    private val evidences: MutableList<evidence> = mutableListOf()
     private val proposals: MutableList<proposal> = mutableListOf()
     private val contracts: MutableList<contract> = mutableListOf()
     private val rfps: MutableList<rfp> = mutableListOf()
@@ -24,6 +26,9 @@ class context(val element: Element, override var resource: String = "") : Busine
     fun role_domain(name: String): Role = Role(Element(name, CLASS), Role.Type.DOMAIN, this).apply { roles.add(this) }
 
     fun role_context(name: String): Role = Role(Element(name, CLASS), Role.Type.CONTEXT, this).apply { roles.add(this) }
+
+    fun role_evidence(name: String): Role =
+        Role(Element(name, CLASS), Role.Type.EVIDENCE, this).apply { roles.add(this) }
 
     fun role_3rd_system(name: String): Role =
         Role(Element(name, CLASS), Role.Type.THIRD_SYSTEM, this).apply { roles.add(this) }
@@ -37,6 +42,16 @@ class context(val element: Element, override var resource: String = "") : Busine
     fun participant_thing(name: String): Participant =
         Participant(Element(name, CLASS), Participant.Type.THING, this).apply { participants.add(this) }
 
+    fun evidence(
+        name: String,
+        relationship: String = Relationship.NONE,
+        function: (evidence.() -> Unit)? = null
+    ): evidence =
+        evidence(Element(name, CLASS)).apply {
+            this.relationship = relationship
+            evidences.add(this)
+            function?.let { it() }
+        }
 
     fun rfp(
         name: String,
@@ -81,10 +96,10 @@ class context(val element: Element, override var resource: String = "") : Busine
 
     override fun toString(): String = buildString {
         appendLine("$element #line.${borderStyle} {")
-        arrayOf(rfps, proposals, contracts, roles, participants)
+        arrayOf(evidences, rfps, proposals, contracts, roles, participants)
             .flatMap { it }.forEach { appendLine(it.toString()) }
         appendLine("}")
-        arrayOf(roles, participants)
+        arrayOf(evidences, roles, participants)
             .flatMap { it }.forEach { appendLine(it.element.generateRelationships()) }
     }
 
