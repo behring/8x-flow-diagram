@@ -2,6 +2,7 @@ package architecture.dsl.inter_process
 
 import common.Element
 import common.DSL
+import common.Diagram
 import common.Diagram.Companion.POSITION
 import common.Element.Type.RECTANGLE
 
@@ -13,6 +14,11 @@ class service(val element: Element) : DSL<service> {
         processes.add(process)
         function?.let { process.it() }
         return process
+    }
+
+    fun call(processName: String, command: String = ""):service {
+        element.relate(processName, Diagram.ASSOCIATE, command)
+        return this
     }
 
     infix fun above(service: service) {
@@ -31,5 +37,6 @@ class service(val element: Element) : DSL<service> {
             appendLine(it.toString())
         }
         appendLine("}")
+        appendLine(element.generateRelationships())
     }
 }
