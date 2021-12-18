@@ -9,6 +9,11 @@ import java.io.File
 import java.io.FileOutputStream
 
 interface Diagram {
+    enum class LayoutDirection {
+        Horizontal,
+        Vertical
+    }
+
     companion object {
         const val ASSOCIATE: String = """ -[${BLACK}]-> """
         const val POSITION: String = """ -[hidden]- """
@@ -30,7 +35,7 @@ interface Diagram {
      * hide circle equals skinparam style strictuml
      * skinparam roundCorner 10
      **/
-    fun getClassStyle(): String {
+    fun getClassStyle(layoutDirection: LayoutDirection = LayoutDirection.Vertical): String {
         return """
         |skinparam class {
         |   BorderColor black
@@ -38,7 +43,7 @@ interface Diagram {
         |   AttributeFontColor White
         |   StereotypeFontColor White
         |}
-        |left to right direction
+        |${if (layoutDirection == LayoutDirection.Vertical) "left to right direction" else ""}
         |skinparam defaultTextAlignment center
         |skinparam style strictuml
         |hide empty members

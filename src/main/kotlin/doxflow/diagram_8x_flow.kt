@@ -4,7 +4,10 @@ import common.Element
 import common.*
 import doxflow.dsl.context
 
-data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, Doc {
+data class diagram_8x_flow(
+    val layoutDirection: Diagram.LayoutDirection = Diagram.LayoutDirection.Vertical,
+    val function: diagram_8x_flow.() -> Unit
+) : Diagram, Doc {
 
     private var contexts: MutableList<context> = mutableListOf()
 
@@ -40,7 +43,7 @@ data class diagram_8x_flow(val function: diagram_8x_flow.() -> Unit) : Diagram, 
 
     override fun buildPlantUmlString(): String = """
         |@startuml
-        ${getClassStyle()}
+        ${getClassStyle(layoutDirection)}
         ${buildPlantUmlContent()}
         |@enduml
         """.trimMargin()
