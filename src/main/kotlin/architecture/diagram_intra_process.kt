@@ -45,14 +45,14 @@ class diagram_intra_process(val name: String = "", function: diagram_intra_proce
     }
 
     private fun buildPlantUmlContent(): String = buildString {
+        processes.forEach {
+            appendLine(it.toString())
+        }
         appendLine("$RECTANGLE <size:20><color:black>$name {")
         layers.forEach {
             appendLine(it.toString())
         }
         appendLine("}")
-        processes.forEach {
-            appendLine(it.toString())
-        }
         // 最后生成关联关系
         processes.forEach {
             appendLine(it.element.generateRelationships())
