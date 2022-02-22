@@ -201,9 +201,9 @@ fulfillment表示**一组履约项**，包含**request**和**confirmation**。�
 import doxflow.common.AssociationType.*
 ...
  context("读者订阅上下文") {
-   // 可以通过played关键字让参与方party扮演角色party
-   val reader = role_party("读者") played participant_party("极客时间注册用户")
-   val contentProvider = role_party("内容提供商") played participant_party("极客时间平台")
+   // 可以通过play关键字让参与方party扮演角色party
+   val reader = participant_party("极客时间注册用户") play role_party("读者") 
+   val contentProvider = participant_party("极客时间平台") play role_party("内容提供商")  
    ...
    contract("专栏订阅合同", reader, contentProvider) {
 		key_timestamps("订阅时间")
@@ -236,7 +236,7 @@ participant_xxx可以用来创建参与者，包括如下DSL：
 
 #### role_xxx
 
-participant_xxx可以用来创建角色，包括如下DSL：
+role_xxx可以用来创建角色，包括如下DSL：
 
 - role_party
 - role_domain
@@ -291,8 +291,8 @@ diagram_8x_flow {
                         key_timestamps("支付时间")
                         key_data("金额")
                     }
-                  	//通过evidence的role关键字指定该evidence需要扮演哪个履约项的角色(这里指定了之前临时保存的fulfillment下的confirmation)
-                    evidence role paymentInReaderSubscriptionContext.confirmation
+                  	//通过evidence的play关键字指定该evidence需要扮演哪个履约项的角色(这里指定了之前临时保存的fulfillment下的confirmation)
+                    evidence play paymentInReaderSubscriptionContext.confirmation
                 }
             }
         }
