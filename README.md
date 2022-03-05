@@ -105,7 +105,7 @@ diagram_8x_flow {
 
 ```kotlin
 diagram_8x_flow {
-	context("读者订阅上下文") {
+  context("读者订阅上下文") {
     val reader = role_party("读者")
     val geekTimePlatform = role_party("极客时间平台")
      ...
@@ -127,10 +127,10 @@ diagram_8x_flow {
         val buyer = role_party("买家")
 
         rfp("询问商品价格", buyer) {
-          	//指定关键时间，可以传入多个时间，逗号分隔
+            //指定关键时间，可以传入多个时间，逗号分隔
             key_timestamps("创建时间")
             //指定关键数据项，可以传入多个数据项，逗号分隔
-          	key_data("报价")
+            key_data("报价")
         }
     }
 } export "../../../diagrams/contract_with_rfp_diagram.png"
@@ -153,7 +153,7 @@ diagram_8x_flow {
             proposal("商品报价方案", seller) {
                 key_timestamps("创建时间")
                 key_data("报价金额")
-								// 可以通过participant_thing来创建标的物，通过relate关键字让标的物连接到当前proposal
+                // 可以通过participant_thing来创建标的物，通过relate关键字让标的物连接到当前proposal
                 participant_thing("商品") relate this
             }
         }
@@ -184,8 +184,8 @@ diagram_8x_flow {
               	// 合约可以设置0..N个合约签订者，推荐设置双方合约
                 contract("商品订单合同", seller, buyer) {
                     key_timestamps("签订时间")
-                  	// 同样，合约也可以设置关键数据
-                  	//key_data("关键数据项")
+                    // 同样，合约也可以设置关键数据
+                    //key_data("关键数据项")
                 }
             }
         }
@@ -206,13 +206,13 @@ import doxflow.common.AssociationType.*
    val contentProvider = participant_party("极客时间平台") play role_party("内容提供商")  
    ...
    contract("专栏订阅合同", reader, contentProvider) {
-		key_timestamps("订阅时间")
-    // 可以通过relate方法设置合同关联的participant
-    participant_place("专栏") relate this
+      key_timestamps("订阅时间")
+      // 可以通过relate方法设置合同关联的participant
+      participant_place("专栏") relate this
      
       fulfillment("专栏付款", ONE_TO_ONE) {
         // request可以指定或者忽略履约角色，但是不建议省略（三方合同可以省略）
- 				request(contentProvider) {
+        request(contentProvider) {
           key_timestamps("创建时间", "过期时间")
           key_data("金额")
         }
@@ -221,7 +221,7 @@ import doxflow.common.AssociationType.*
           key_timestamps("创建时间")
         }
       }
-		}
+   }
  }
 ...
 ```
@@ -251,25 +251,24 @@ role_xxx可以用来创建角色，包括如下DSL：
 
 ```kotlin
 diagram_8x_flow {
-  // 凭证角色化是跨上下文的，因此需要在diagram_8x_flow下定义需要角色化的fulfillment(其实是fulfillment下的confirmation角色化)
+    // 凭证角色化是跨上下文的，因此需要在diagram_8x_flow下定义需要角色化的fulfillment(其实是fulfillment下的confirmation角色化)
     lateinit var paymentInReaderSubscriptionContext: fulfillment
     
     context("读者订阅上下文") {
        ...
         contract("专栏订阅合同", reader, contentProvider) {
             key_timestamps("订阅时间")
-						...
+            ...
 
-          	// 这里是重点因为该履约项的确认是通过其他上下文的凭证来扮演的，所以需要临时保存
+            // 这里是重点因为该履约项的确认是通过其他上下文的凭证来扮演的，所以需要临时保存
             paymentInReaderSubscriptionContext = fulfillment("专栏付款") {
               request(contentProvider) {
                 key_timestamps("创建时间", "过期时间")
                 key_data("金额")
               }
-              
-            	confirmation(reader) {
+              confirmation(reader) {
               	key_timestamps("创建时间")
-            	}
+              }
             }
         }
     }
@@ -286,27 +285,31 @@ diagram_8x_flow {
                 confirmation {
                     key_timestamps("创建时间")
                     key_data("金额")
-										// confirmation完成生成一个凭证(evidence),该凭证将扮演其他上下文履约项的角色
+                    // confirmation完成生成一个凭证(evidence),该凭证将扮演其他上下文履约项的角色
                     val evidence = evidence("支付凭证") {
                         key_timestamps("支付时间")
                         key_data("金额")
                     }
-                  	//通过evidence的play关键字指定该evidence需要扮演哪个履约项的角色(这里指定了之前临时保存的fulfillment下的confirmation)
+                    //通过evidence的play关键字指定该evidence需要扮演哪个履约项的角色(这里指定了之前临时保存的fulfillment下的confirmation)
                     evidence play paymentInReaderSubscriptionContext.confirmation
                 }
             }
         }
     }
 } export "../../../diagrams/reader_subscription_diagram.png"
-
 ```
 
 ### 图例
 - 专栏订阅协议
+
 ![预充值协议](./images/reader_subscription_diagram.png)
+
 - 绩效协议
+
 ![信息推广服务合同](./images/editor_performance_diagram.png)
+
 - 商品订单合同
+
 ![商品订单合同](./images/contract_with_rfp_diagram.png)
 
 
@@ -317,7 +320,7 @@ diagram_8x_flow {
 * **创建服务(Process)**：*服务用来表示处于独立进程的业务模块，例如：微信客户端，MobileBFF，鉴权认证服务等等。*
 * **创建进程内组件(Component)**：*进程内组件用来表示业务模块内的关键组件，例如：信息推广服务中包含推广报价引擎组件。*
 
-它们三者的关系式：Service包含Procss包含Component。
+它们三者的关系式：Service包含Process包含Component。
 
 - 进程间架构图
 
@@ -337,7 +340,7 @@ diagram_8x_flow {
    import architecture.diagram_inter_process
    
    diagram_inter_process {
-     	// 颜色可以省略，也可以通过#ffffff方式自定义颜色
+       // 颜色可以省略，也可以通过#ffffff方式自定义颜色
        service("应用服务", "#LightSeaGreen") {
            process("租赁信息应用服务")
            process("推广服务应用服务")
@@ -393,13 +396,13 @@ diagram_inter_process {
 
 ```kotlin
 diagram_inter_process {
-		service("前端", "#Cyan") {
+    service("前端", "#Cyan") {
       	// 可以让前端的中的“链家租房通用版Web端”组件通过call方法调用BFF的“链家租房WebBF”组件
         process("链家租房通用版Web端").call("链家租房WebBFF","1. GET /web-bff/ads")
     }
-  	service("BFF", "#RoyalBlue") {
+    service("BFF", "#RoyalBlue") {
         process("链家租房WebBFF")
-				process("链家租房MobileBFF")
+        process("链家租房MobileBFF")
     }
   } export "./diagrams/lianjia_inter_process_communication_diagram.png"
 
@@ -413,7 +416,7 @@ diagram_inter_process {
 diagram_inter_process {
     service("核心业务能力", "#HotPink") {
         process("信息推广服务") {
-          	// 在业务模块内部定义关键组件
+            // 在业务模块内部定义关键组件
             component("推广报价引擎", "#orange")
         }
         process("预充值服务")
@@ -455,12 +458,12 @@ diagram_intra_process {
 
 ```kotlin
 diagram_intra_process {
-  	//	定义应用层包含哪些组件
+     //	定义应用层包含哪些组件
      layer("应用层", "#HotPink") {
         component("Activity")
         component("ViewModel")
         component("Service")
-    }
+     }
 } export "./diagrams/intra_process_diagram.png"
 ```
 
@@ -473,14 +476,14 @@ diagram_intra_process {
 ```kotlin
 diagram_inter_process {
      layer("应用层", "#HotPink") {
-       // 通过call方法完成组件的调用，call方法参数1是组件名，参数2是调用的描述(optional)
+        // 通过call方法完成组件的调用，call方法参数1是组件名，参数2是调用的描述(optional)
         component("Activity").call("ViewModel", "方法调用")
         component("ViewModel").call("Presenter", "方法调用")
         component("Service").call("Presenter", "方法调用")
-    }
-      layer("业务层", "#orange") {
+     }
+     layer("业务层", "#orange") {
         component("Presenter")
-    }
+     }
 } export "./diagrams/intra_process_diagram.png"
 ```
 
@@ -510,7 +513,7 @@ diagram_intra_process {
         component("RemoteDataSource").call("MobileBFF", "Http请求")
     }
 
-  	// 进程外的push服务会调用进程内的service来推送消息
+    // 进程外的push服务会调用进程内的service来推送消息
     process("PushService").call("Service", "消息推送")
     // 进程外的BFF服务
     process("MobileBFF")
