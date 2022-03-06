@@ -27,6 +27,7 @@ abstract class Evidence<T : Any>(
     }
 
     var isRole: Boolean = false
+    var hideParty: Boolean = false
     var timestamps: Array<out String>? = null
     private var data: Array<out String>? = null
 
@@ -69,13 +70,17 @@ abstract class Evidence<T : Any>(
             """
             |${note ?: ""}
             |$element {
-            |${if (!isRole) party ?: "" else ""}${if (!isRole && timestamps != null && party != null) "\n..\n" else ""}${timestamps?.joinToString() ?: ""}
+            |${if (!hideParty) party ?: "" else ""}${if (!hideParty && timestamps != null && party != null) "\n..\n" else ""}${timestamps?.joinToString() ?: ""}
             |${if (timestamps != null && data != null) "..\n" else ""}${data?.joinToString() ?: ""}
             |}
         """.trimIndent()
         )
         appendLine(createRelationshipOtherEvidences())
     }
+
+    private fun generatePartyName(isDisplay: Boolean): String =
+        if (isDisplay) "${party ?: ""}${if (timestamps != null && party != null) "\n..\n" else ""}"
+        else "${if (!isDisplay) party ?: "" else ""}${if (!isDisplay && timestamps != null && party != null) "\n..\n" else ""}"
 
     private fun createRelationshipOtherEvidences(): String = buildString {
         evidenceAndRelationship?.let {

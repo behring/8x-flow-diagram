@@ -16,6 +16,10 @@ class evidence(element: Element) : Evidence<evidence>(element, evidence::class) 
         element.relate(confirmation.role().element, PLAY_TO)
     }
 
+    fun play(confirmation: confirmation, hideParty: Boolean) {
+        element.relate(confirmation.role(hideParty).element, PLAY_TO)
+    }
+
     fun detail(
         name: String,
         relationship: String = DEFAULT,

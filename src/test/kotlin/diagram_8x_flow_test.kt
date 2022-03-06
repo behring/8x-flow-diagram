@@ -164,7 +164,7 @@ internal class diagram_8x_flow_test {
                                 key_timestamps("支付时间")
                                 key_data("金额")
                             }
-                            evidence play paymentInReaderSubscriptionContext.confirmation
+                            evidence.play(paymentInReaderSubscriptionContext.confirmation, hideParty = true)
                         }
                     }
                 }

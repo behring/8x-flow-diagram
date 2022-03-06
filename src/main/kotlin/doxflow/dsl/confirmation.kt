@@ -23,10 +23,11 @@ class confirmation(element: Element, private val fulfillment: fulfillment, party
     /**
      * confirmation角色化
      * */
-    fun role(): confirmation = apply {
+    fun role(hideParty: Boolean = false): confirmation = apply {
         element.stereoType = "evidence"
         element.backgroundColor = YELLOW
         isRole = true
+        this.hideParty = hideParty
     }
 
     /**
