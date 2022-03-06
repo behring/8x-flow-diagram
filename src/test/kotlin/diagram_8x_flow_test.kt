@@ -1,3 +1,4 @@
+import common.Diagram
 import doxflow.diagram_8x_flow
 import doxflow.diagram_8x_flow.Companion.currentLegend
 import doxflow.diagram_8x_flow.LegendType.*
@@ -24,7 +25,7 @@ internal class diagram_8x_flow_test {
                     }
                 }
             }
-        } export "./diagrams/hello_word_diagram.png"
+        }.export("./diagrams/hello_word_diagram", Diagram.Format.PNG, Diagram.Format.SVG)
     }
 
     @Test

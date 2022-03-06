@@ -14,6 +14,11 @@ interface Diagram {
         Vertical
     }
 
+    enum class Format {
+        PNG,
+        SVG
+    }
+
     companion object {
         const val ASSOCIATE: String = """ -[${BLACK}]-> """
         const val POSITION: String = """ -[hidden]- """
@@ -23,8 +28,14 @@ interface Diagram {
 
     fun exportResult(isSuccess: Boolean) = run { }
 
+    fun exportCompleted() = run { }
+
     infix fun export(filePath: String) {
         generateDiagram(filePath)
+    }
+
+    fun export(filePath: String, vararg format: Format) {
+        generateDiagram(filePath, *format)
     }
 
     /**
@@ -61,7 +72,7 @@ interface Diagram {
         """.trimIndent()
     }
 
-    private fun generateDiagram(filePath: String): Boolean {
+    private fun generateDiagram(filePath: String, vararg format: Format) {
         val plantumlStr = buildPlantUmlString()
         println(
             """
@@ -71,25 +82,49 @@ interface Diagram {
             |   $filePath
         """.trimMargin()
         )
-
         val file = File(filePath).apply { parentFile.mkdirs() }
+        if (format.isEmpty()) {
+            generateImage(plantumlStr, file.path)
+        } else {
+            format.forEach {
+                generateImage(plantumlStr, file.path, it)
+            }
+        }
+        exportCompleted()
+    }
+
+    private fun generateImage(
+        plantumlStr: String,
+        imagePath: String,
+        format: Format? = null
+    ): Boolean {
+        val fileFormat = (if (format == null) getFileType(imagePath) else covertDiagramFormatToFileFormat(format))
+            ?: throw IllegalArgumentException("image format error. only support SVG and PNG.")
+
         GraphvizUtils.setLocalImageLimit(10000)
         with(
             SourceStringReader(plantumlStr).outputImage(
-                FileOutputStream(file),
-                FileFormatOption(getFileType(filePath))
+                FileOutputStream(generateImageFile(imagePath, format)),
+                FileFormatOption(fileFormat)
             ).description != null
         ) {
-            return apply { exportResult(this) }
+            return this
         }
     }
 
-    private fun getFileType(filePath: String): FileFormat = when (File(filePath).extension) {
-        "svg" -> FileFormat.SVG
-        "png" -> FileFormat.PNG
-        else -> throw IllegalArgumentException("file format error, format: ${File(filePath).extension}")
+    private fun generateImageFile(imagePath: String, format: Format?): File =
+        if (format != null) File("$imagePath.${format.name.lowercase()}") else File(imagePath)
+
+    private fun covertDiagramFormatToFileFormat(format: Format): FileFormat = when (format) {
+        Format.SVG -> FileFormat.SVG
+        Format.PNG -> FileFormat.PNG
     }
 
+    private fun getFileType(filePath: String): FileFormat? = when (File(filePath).extension) {
+        "svg" -> FileFormat.SVG
+        "png" -> FileFormat.PNG
+        else -> null
+    }
 
     interface KeyInfo<T> : DSL<T> {
         fun key_timestamps(vararg timestamps: String)

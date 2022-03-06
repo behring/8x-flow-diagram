@@ -48,8 +48,8 @@ data class diagram_8x_flow(
         |@enduml
         """.trimMargin()
 
-    override fun exportResult(isSuccess: Boolean) {
-        if (isSuccess) contexts.clear()
+    override fun exportCompleted() {
+        contexts.clear()
     }
 
     private fun buildPlantUmlContent(): String = buildString {
