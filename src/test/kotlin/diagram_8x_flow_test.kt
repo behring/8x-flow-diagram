@@ -3,6 +3,7 @@ import doxflow.diagram_8x_flow
 import doxflow.diagram_8x_flow.Companion.currentLegend
 import doxflow.diagram_8x_flow.LegendType.*
 import doxflow.dsl.fulfillment
+import doxflow.models.diagram.Relationship.Companion.N_TO_ONE
 import doxflow.models.diagram.Relationship.Companion.ONE_TO_N
 import org.junit.Test
 
@@ -21,7 +22,13 @@ internal class diagram_8x_flow_test {
 
                     fulfillment("fulfillment2") {
                         request{}
-                        confirmation {}
+                        confirmation {
+                            evidence("evidence") {
+                                evidence("evidence2", N_TO_ONE) {
+
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -86,7 +93,10 @@ internal class diagram_8x_flow_test {
                                     evidence("EvidenceD")
                                 }
                                 confirmation {
-                                    evidence("EvidenceE", ONE_TO_N)
+                                    evidence("EvidenceE", ONE_TO_N) {
+                                        evidence("DetailE") {
+                                        }
+                                    }
                                 }
                             }
                         }
