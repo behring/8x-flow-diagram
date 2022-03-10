@@ -35,7 +35,6 @@ class contract(element: Element) :
         fulfillment(name, this).apply {
             fulfillments.add(this)
             fulfillment()
-            this@contract.relationship = relationship
             this@contract.element.relate(request.element, relationship)
         }
 
